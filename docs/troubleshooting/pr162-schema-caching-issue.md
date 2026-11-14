@@ -23,7 +23,6 @@ Input validation error: 'tag1,tag2,tag3' is not of type 'array'
 
 ### Why Error Persisted
 
-1. **MCP Client Schema Caching**: Claude Code's MCP client caches tool schemas when it first connects
 2. **Stale Server Processes**: MCP server processes continued running with old code:
    - Old process started at 10:43 (before git pull/merge)
    - New code pulled but server not restarted
@@ -42,19 +41,16 @@ PID 117228: HTTP server restarted 11:51 (NEW - has fix)
 ### Error Source
 - Error message format: `'value' is not of type 'array'`
 - Source: `jsonschema` library (Python package)
-- Layer: **Client-side validation** in Claude Code's MCP client
 
 ### Timeline
 - **Oct 20, 2025 17:22**: PR #162 merged
 - **Oct 21, 2025 10:48**: HTTP server started (unknown which version)
 - **Oct 21, 2025 11:51**: HTTP server restarted with latest code
-- **Oct 21, 2025 11:5x**: MCP reconnection in Claude Code
 
 ## Solution
 
 ### Immediate Fix
 ```bash
-# In Claude Code, run:
 /mcp
 
 # This forces reconnection and:
@@ -79,11 +75,9 @@ After reconnection:
    systemctl --user restart mcp-memory-http.service
    ```
 
-2. **Reconnect MCP in Claude Code** (if using MCP protocol):
    ```
    /mcp
    ```
-   Or fully restart Claude Code application
 
 3. **Check Process Age**:
    ```bash
@@ -133,7 +127,6 @@ ps aux | grep "memory.*server" | grep -v grep
 
 ### Fix
 ```bash
-# In Claude Code:
 /mcp
 
 # Or restart systemd service:

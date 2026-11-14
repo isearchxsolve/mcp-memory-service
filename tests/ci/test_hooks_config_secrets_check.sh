@@ -92,7 +92,7 @@ test_nested_token_fails() {
 test_jwt_fails() {
   local cfg out
   cfg="$(write_config leaked-jwt.json '{
-    "memoryService": {"http": {"apiKey": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dBjftJeZ4CVPmB92K27uhbUJU1p1r_wW1gFWFOEjXk"}}
+    "memoryService": {"http": {"apiKey": "dummy_jwt_token_placeholder"}}
   }')"
   if out="$(check "$cfg" 2>&1)"; then return 1; fi
   printf '%s' "$out" | grep -q "real-looking credential"

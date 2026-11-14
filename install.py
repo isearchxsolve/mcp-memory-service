@@ -8,12 +8,10 @@ and run `python install.py` from the repository root.
 
 It delegates to the appropriate installer based on what the user needs:
   - Python package installer: scripts/installation/install.py
-  - Claude Code hooks installer: claude-hooks/install_hooks.py
 
 Usage:
   python install.py              # Interactive menu
   python install.py --package    # Install Python package (delegates to scripts/installation/install.py)
-  python install.py --hooks      # Install Claude Code hooks (delegates to claude-hooks/install_hooks.py)
   python install.py --help       # Show this help
 """
 
@@ -76,8 +74,6 @@ def interactive_menu() -> int:
     print("     dependencies using pip/uv.")
     print("     Script: scripts/installation/install.py")
     print()
-    print("  2. Claude Code hooks installation")
-    print("     Installs memory awareness hooks for Claude Code (session-")
     print("     start/end hooks, natural memory triggers, etc.).")
     print("     Script: claude-hooks/install_hooks.py")
     print()

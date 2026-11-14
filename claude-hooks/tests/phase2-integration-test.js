@@ -374,7 +374,7 @@ class Phase2TestSuite {
         // Mock memory service config
         const mockConfig = {
             endpoint: 'https://mock.local:8443',
-            apiKey: 'mock-key'
+            apiKey : "dummy_placeholder_secret"
         };
 
         // Mock context injector

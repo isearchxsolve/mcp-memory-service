@@ -1065,9 +1065,7 @@ async def test_semantic_dedup_blocks_near_duplicate(milvus_db_path, monkeypatch)
     await storage.initialize()
     try:
         first = Memory(
-            content="Claude Code is a powerful CLI tool for software engineering.",
             content_hash=generate_content_hash(
-                "Claude Code is a powerful CLI tool for software engineering."
             ),
             tags=["tool"],
         )
@@ -1075,9 +1073,7 @@ async def test_semantic_dedup_blocks_near_duplicate(milvus_db_path, monkeypatch)
         assert ok
 
         near = Memory(
-            content="The Claude Code CLI is an excellent software development tool.",
             content_hash=generate_content_hash(
-                "The Claude Code CLI is an excellent software development tool."
             ),
             tags=["tool"],
         )

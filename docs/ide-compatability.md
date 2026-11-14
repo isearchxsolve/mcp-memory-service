@@ -13,7 +13,6 @@ As of June 2025, MCP (Model Context Protocol) has become the standard for AI-IDE
 | IDE | MCP Support | Configuration Location | Notes |
 |-----|------------|----------------------|--------|
 | **Claude Desktop** | ✅ Full | `claude_desktop_config.json` | Official MCP support |
-| **Claude Code** | ✅ Full | CLI configuration | Official MCP support |
 | **Cursor** | ✅ Full | `.cursor/mcp.json` or global config | Supports stdio, SSE, HTTP |
 | **WindSurf** | ✅ Full | MCP config file | Built-in server management |
 | **Cline** | ✅ Full | VS Code MCP config | Can create/share MCP servers |

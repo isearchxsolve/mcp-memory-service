@@ -318,7 +318,6 @@ try:
         host=HTTP_HOST,
         port=HTTP_PORT,
         lifespan=mcp_server_lifespan,
-        stateless_http=True  # Enable stateless HTTP for Claude Code compatibility
     )
 except TypeError:
     # FastMCP not available - create dummy instance
@@ -998,7 +997,6 @@ def main():
     NOT stdio transport. It is NOT suitable for use with `"type": "stdio"` in Claude
     Code or Claude Desktop MCP configuration.
 
-    If you are configuring Claude Code or Claude Desktop with stdio transport, use:
         memory server
     or:
         python -m mcp_memory_service.server
@@ -1016,7 +1014,6 @@ def main():
     print(  # debug: intentional user-facing stderr notice, not leftover debug output
         "\n"
         "WARNING: mcp-memory-server uses StreamableHTTP transport, NOT stdio.\n"
-        "  If you are configuring a stdio MCP client (Claude Code, Claude Desktop),\n"
         "  use 'memory server' or 'python -m mcp_memory_service.server' instead.\n"
         "  Starting HTTP server now...\n",
         file=sys.stderr

@@ -1,4 +1,3 @@
-"""Session Harvest — extract learnings from Claude Code transcripts."""
 
 from .models import HarvestCandidate, HarvestResult, HarvestConfig
 from .parser import TranscriptParser, ParsedMessage

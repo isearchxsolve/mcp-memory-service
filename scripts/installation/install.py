@@ -1637,19 +1637,14 @@ def verify_installation():
         return False
 
 def install_claude_hooks(args, system_info):
-    """Install Claude Code memory awareness hooks."""
-    print_step("5", "Installing Claude Code Memory Awareness Hooks")
 
     try:
-        # Check if Claude Code is available
         claude_available = shutil.which("claude") is not None
         if not claude_available:
-            print_warning("Claude Code CLI not found")
             print_info("You can install hooks manually later using:")
             print_info("  cd claude-hooks && python install_hooks.py --basic")
             return
 
-        print_info("Claude Code CLI detected")
 
         # Use unified Python installer for cross-platform compatibility
         claude_hooks_dir = Path(__file__).parent.parent.parent / "claude-hooks"
@@ -1680,7 +1675,6 @@ def install_claude_hooks(args, system_info):
         )
 
         if result.returncode == 0:
-            print_success("Claude Code memory awareness hooks installed successfully")
             if args.install_natural_triggers:
                 print_info(f"✅ Natural Memory Triggers v{version} enabled")
                 print_info("✅ Intelligent trigger detection with 85%+ accuracy")
@@ -1788,9 +1782,7 @@ def main():
     parser.add_argument('--use-homebrew-pytorch', action='store_true',
                         help='Use existing Homebrew PyTorch installation instead of pip version')
     parser.add_argument('--install-hooks', action='store_true',
-                        help='Install Claude Code memory awareness hooks after main installation')
     parser.add_argument('--install-natural-triggers', action='store_true',
-                        help='Install Natural Memory Triggers (requires Claude Code)')
     parser.add_argument('--with-ml', action='store_true',
                         help='Include ML dependencies (torch, sentence-transformers) for semantic search and embeddings')
     parser.add_argument('--with-chromadb', action='store_true',
@@ -1982,7 +1974,6 @@ def main():
         print_info("- For full ML capabilities, use: --with-ml")
         print_info("- For ChromaDB with ML, use: --with-chromadb")
         print_info("- For a quick test, try running: python test_memory.py")
-        print_info("- To install Claude Code hooks: --install-hooks")
         print_info("- To install Natural Memory Triggers: --install-natural-triggers")
 
 if __name__ == "__main__":

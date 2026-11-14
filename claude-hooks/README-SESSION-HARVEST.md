@@ -1,6 +1,5 @@
 # Session End Auto-Harvest Hook
 
-Lightweight Claude Code SessionEnd hook that calls `POST /api/harvest` on
 session end to extract key information (decisions, bugs, conventions,
 learnings, context) from the session transcript.
 
@@ -65,7 +64,6 @@ preview happened; delete it to replay the preview.
 }
 ```
 
-See the [Claude Code hooks docs](https://docs.claude.com/en/docs/claude-code/hooks)
 for how to register multiple SessionEnd hooks alongside the existing
 `session-end.js` (consolidation) hook.
 
@@ -88,7 +86,6 @@ for how to register multiple SessionEnd hooks alongside the existing
 
 ## API key precedence
 
-1. `context.apiKey` (provided by the Claude Code runner, if any)
 2. `sessionHarvest.apiKey` in `config.json`
 3. `memoryService.http.apiKey` / `memoryService.apiKey` in `config.json`
 4. `MCP_API_KEY` environment variable
@@ -143,7 +140,6 @@ server resolves the session directory in this order:
 
 1. **`MCP_HARVEST_SESSION_DIR`** environment variable — explicit override,
    works with any CLI. Set it in your systemd service or shell profile.
-2. **`~/.claude/projects/{cwd}`** — default for Claude Code users.
 3. **`~/.kiro/sessions/cli/`** — fallback if the Claude path doesn't exist.
    Kiro CLI stores sessions as JSONL files in this directory; the parser
    auto-detects the format from the `"kind"` field in each line.

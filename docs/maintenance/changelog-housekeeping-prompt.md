@@ -65,9 +65,7 @@ Führe diesen Housekeeping-Job aus wenn:
 
 ## Verwendung
 
-### Als Claude Code Skill
 ```bash
-# In Claude Code direkt ausführen:
 cat docs/maintenance/changelog-housekeeping-prompt.md
 # Dann den Prompt-Block kopieren und in die Conversation einfügen
 ```
@@ -78,5 +76,4 @@ cat docs/maintenance/changelog-housekeeping-prompt.md
 3. Lade CHANGELOG.md, README.md, und CHANGELOG-HISTORIC.md als Kontext hoch
 4. Starte eine Conversation mit: "Führe den Changelog Housekeeping Job aus"
 
-### Als Claude Code Hook (automatisch)
 Kann als post-release Hook konfiguriert werden — siehe .claude/directives/agents.md

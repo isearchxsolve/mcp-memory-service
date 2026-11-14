@@ -260,7 +260,6 @@ async def migrate_quality_scores():
         print()
         print("   3. Restart MCP services:")
         print("      systemctl --user restart mcp-memory-http.service")
-        print("      # In Claude Code: /mcp")
 
     return 0
 

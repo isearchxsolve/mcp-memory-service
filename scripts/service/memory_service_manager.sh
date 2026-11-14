@@ -1,5 +1,4 @@
 #!/bin/bash
-# Memory Service Manager for Claude Code on Linux
 # Manages dual backend setup with Cloudflare primary and SQLite-vec backup
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,7 +19,6 @@ EOF
 fi
 
 usage() {
-    echo "Memory Service Manager for Claude Code"
     echo ""
     echo "Usage: $0 <command>"
     echo ""

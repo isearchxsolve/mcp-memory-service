@@ -3,7 +3,6 @@
 Comprehensive Configuration Validation Script for MCP Memory Service
 
 This unified script validates all configuration aspects:
-- Claude Code global configuration (~/.claude.json)
 - Claude Desktop configuration (claude_desktop_config.json)
 - Project .env file configuration
 - Cross-configuration consistency
@@ -39,7 +38,6 @@ class ComprehensiveConfigValidator:
         else:  # macOS/Linux
             self.claude_desktop_config_file = Path.home() / '.config' / 'claude' / 'claude_desktop_config.json'
 
-        # Claude Code global config (different from Claude Desktop)
         self.claude_code_config_file = Path.home() / '.claude.json'
 
         # Local project MCP config (should usually not exist for memory service)
@@ -172,11 +170,9 @@ class ComprehensiveConfigValidator:
         return memory_env
 
     def validate_claude_code_config(self):
-        """Validate Claude Code global configuration (different from Claude Desktop)."""
         config = self.load_json_safe(self.claude_code_config_file)
 
         if not config:
-            self.add_warning(f"Claude Code config not found at {self.claude_code_config_file} (this is optional)")
             return
 
         # Check for memory server configurations in projects
@@ -195,12 +191,9 @@ class ComprehensiveConfigValidator:
             non_cloudflare_configs = [cfg for cfg in memory_configs if cfg[1] != 'cloudflare']
 
             if cloudflare_configs:
-                self.add_success(f"Found {len(cloudflare_configs)} Cloudflare memory configurations in Claude Code")
 
             if non_cloudflare_configs:
-                self.add_warning(f"Found {len(non_cloudflare_configs)} non-Cloudflare memory configurations in Claude Code")
         else:
-            self.add_warning("No memory server configurations found in Claude Code (this is optional)")
 
     def validate_local_mcp_config(self):
         """Check for conflicting local .mcp.json files."""
@@ -309,8 +302,6 @@ class ComprehensiveConfigValidator:
         claude_desktop_config = self.validate_claude_desktop_config()
         self._print_section_results()
 
-        # 3. Claude Code configuration validation (optional)
-        print("\n3. Claude Code Global Configuration Check:")
         self.validate_claude_code_config()
         self._print_section_results()
 
@@ -376,7 +367,6 @@ class ComprehensiveConfigValidator:
         print(f"\nConfiguration files checked:")
         print(f"   • .env file: {self.env_file}")
         print(f"   • Claude Desktop config: {self.claude_desktop_config_file}")
-        print(f"   • Claude Code config: {self.claude_code_config_file}")
         print(f"   • Local MCP config: {self.local_mcp_config_file}")
 
 def main():

@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 /**
- * Integration Test for Claude Code Memory Awareness Hooks
  * Tests the complete Phase 1 implementation end-to-end
  */
 
@@ -99,7 +98,6 @@ const mockMemories = [
         created_at_iso: '2025-08-19T10:00:00Z'
     },
     {
-        content: 'Implemented comprehensive Claude Code hooks system for automatic memory awareness. Created session-start, session-end, and topic-change hooks with project detection.',
         tags: ['claude-code', 'hooks', 'architecture', 'memory-awareness'],
         memory_type: 'architecture',
         created_at_iso: '2025-08-19T09:30:00Z'
@@ -143,11 +141,9 @@ const mockConversation = {
     messages: [
         {
             role: 'user',
-            content: 'I need to implement a memory awareness system for Claude Code that automatically injects relevant project memories.'
         },
         {
             role: 'assistant', 
-            content: 'I\'ll help you create a comprehensive memory awareness system. We decided to use Claude Code hooks for session management and implement automatic context injection. This will include project detection, memory scoring, and intelligent context formatting.'
         },
         {
             role: 'user',
@@ -164,7 +160,6 @@ const mockConversation = {
  * Run comprehensive tests
  */
 async function runTests() {
-    console.log('🚀 Claude Code Memory Awareness - Integration Tests');
     console.log('Testing Phase 1 Implementation\n');
     
     const results = new TestResults();
@@ -488,12 +483,9 @@ async function runTests() {
         return { success: true };
     });
     
-    // Test 10: Claude Code Settings Validation
-    results.test('Claude Code Settings Configuration', () => {
         const settingsPath = path.join(process.env.HOME, '.claude', 'settings.json');
         
         if (!fs.existsSync(settingsPath)) {
-            return { success: false, error: 'Claude Code settings.json not found' };
         }
         
         try {
@@ -526,7 +518,6 @@ async function runTests() {
                 return { success: false, error: 'SessionEnd hook command not configured correctly' };
             }
             
-            console.log('  Claude Code settings configured correctly');
             return { success: true, settings };
             
         } catch (parseError) {
@@ -556,16 +547,12 @@ async function runTests() {
         return { success: true };
     });
     
-    // Test 12: Claude Code CLI Availability
-    results.test('Claude Code CLI Availability', () => {
         const { execSync } = require('child_process');
         
         try {
             execSync('which claude', { stdio: 'pipe' });
-            console.log('  Claude Code CLI available');
             return { success: true };
         } catch (error) {
-            return { success: false, error: 'Claude Code CLI not found in PATH' };
         }
     });
     
@@ -671,9 +658,7 @@ async function runTests() {
     if (allTestsPassed) {
         console.log('\n🎉 ALL TESTS PASSED! Phase 1 implementation is ready.');
         console.log('\n📋 Next Steps:');
-        console.log('  1. Install hooks in Claude Code hooks directory');
         console.log('  2. Configure memory service endpoint in config.json');
-        console.log('  3. Test with real Claude Code session');
         console.log('  4. Begin Phase 2 implementation (dynamic memory loading)');
     } else {
         console.log('\n⚠️  Some tests failed. Please fix issues before proceeding.');

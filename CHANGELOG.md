@@ -676,11 +676,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   `delete()`, `delete_by_tag()`, `delete_by_tags()`, `delete_by_timeframe()`,
   `delete_before_date()` and `delete_untagged_memories()` now remove the edges of
   the memories they deleted, best-effort and logged, the way SQLite cascades them.
-- **OAuth client registration sent `"client_secret": null` to public clients, which Claude Code rejects (#1707, djimenezm2).**
   Since v11.8.2 a client registering with `token_endpoint_auth_method: "none"` gets no secret, but
   `POST /oauth/register` serialized the empty field as JSON null instead of leaving it out, and did
   the same for an unset `client_name` or `scope`. RFC 7591 omits optional members that have no
-  value, and Claude Code aborted the OAuth flow on the null. The route now drops empty members from
   the response, confidential clients still receive their secret, and a test that goes through
   FastAPI fails if a null comes back.
 - **Milvus: `purge_deleted()` left the graph edges of purged memories behind (#1708, andrunio).**
@@ -977,7 +975,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   `/api/health/model` identifies hash-fallback embeddings so an HTTP hybrid secondary
   refuses to start against a degraded hub instead of mistaking it for the configured
   model.
-- **Claude Code hooks: an opt-in inter-agent inbox (#1526, Forest537).**
   `docs/agents/README.md` documents agents using one memory service as a message bus via a sentinel tag (`msg:cluster`), but the reading side was entirely manual — nothing polled, nothing remembered what had been read. The hooks now poll the configured tags on session start and on prompts (throttled by `inbox.checkIntervalMinutes`, and by the state file rather than an in-memory cooldown, since every hook invocation is a fresh process) and inject the new messages as their own block. The last-seen marker advances only after a successful query. Per #1599 the marker throttles but does not gate delivery: each check queries from `marker - inbox.overlapMinutes` and drops rows already delivered by `content_hash`, so a message that reaches the store after a check while carrying an older `created_at` — the normal case under delta sync, and the clock-skew case — is still delivered, exactly once. Off by default; the config keys and the output format match the OpenCode client (#1527/#1541/#1636).
 - **Expose Delta-Sync settings in the Environment tab (#1556).** The web configuration now lists the sync event log, schedule, peers, and push allow-list while masking peer API and basic-auth credentials.
 - Add an opt-in `rerank` flag to `memory_search`: a second-stage ONNX cross-encoder reorders the top `MCP_RERANK_CANDIDATES` results when `MCP_RERANK_ENABLED` is set, fails open to the unreranked order, and never touches the default path.
@@ -1185,7 +1182,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   `/api/search/by-tag` for messages other agents stored under sentinel tags such as `msg:cluster`,
   on the first prompt of a session and then at the configured interval, and adds them to the
   system prompt as untrusted data: one escaped JSON object per line inside
-  `<untrusted-peer-messages>`, the format the Claude Code hooks will share (#1526). The agent's
   own `agent:<id>` messages are excluded before the display cap, backlogs arrive oldest-first,
   and the last-check marker is written under a cross-process lock. Delivered messages stay in
   the block for the rest of the session, up to the 10 most recent. Disabled by default.
@@ -1542,7 +1538,6 @@ v11.16.0 was never released; its changes are in this version.
 - Hybrid secondary backend is now pluggable via `MCP_HYBRID_SECONDARY_BACKEND=cloudflare|http`. The new `RemoteHTTPStorage` lets a self-hosted mcp-memory-service instance act as the hybrid secondary over the REST API (store, get, delete, metadata, stats, content-hash listing), with configurable auth (`bearer` default, `x-api-key` opt-in) and optional HTTP basic auth for instances behind an nginx `auth_basic` layer (#1304).
 - Add `list_content_hashes()` / `list_content_hashes_page()` to the storage base plus a cursor-paginated `GET /api/memories/hashes` endpoint, giving hybrid drift detection a backend-agnostic bulk hash listing (paginating `GET /memories` did not scale). sqlite-vec implements the paginated path; other backends return empty until their own override lands. Read-access gated.
 - Fail-closed embedding-model match check for the HTTP secondary. On startup, a hybrid client with an HTTP secondary verifies that the hub's configured embedding model matches its own via a new authenticated `GET /api/health/model` endpoint. A mismatch — or a missing/unreachable model — raises `EmbeddingModelMismatchError` and the service refuses to start, instead of silently degrading recall when nodes embed with different models. Set `expected_embedding_model` (wired automatically from the hybrid client's model) to enable the check; leaving it unset preserves the previous behavior.
-- **Claude Code plugin: `remember-session` skill.** `/mcp-memory-service:remember-session`
   has the model save what a session actually decided and learned: decisions with their
   reasons, root causes, reusable lessons, and one open-items memory with owners and
   absolute dates. It searches before writing to skip duplicates, tags every memory with
@@ -2426,7 +2421,6 @@ MINOR release. Consolidation gets two correctness fixes this cycle, and one of t
 
 ### Changed
 
-- **claude-hooks: bump plugin manifest to 1.0.4.** Two of the fixes above (#323, #330) touch `claude-hooks/`, and the Claude Code Marketplace caches the plugin by this version, so a hook fix shipped without a manifest bump never reaches an already-installed user.
 
 ## [11.9.0] - 2026-08-27
 
@@ -2558,7 +2552,6 @@ MINOR release: the knowledge-graph layer actually works now. `memory_explore` re
 
 ## [11.7.0] - 2026-08-05
 
-MINOR release, though in substance a security release: three unconditional TLS certificate-verification bypasses — claude-hooks, the opencode plugin, and `examples/http-mcp-bridge.js` — are now gated behind an explicit `allowSelfSignedCerts` opt-in instead of running by default, and a real credential committed in the bundled hooks config is gone, with a CI gate that keeps it from coming back. Default endpoints for all three are `http://127.0.0.1:8000`, so most installs are unaffected, but if you point any of them at `https://` with a self-signed certificate you now need to set the opt-in (`MCP_MEMORY_ALLOW_SELF_SIGNED_CERTS`, `OPENCODE_MEMORY_ALLOW_SELF_SIGNED_CERTS`, or `allowSelfSignedCerts` in the hooks config) — the old silent bypass is gone. Also in this release: a configurable ONNX model directory for containers that don't run as root, the Milvus backend's `store()` signature brought back in line with every other backend, and the consolidation merge action finally returning the hash it always should have. The Claude Code plugin manifest goes to 1.0.3 to ship the eight hook files that changed since 1.0.2.
 
 Special thanks to timkjr for five PRs this cycle — the biggest single contribution to this release — and to @tecnobrat for the reports behind the whole quality/docker cluster (#170 and its follow-ups) plus production measurements that corrected two false claims in the Docker docs, and to @ghulands for the precise Milvus report.
 
@@ -2598,17 +2591,13 @@ Special thanks to timkjr for five PRs this cycle — the biggest single contribu
 
 ## [11.6.1] - 2026-08-03
 
-PATCH release: the harvest classifier now honors `HARVEST_LLM_PROVIDERS` instead of demanding `GROQ_API_KEY`, which completes #178 — the rewriter half shipped in v11.6.0 and the classifier did not. The Claude Code plugin manifest goes to 1.0.2, and that bump is what actually delivers the #177 hook fix to anyone who already installed the plugin: v11.6.0 shipped that fix without moving the manifest version, and the Marketplace cache is keyed on it. A CI gate now makes that mistake impossible to repeat. Special thanks to timkjr for the classifier fix and to @tecnobrat for the reports behind most of this.
 
 ### Fixed
 
 - **fix(harvest): classifier honors `HARVEST_LLM_PROVIDERS`, not just `GROQ_API_KEY` (#180, timkjr; #178, reported by @tecnobrat in #170).** `HarvestClassifier._ensure_initialized` gated all LLM classification on `GROQ_API_KEY`, so a deployment pointed at LiteLLM, Ollama, or any other OpenAI-compatible endpoint via `HARVEST_LLM_PROVIDERS` skipped classification silently, with no warning. #183 fixed the same bug in `HarvestRewriter` for v11.6.0 but left the classifier alone, so the workaround — setting a placeholder `GROQ_API_KEY` — was still needed on the classifier path. The rewriter's provider loading and usability check are now module-level functions in `rewriter.py` (`load_llm_providers`, `is_usable_provider`) that the classifier reuses, so the two cannot drift apart again; the classifier tries the provider chain first through a new OpenAI-compatible call path and falls back to the legacy Groq SDK bridge only when nothing usable is configured, logging which provider resolved.
-- **chore(plugin): bump the Claude Code plugin manifest to 1.0.2.** This is the release that actually ships #177 (`fix(hooks): send memory types the server ontology accepts`) to installed plugin users. That fix landed in v11.6.0 with the manifest still at 1.0.1, and the Marketplace caches the plugin under a version-keyed directory — without a version change, an existing install never re-fetches the hooks. If you installed the plugin before v11.6.1, your auto-capture was still tagging everything `observation`; updating to plugin 1.0.2 is what corrects it.
-- fix(hooks): stop the worktree guard from minting a branch per session start (#193). `.claude/hooks/worktree_guard.sh` — the repo-local dev hook, not the Claude Code plugin — called `prepare` unconditionally on every `SessionStart` firing and never reclaimed anything, which had accumulated 85 orphaned `wt/*` branches and 9 abandoned worktrees in one checkout. It now reuses an already-prepared, unused worktree instead of creating another, and garbage-collects `wt/*` branches that back no worktree and are already merged into the default branch. `tests/ci/test_worktree_guard.sh` covers both the reuse path and, more importantly, what `gc` must never delete.
 
 ### Added
 
-- **ci(plugin): gate releases on the Claude Code plugin manifest version (#195; #170, reported by @tecnobrat).** The plugin in `claude-hooks/` carries its own version and the Marketplace caches it under a version-keyed directory, so a hook fix released without bumping `claude-hooks/.claude-plugin/plugin.json` never reaches anyone who already installed the plugin. That happened in v11.6.0: the release notes said there were no `claude-hooks/` changes since the last bump, while `5d40d8e4` (`fix(hooks): send memory types the server ontology accepts`) sat inside the range. `scripts/ci/check_plugin_version.sh` now runs as a CI job on release changes and fails when `claude-hooks/` changed since the last commit that moved the manifest version. It anchors on the version line rather than on the file, because a metadata-only edit to the manifest would otherwise move the window forward and hide the hook changes before it.
 
 ### Changed
 
@@ -2663,11 +2652,9 @@ PATCH release: web dashboard GitHub references replaced with Codeberg. Special t
 
 ## [11.5.3] - 2026-07-22
 
-PATCH release: Claude Code hooks config resolution under Marketplace install, graph orphan-prune fix, and belief-derivation noise filter. Special thanks to filhocf and @tecnobrat.
 
 ### Fixed
 
-- fix(hooks): read `~/.claude/hooks/config.json` under Marketplace install (#155, reported by @tecnobrat; #156). The six core Claude Code memory hooks (`session-start`, `auto-capture-hook`, `memory-retrieval`, `session-end`, `session-end-harvest`, `topic-change`) resolved their config via `path.join(__dirname, '../config.json')`, which under a Marketplace plugin install resolves to the version-pinned plugin cache directory instead of the user-owned `~/.claude/hooks/config.json` — user edits were silently ignored and reverted on every plugin upgrade. New `claude-hooks/utilities/config-loader.js` `resolveConfigPath()` prefers the home-directory config, falling back to the bundled one.
 - fix(graph): exclude `has_entity` edges from target-orphan pruning (#150, #151, @filhocf). `_prune_orphaned_graph_edges()` treats `has_entity.target_hash` as an entity *name*, not a content hash; the target-existence check was deleting valid entity links because no `memories` row ever matches an entity name. Source-orphan pruning is unaffected — `has_entity` edges are still removed when the owning memory is deleted. Includes `scripts/maintenance/backfill_has_entity.py` to restore edges dropped by the bug on existing databases.
 - fix(beliefs): filter session-legacy noise from belief derivation (#121, #152, @filhocf). Completes the fix for #121 — the duplicate-belief half was already resolved by #127; this adds the missing noise filter in `belief_service.py` so session-legacy content no longer produces spurious derived beliefs.
 
@@ -2962,7 +2949,6 @@ First release published from Codeberg (Forgejo). It bundles the post-migration b
 
 ### Changed
 
-- **docs(contributing): tighten contributor guidelines + add agent disclosure policy**: Added `## Security-Sensitive Changes` section (protected paths, required scope-enforcement checklist for new MCP tools) and `## Autonomous Agents & AI-Generated PRs` section (mandatory disclosure, 7-day clarification window). PR template extended with `## Security` and `## Agent Disclosure` sections. CODEOWNERS updated to require `@doobidoo` approval on `web/api/mcp.py`, `web/oauth/`, and `.github/workflows/`.
 
 - **chore(governance): filhocf collaborator access + CODEOWNERS expanded to reasoning/**: Added filhocf as collaborator; CODEOWNERS updated to include `src/mcp_memory_service/reasoning/` under filhocf review.
 
@@ -3038,7 +3024,6 @@ First release published from Codeberg (Forgejo). It bundles the post-migration b
 
 ### Changed
 
-- **feat(opencode): port Claude Code hooks — auto-capture, session-end write-back, harvest** — Ported Claude Code hook capabilities into the OpenCode in-process plugin. Memory retrieval on session start, auto-capture via pattern detection (#skip/#remember overrides), session-end analysis + summary storage, and optional harvest (POST /api/harvest). Hook architecture: `event` (bus events) + `experimental.chat.system.transform` (memory injection) + `experimental.session.compacting` (context preservation). Config sections: `autoCapture`, `sessionEnd`, `harvest`. (Follow-up in [#995](https://github.com/doobidoo/mcp-memory-service/pull/995) replaced `chat.message` with `message.part.updated` bus event.)
 
 ### Maintenance
 
@@ -3095,7 +3080,6 @@ First release published from Codeberg (Forgejo). It bundles the post-migration b
 
 ### Fixed
 
-- **fix(hooks): parse Claude Code transcripts as JSONL with nested message** ([#971](https://github.com/doobidoo/mcp-memory-service/pull/971)): Claude Code transcript format changed from bare JSON objects to JSONL with a `message` wrapper. The auto-capture hook now parses each line as `JSON.parse(line).message ?? line` before extracting tool calls, restoring transcript-based memory capture for current Claude Code versions.
 
 ### Dependencies
 
@@ -3530,8 +3514,6 @@ First release published from Codeberg (Forgejo). It bundles the post-migration b
 ### Fixed
 
 - **claude-hooks: socket hang-up on multi-phase retrieval eliminated** (`memory-client.js`): Node.js HTTPS agent defaults to `keepAlive: true`, which causes Uvicorn to close idle sockets after ~5 s. The hook is a one-shot CLI process — keepAlive provides zero benefit and caused subsequent phase requests to reuse dead sockets, producing `ECONNRESET` ("socket hang up"). Added `agent: false` and `Connection: close` header to `_attemptHealthCheck`, `storeMemoryHTTP`, and `_performApiPost`. Also added a 10 s request timeout + timeout handler to `_performApiPost` (previously unset) for consistency with the other two paths and to ensure slow semantic-search queries fail fast rather than starving the overall HOOK_TIMEOUT. Intermittent silent partial-injection failures are resolved.
-- **claude-hooks: HOOK_TIMEOUT raised from 9.5 s to 28 s** (`session-start.js`): Phase 0 (git query) + Phase 1 (recent memories) + Phase 2 (tagged memories) with a cold Python cache takes 12–15 s total. The 9.5 s budget expired before `formatMemoriesForContext()` ran, so memories were fetched but the injection block was never written — the hook appeared to "not work" in the Claude Code VSCode extension. Internal constant raised to 28 000 ms.
-- **claude-hooks installer: outer process timeout raised from 10 s to 30 s** (`install_hooks.py`): The `timeout` field written into `~/.claude/settings.json` is Claude Code's hard kill limit for the hook process. Must be ≥ internal HOOK_TIMEOUT plus cleanup buffer; was 10 s (less than the old internal limit of 9.5 s leaving no headroom). Updated to 30 s.
 
 ## [10.40.2] - 2026-04-23
 
@@ -3558,7 +3540,6 @@ First release published from Codeberg (Forgejo). It bundles the post-migration b
 
 - **[#721] Milvus storage backend (Lite / self-hosted / Zilliz Cloud)**: New fourth storage backend implementing the full `MemoryStorage` interface against Milvus. Supports three deployment modes from the same code path — Milvus Lite (zero-dep local `.db` file, ideal for scripts and tests), self-hosted Milvus via Docker (recommended for MCP servers and single-tenant deployments), and Zilliz Cloud (managed service for team/production use). ~1,750 lines of new code, 39 Milvus-specific tests. Activate with `MCP_MEMORY_STORAGE_BACKEND=milvus`. See `docs/milvus-backend.md` for full deployment guide. (PR #721, @zc277584121)
 - **[#721] `backend:milvus` label + `.github/CODEOWNERS` + `test-milvus-docker` CI job**: Issue tracker label for routing Milvus bug reports; `@zc277584121` added to CODEOWNERS for `src/mcp_memory_service/storage/milvus.py` with a 6-month SLA commitment; dedicated Docker-based Milvus smoke-test job in Main CI/CD Pipeline. (PR #721)
-- **[#740] Claude Code plugin manifest shape validation**: CI smoke test now validates `plugin.json` against the full Claude Code plugin spec (author object, tools array, schema fields) using structured JSON shape checks — catches regressions that `JSON.parse` alone misses. (PR #740)
 
 ### Security
 
@@ -3581,13 +3562,11 @@ First release published from Codeberg (Forgejo). It bundles the post-migration b
 
 ### Fixed
 
-- **plugin**: `plugin.json` `author` field now uses the Claude Code plugin spec's required object format (`{"name": "..."}`) instead of the pre-spec string form. Unblocks `/plugin install mcp-memory-service` — thanks @yingzhi0808 for the report (#738) and the fix (#739).
 
 
 ## [10.39.0] - 2026-04-19
 
 ### Added
-- **plugin**: Claude Code plugin packaging for the claude-hooks suite. Install via `/plugin marketplace add doobidoo/mcp-memory-service` + `/plugin install mcp-memory-service`. Ships with `.mcp.json`, hook wiring, and self-healing `ensure-server.js`. Coexists with the legacy `install_hooks.py` installer — see [claude-hooks/PLUGIN.md](claude-hooks/PLUGIN.md). Closes #530 (plugin packaging track). (PR #736)
 
 ### Changed
 - **hooks**: Route memory writes through `MemoryClient.storeMemory()` — enables HTTP-primary + MCP-fallback for `session-end` and `auto-capture` hooks. Closes silent write-failure path documented in #530 (Option B). (PR #735)
@@ -3596,7 +3575,6 @@ First release published from Codeberg (Forgejo). It bundles the post-migration b
 
 ### Fixed
 
-- **[#733] MCP: return HTTP 202 for JSON-RPC notifications on `/mcp`**: JSON-RPC 2.0 §4.1 forbids servers from replying to notifications (messages without `id`), and MCP Streamable HTTP requires HTTP 202 Accepted with an empty body in that case. The `/mcp` handler previously fell through to method dispatch and returned a `-32601 Method not found` error for `notifications/initialized`. Tolerant clients (Claude Code) ignored it; strict clients (Codex's `rmcp`) treated the response as a handshake failure and refused to start the MCP server. Fixed by short-circuiting to `Response(status_code=202)` at the top of `mcp_endpoint` whenever `request.id is None`. Added regression tests for the 202/empty-body path and the `initialize` happy path. (PR #733)
 
 ## [10.38.3] - 2026-04-17
 
@@ -3650,10 +3628,8 @@ First release published from Codeberg (Forgejo). It bundles the post-migration b
 
 ### Added
 
-- **[#631] Claude Code SessionEnd auto-harvest hook**: New opt-in hook `claude-hooks/core/session-end-harvest.js` that automatically calls `POST /api/harvest` at the end of every Claude Code session. Safe-by-default design: disabled by default (`sessionHarvest.enabled: false`), forces `dry_run: true` on first run (sentinel file `~/.claude/mcp-memory-harvest-first-run.done`), and enforces a minimum session message threshold (`minSessionMessages`, default 10) to skip trivially short sessions. (PR #711, issue #631)
 - **[#631] Graceful failure guarantees**: The hook enforces a 5-second timeout and catches all exceptions — it never throws and never blocks session end. HTTP failures and timeouts are logged to stderr and silently ignored. (PR #711)
 - **[#631] Security: TLS certificate validation opt-in only**: Self-signed certificate acceptance (`allowSelfSignedCerts`) is disabled by default and logs a warning when enabled, preventing silent MITM exposure for users who copy config templates. (PR #711)
-- **[#631] Standalone CLI entry point**: The hook reads `transcript_path` and `cwd` from Claude Code's stdin JSON, making it usable as a direct `command:` entry in `.claude/settings.json` without any wrapper script. (PR #711)
 - **[#631] Supporting files**: `claude-hooks/tests/session-end-harvest.test.js` (9 tests), `claude-hooks/README-SESSION-HARVEST.md` (user documentation), `claude-hooks/config.template.json` (`sessionHarvest` + `hooks.sessionEndHarvest` config sections). (PR #711)
 
 ### Tests

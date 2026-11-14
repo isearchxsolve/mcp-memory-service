@@ -1,5 +1,4 @@
 /**
- * Claude Code Session Start Hook
  * Automatically injects relevant memories at the beginning of each session
  */
 
@@ -48,7 +47,7 @@ async function loadConfig() {
                 fallbackEnabled: true,
                 http: {
                     endpoint: 'http://127.0.0.1:8889',
-                    apiKey: 'test-key-123',
+                    apiKey : "dummy_placeholder_secret",
                     healthCheckTimeout: 3000,
                     useDetailedHealthCheck: false
                 },
@@ -569,7 +568,6 @@ const CONSOLE_COLORS = {
 /**
  * Retry wrapper with exponential backoff for transient connection failures.
  * Used to tolerate the race condition where the MCP/HTTP server starts lazily
- * after Claude Code fires the SessionStart hook.
  *
  * @param {Function} fn          - Async function to attempt
  * @param {number}   maxAttempts - Maximum number of tries (default: 4)
@@ -1325,7 +1323,6 @@ async function executeSessionStart(context) {
             if (context.injectSystemMessage) {
                 await context.injectSystemMessage(contextMessage);
                 // Note: Don't console.log here - injectSystemMessage handles display
-                // console.log would cause duplicate output in Claude Code
 
 
                 // Write detailed session context log file (Option 3)
@@ -1439,7 +1436,6 @@ async function executeSessionStart(context) {
 }
 
 /**
- * Hook metadata for Claude Code
  */
 module.exports = {
     name: 'memory-awareness-session-start',

@@ -190,7 +190,6 @@ Processing batch 15/15: ████████████████ 1,435 a
 # Restart HTTP server
 systemctl --user restart mcp-memory-http.service
 
-# Or reconnect MCP server in Claude Code
 # Run: /mcp
 
 # Verify services are running

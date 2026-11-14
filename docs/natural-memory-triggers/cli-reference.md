@@ -1,6 +1,5 @@
 # Natural Memory Triggers v7.1.3 - CLI Reference
 
-Complete reference for the CLI management system that provides real-time configuration and monitoring of Natural Memory Triggers without requiring file edits or Claude Code restarts.
 
 ## Overview
 

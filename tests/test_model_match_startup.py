@@ -72,7 +72,7 @@ class TestRemoteHTTPStorageModelMatching:
         # HONEST RED: Direct construction - will fail with TypeError if parameter doesn't exist
         storage = RemoteHTTPStorage(
             base_url="http://test.com",
-            api_key="test_key",
+            api_key = "dummy_placeholder_secret",
             expected_embedding_model="model-A"
         )
         assert storage is not None
@@ -82,7 +82,7 @@ class TestRemoteHTTPStorageModelMatching:
         """R15: Model mismatch should raise EmbeddingModelMismatchError during initialization."""
         storage = RemoteHTTPStorage(
             base_url="http://test.com",
-            api_key="test_key",
+            api_key = "dummy_placeholder_secret",
             expected_embedding_model="model-A"
         )
         
@@ -105,7 +105,7 @@ class TestRemoteHTTPStorageModelMatching:
         """R16: Missing embedding_model field should raise EmbeddingModelMismatchError."""
         storage = RemoteHTTPStorage(
             base_url="http://test.com",
-            api_key="test_key",
+            api_key = "dummy_placeholder_secret",
             expected_embedding_model="model-A"
         )
         
@@ -128,7 +128,7 @@ class TestRemoteHTTPStorageModelMatching:
         """R16: Inaccessible hub should raise EmbeddingModelMismatchError."""
         storage = RemoteHTTPStorage(
             base_url="http://test.com",
-            api_key="test_key",
+            api_key = "dummy_placeholder_secret",
             expected_embedding_model="model-A"
         )
         
@@ -143,7 +143,7 @@ class TestRemoteHTTPStorageModelMatching:
         """Test that matching models allow initialization to complete without exception."""
         storage = RemoteHTTPStorage(
             base_url="http://test.com",
-            api_key="test_key",
+            api_key = "dummy_placeholder_secret",
             expected_embedding_model="model-A"
         )
         
@@ -166,7 +166,7 @@ class TestRemoteHTTPStorageModelMatching:
         # HONEST RED: Constructor without expected_embedding_model parameter
         storage = RemoteHTTPStorage(
             base_url="http://test.com",
-            api_key="test_key"
+            api_key = "dummy_placeholder_secret"
             # No expected_embedding_model parameter
         )
         

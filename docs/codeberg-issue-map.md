@@ -271,7 +271,6 @@ damit eine Referenz wie "PR #289" nachschlagbar bleibt.
 | [192](https://codeberg.org/doobidoo/mcp-memory-service/pulls/192) | docs: trim CLAUDE.md to what a session cannot derive; surface AUTHORSHIP.md | merged |
 | [193](https://codeberg.org/doobidoo/mcp-memory-service/pulls/193) | fix(hooks): stop the worktree guard from minting a branch per session start | merged |
 | [194](https://codeberg.org/doobidoo/mcp-memory-service/pulls/194) | test(harvest): pin the classifier provider chain; sanitize its log values | merged |
-| [195](https://codeberg.org/doobidoo/mcp-memory-service/pulls/195) | ci(plugin): gate releases on the Claude Code plugin manifest version | merged |
 | [196](https://codeberg.org/doobidoo/mcp-memory-service/pulls/196) | chore: release v11.6.1 | merged |
 | [198](https://codeberg.org/doobidoo/mcp-memory-service/pulls/198) | fix(hooks): gate TLS verification bypass behind explicit opt-in | merged |
 | [199](https://codeberg.org/doobidoo/mcp-memory-service/pulls/199) | fix(harvest): pin the rewriter provider chain; sanitize its log values | merged |

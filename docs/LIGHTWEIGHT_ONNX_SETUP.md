@@ -26,7 +26,6 @@ pipx install "git+https://github.com/Sundeepg98/mcp-memory-service.git"
 pipx list | grep mcp-memory
 ```
 
-### 2. Add to Claude Code Settings
 
 Add to `~/.claude/settings.json` in the `mcpServers` section:
 
@@ -86,7 +85,6 @@ echo "✅ Installation complete!"
 echo ""
 echo "Next steps:"
 echo "1. Add MCP server config to ~/.claude/settings.json (see mcp-memory-portable-setup.md)"
-echo "2. Restart Claude Code"
 echo ""
 echo "ONNX models will auto-download on first use (~255MB)"
 ```

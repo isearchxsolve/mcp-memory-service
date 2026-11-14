@@ -1,8 +1,6 @@
 #!/bin/bash
 #
-# Claude Code Plugin Manifest Bump Check
 #
-# The Claude Code plugin in claude-hooks/ carries its own version in
 # claude-hooks/.claude-plugin/plugin.json, decoupled from the service version.
 # The Marketplace caches each plugin under a version-keyed directory, so an
 # already-installed user only re-fetches the hooks when that version changes.
@@ -49,7 +47,6 @@ fi
 
 if [ ! -f "$MANIFEST" ]; then
   echo "FAIL: plugin manifest not found: $MANIFEST"
-  echo "If the Claude Code plugin was removed on purpose, drop this gate in the same change."
   exit 1
 fi
 

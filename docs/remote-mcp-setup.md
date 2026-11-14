@@ -269,11 +269,8 @@ Your OAuth server must accept these callback URLs from claude.ai:
 | `https://claude.ai/api/mcp/auth_callback` | Current production |
 | `https://claude.com/api/mcp/auth_callback` | Future (also allowlist now) |
 
-For Claude Code (local development), also allowlist:
 | URL | Purpose |
 |---|---|
-| `http://localhost:6274/oauth/callback` | Claude Code OAuth |
-| `http://localhost:6274/oauth/callback/debug` | Claude Code debug |
 
 ### Token Management
 
@@ -414,7 +411,6 @@ Remote MCP adds network latency (~50-200ms depending on location) but enables br
 
 ## Transport Comparison
 
-| Transport | claude.ai | Claude Desktop | Claude Code | Status |
 |---|---|---|---|---|
 | **Stdio** | No | Yes (default) | Yes (default) | Stable |
 | **Streamable HTTP** | **Yes** | Yes | Yes | **Recommended** |
@@ -428,7 +424,6 @@ Remote MCP adds network latency (~50-200ms depending on location) but enables br
 
 - [OAuth 2.1 Setup Guide](https://github.com/doobidoo/mcp-memory-service/wiki/OAuth-2.1-Setup-Guide) — Detailed OAuth configuration
 - [Wiki: Claude.ai Remote MCP Integration](https://github.com/doobidoo/mcp-memory-service/wiki/Claude-AI-Remote-MCP-Integration) — Wiki version of this guide
-- [Integration Guide](https://github.com/doobidoo/mcp-memory-service/wiki/03-Integration-Guide) — Claude Desktop, Claude Code, VS Code setup
 - [Hybrid Backend Setup](https://github.com/doobidoo/mcp-memory-service/wiki/Hybrid_Setup_Configuration) — Recommended storage backend
 
 ## References

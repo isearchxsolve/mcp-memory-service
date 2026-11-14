@@ -1,6 +1,5 @@
 #!/bin/bash
 #
-# Claude Code Hooks Test Runner
 #
 # Runs every *.test.js file under the repo's JS test directories -
 # claude-hooks/tests and opencode/tests - and fails if any of them do.

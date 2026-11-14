@@ -1,5 +1,4 @@
 /**
- * Claude Code Session End Auto-Harvest Hook
  *
  * Triggers POST /api/harvest on session end to extract learnings from the
  * session transcript. Opt-in, fail-safe, never blocks session end.
@@ -35,7 +34,6 @@ async function loadConfig() {
 }
 
 /**
- * Build the Claude Code project directory name from a working directory.
  * Matches the Python side: str(Path.cwd()).replace(os.sep, '-')
  * Returns the full path identifier (project directory name used by Claude
  * Code under ~/.claude/projects/), with separators replaced by dashes —
@@ -163,7 +161,6 @@ function summarizeResponse(resp) {
 }
 
 /**
- * Main hook entry point. Matches the Claude Code hook convention
  * (same shape as session-end.js: async function taking `context`).
  *
  * Never throws; all failures are logged as warnings.
@@ -278,7 +275,6 @@ module.exports._internal = {
 };
 
 /**
- * Read JSON context from stdin (Claude Code provides this to hook processes).
  * Resolves to null if stdin is empty within 100ms (manual test / no pipe).
  */
 function readStdinContext() {
@@ -310,7 +306,6 @@ function readStdinContext() {
 }
 
 /**
- * Count messages in a Claude Code transcript JSONL file.
  * Errors are non-fatal — returns 0 so the hook gracefully degrades.
  */
 async function countTranscriptMessages(transcriptPath) {
@@ -348,7 +343,6 @@ module.exports.metadata = {
     }
 };
 
-// Standalone CLI entry point. Claude Code invokes hooks as child processes and
 // passes session context via stdin (see docs/hooks). When run without stdin
 // this reduces to a no-op (useful for local troubleshooting).
 if (require.main === module) {

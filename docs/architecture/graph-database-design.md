@@ -558,7 +558,6 @@ export MCP_GRAPH_STORAGE_MODE=graph_only
 
 # Restart services
 systemctl --user restart mcp-memory-http.service
-# Or use /mcp in Claude Code to reconnect
 ```
 
 **Benefits of graph_only mode**:

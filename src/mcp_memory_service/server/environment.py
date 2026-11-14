@@ -124,7 +124,6 @@ def check_version_consistency():
             logger.warning("   pip install -e . --force-reinstall")
             logger.warning("")
             logger.warning("   Then restart the MCP server:")
-            logger.warning("   - In Claude Code: Run /mcp")
             logger.warning("   - In Claude Desktop: Restart the application")
             logger.warning("=" * 70)
         else:

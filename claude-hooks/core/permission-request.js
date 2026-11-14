@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 /**
- * Claude Code PermissionRequest Hook
  * Auto-approves non-destructive MCP tools from all servers
  *
  * This hook intercepts permission requests and automatically approves
@@ -266,7 +265,6 @@ function isSafeTool(toolName) {
 }
 
 /**
- * Output the decision in Claude Code hook format
  */
 function outputDecision(behavior, metadata = {}) {
     const decision = {

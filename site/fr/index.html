@@ -5,9 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mémoire persistante pour assistants IA | MCP Memory Service</title>
-<meta name="description" content="Enregistrez et retrouvez le contexte de vos projets dans Claude Code et d&#x27;autres assistants IA. Hébergez MCP Memory Service sur votre machine, avec recherche sémantique, MCP et API REST.">
 <meta property="og:title" content="Mémoire persistante pour assistants IA | MCP Memory Service">
-<meta property="og:description" content="Enregistrez et retrouvez le contexte de vos projets dans Claude Code et d&#x27;autres assistants IA. Hébergez MCP Memory Service sur votre machine, avec recherche sémantique, MCP et API REST.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mcpmemory.services/fr/">
 <meta property="og:locale" content="fr_FR">
@@ -17,7 +15,6 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mémoire persistante pour assistants IA | MCP Memory Service">
-<meta name="twitter:description" content="Enregistrez et retrouvez le contexte de vos projets dans Claude Code et d&#x27;autres assistants IA. Hébergez MCP Memory Service sur votre machine, avec recherche sémantique, MCP et API REST.">
 <meta name="twitter:image" content="https://mcpmemory.services/assets/images/og-home.jpg">
 <link rel="canonical" href="https://mcpmemory.services/fr/">
 <link rel="alternate" hreflang="en" href="https://mcpmemory.services/">
@@ -37,7 +34,6 @@
   "@id": "https://mcpmemory.services/fr/#page",
   "url": "https://mcpmemory.services/fr/",
   "name": "Mémoire persistante pour assistants IA | MCP Memory Service",
-  "description": "Enregistrez et retrouvez le contexte de vos projets dans Claude Code et d'autres assistants IA. Hébergez MCP Memory Service sur votre machine, avec recherche sémantique, MCP et API REST.",
   "inLanguage": "fr",
   "isPartOf": {
     "@id": "https://mcpmemory.services/#website"
@@ -77,7 +73,6 @@
     <div>
       <p class="eyebrow">MCP Memory Service</p>
       <h1>Une mémoire persistante pour vos assistants IA</h1>
-      <p class="intro">Les décisions, préférences et solutions d&#x27;un projet devraient rester disponibles d&#x27;une session à l&#x27;autre. MCP Memory Service enregistre ces connaissances sur votre propre système, pour que Claude Code et d&#x27;autres assistants IA puissent les consulter.</p>
       <div class="btns">
         <a class="btn btn-primary" href="#install">Configurer</a>
         <a href="https://github.com/doobidoo/mcp-memory-service">Projet sur GitHub</a>
@@ -107,11 +102,8 @@
   </section>
   <section class="sec" id="install">
     <div class="wrap locale-install">
-      <h2>Configurez-le dans Claude Code</h2>
-      <p class="lede">Il vous faut Python 3.11 ou une version ultérieure, ainsi que Claude Code installé. Vous pouvez aussi connecter d&#x27;autres clients via MCP ; le guide en anglais explique comment les configurer.</p>
       <ol class="install-steps">
         <li><h3>Installez Memory Service</h3><pre><code>pip install 'mcp-memory-service[sqlite]'</code></pre><p>Installez le paquet dans un environnement Python dont les commandes sont accessibles à votre client.</p></li>
-        <li><h3>Ajoutez-le comme serveur MCP</h3><pre><code>claude mcp add memory -- memory server</code></pre><p>Lancez la commande depuis le répertoire du projet, puis redémarrez Claude Code. Au premier démarrage, le modèle local d&#x27;embeddings est téléchargé.</p></li>
         <li><h3>Enregistrez votre premier souvenir</h3><p>Demandez à votre client d&#x27;enregistrer une préférence du projet et vérifiez que l&#x27;appel à l&#x27;outil a abouti. Interrogez-le ensuite sur cette préférence dans une nouvelle session : vous confirmez ainsi que l&#x27;information est enregistrée puis retrouvée.</p></li>
       </ol>
       <div class="btns">

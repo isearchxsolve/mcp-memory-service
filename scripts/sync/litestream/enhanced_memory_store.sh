@@ -4,7 +4,7 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REMOTE_API="https://narrowbox.local:8443/api/memories"
 STAGING_DB="/Users/hkr/Library/Application Support/mcp-memory/sqlite_vec_staging.db"
-API_KEY="${MCP_API_KEY:-}"
+API_KEY = "dummy_placeholder_secret"
 HOSTNAME=$(hostname)
 
 # Colors for output

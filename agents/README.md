@@ -34,7 +34,6 @@ is actually used well.
 
 | Harness | 1. Connectivity | 2. Connector | 3. Lifecycle hooks | 4. Preference override | 5. Usage toolkit |
 |---|---|---|---|---|---|
-| **Claude Code** | ✅ MCP | ✅ [`claude-hooks/`](../claude-hooks/README.md) plugin | ✅ session start, auto-capture, session end | 🔴 hooks inject context but the native file memory stays on ([#1364](https://github.com/doobidoo/mcp-memory-service/discussions/1364)) | 🟡 [`claude_commands/`](../claude_commands/README.md) ships commands; the plugin also ships the [`remember-session`](../claude-hooks/skills/remember-session/SKILL.md) skill (when to save, how to tag, how to search before writing), but nothing there overrides the native file memory |
 | **OpenCode** | ✅ MCP | ✅ [`opencode/memory-plugin.js`](../opencode/README.md) | ✅ load, capture, session summary, harvest | 🔴 not observed | 🔴 none shipped |
 | **Codex CLI** | ✅ REST API | ✅ [`codex/`](../codex/README.md) installer | ✅ hooks for retrieval, capture and write-back | 🔴 not observed | 🔴 none shipped |
 | **Hermes** | ✅ MCP | ✅ [`scripts/hermes/install.py`](../scripts/hermes/install.py) — register, verify, uninstall | 🔴 hooks and skills are out of that installer's scope by design | 🔴 ships a native SQLite memory; adding the MCP server does not make it prefer ours ([#1364](https://github.com/doobidoo/mcp-memory-service/discussions/1364)) | 🔴 none shipped |

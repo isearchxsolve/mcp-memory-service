@@ -1,5 +1,4 @@
 /**
- * Shared configuration path resolution for Claude Code memory hooks.
  *
  * Background (issue #155): the hooks can be installed two ways:
  *   1. Traditional install - files copied into ~/.claude/hooks/, so the

@@ -1,4 +1,3 @@
-# Smart Auto-Capture for Claude Code
 
 Intelligent automatic memory capture that stores valuable conversation content after tool operations.
 
@@ -219,7 +218,6 @@ PostToolUse (Edit/Write/Bash)
 
 ## Related Documentation
 
-- [Claude Code Hooks README](README.md)
 - [Memory Awareness Hooks Guide](README.md)
 - [Natural Memory Triggers](README-NATURAL-TRIGGERS.md)
 

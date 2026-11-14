@@ -19,7 +19,6 @@ Create `docs/setup-guide.md` as the canonical setup entry point with a decision 
 ```
 What do you need?
 │
-├─ Connect Claude Desktop / Claude Code via MCP only?
 │   └─ → Path 1: MCP Only (5 min)
 │
 ├─ Also want the web dashboard + REST API?
@@ -49,7 +48,6 @@ Each path follows the same structure:
 
 **Path 1 — MCP Only**
 - `pip install mcp-memory-service`
-- MCP config for Claude Desktop / Claude Code
 - Verify: restart client, check memory tools appear
 - Backend: SQLite-Vec (default, no config needed)
 

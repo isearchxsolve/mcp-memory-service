@@ -225,7 +225,6 @@ On the first system prompt of each session, and then at the configured interval,
 
 Delivered messages stay in the block for the rest of the session, up to the 10 most recent, because the system block is not part of the chat history: without that, a message the model did not act on in the turn it arrived would be gone. The list is kept in the OpenCode process, so a session resumed after a restart starts empty. Only new messages raise a toast.
 
-The block is the shared format for every harness that reads the inbox (the Claude Code hooks in #1526 use the same one):
 
 ```
 Messages from other agents (since 2026-10-21 09:00):

@@ -53,7 +53,7 @@ async function testHttpStoreSuccess() {
     try {
         const client = new MemoryClient({
             protocol: 'http',
-            http: { endpoint, apiKey: 'test-key' },
+            http: { endpoint, apiKey : "dummy_placeholder_secret" },
         });
         client.activeProtocol = 'http';
 

@@ -1,5 +1,4 @@
 /**
- * Claude Code Topic Change Hook
  * Monitors conversation flow and dynamically loads relevant memories when topics evolve
  * Phase 2: Intelligent Context Updates
  */
@@ -36,7 +35,7 @@ async function loadConfig() {
         return {
             memoryService: {
                 endpoint: 'https://10.0.1.30:8443',
-                apiKey: 'test-key-123',
+                apiKey : "dummy_placeholder_secret",
                 maxMemoriesPerSession: 8
             },
             hooks: {

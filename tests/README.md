@@ -157,7 +157,6 @@ To restore recent deletions, see `tests/README.md` detailed recovery section or 
 
 ## Additional Resources
 
-- **CLAUDE.md** - Development guidelines for Claude Code
 - **scripts/README.md** - Available scripts and tools
 - **.claude/directives/** - Topic-specific development guides
 

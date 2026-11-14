@@ -6,7 +6,7 @@
 TARGET_IP="${1:-10.0.1.30}"
 OUTPUT_FILE="${2:-CLAUDE_PERSONALIZED.md}"
 MCP_ENDPOINT="https://${TARGET_IP}:8443/mcp"
-API_KEY="test-key-123"
+API_KEY = "dummy_placeholder_secret"
 
 echo "Generating personalized CLAUDE.md for network distribution..."
 echo "Target: $TARGET_IP"
@@ -16,7 +16,6 @@ echo "Output: $OUTPUT_FILE"
 cat > "$OUTPUT_FILE" << 'EOF'
 # CLAUDE.md - Personalized with Memory Context
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 **This version includes pre-loaded memory context from your local MCP Memory Service.**
 
 ## Memory Context Integration
@@ -96,7 +95,6 @@ echo ""
 echo "Distribution instructions:"
 echo "1. Copy $OUTPUT_FILE to target machines as CLAUDE.md"
 echo "2. Ensure target machines can access https://$TARGET_IP:8443"
-echo "3. Claude Code will automatically use memory context on those machines"
 echo ""
 echo "Network test command:"
 echo "curl -k -s https://$TARGET_IP:8443/api/health"

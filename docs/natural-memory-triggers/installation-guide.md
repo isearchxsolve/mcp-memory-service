@@ -1,12 +1,10 @@
 # Natural Memory Triggers v7.1.3 - Installation Guide
 
-This guide provides detailed installation instructions for Natural Memory Triggers, the intelligent automatic memory awareness system for Claude Code.
 
 ## Prerequisites
 
 Before installing Natural Memory Triggers, ensure you have:
 
-- ✅ **Claude Code CLI** installed and working (`claude --version`)
 - ✅ **Node.js 14+** for hook execution (`node --version`)
 - ✅ **MCP Memory Service** running (`curl http://localhost:8000/api/health`)
 - ✅ **Valid configuration** at `~/.claude/hooks/config.json`
@@ -28,7 +26,6 @@ python install_hooks.py --natural-triggers
 **What the installer does:**
 
 1. **System Verification**
-   - Checks Claude Code CLI availability
    - Validates Node.js version compatibility
    - Tests MCP Memory Service connectivity
    - Verifies directory permissions
@@ -361,13 +358,10 @@ cp ~/.claude/hooks/config.json.backup ~/.claude/hooks/config.json
 node memory-mode-controller.js reset
 ```
 
-### Issue 5: Claude Code Integration Issues
 
-**Error**: Hooks not detected by Claude Code
 
 **Diagnosis**:
 ```bash
-# Check Claude Code settings
 cat ~/.claude/settings.json | grep -A 10 "hooks"
 
 # Verify hook files location
@@ -377,7 +371,6 @@ ls -la ~/.claude/hooks/core/
 **Solutions**:
 1. **Correct Location**: Ensure hooks are in `~/.claude/hooks/` not `~/.claude-code/hooks/`
 2. **Settings Update**: Update `~/.claude/settings.json` with correct paths
-3. **Restart Claude Code**: Some changes require restart
 4. **Debug Mode**: Run `claude --debug hooks` to see hook loading messages
 
 ## Installation Verification Checklist
@@ -390,7 +383,6 @@ ls -la ~/.claude/hooks/core/
 - [ ] Memory service connectivity verified
 - [ ] Performance profile selected and applied
 - [ ] Git integration working (if applicable)
-- [ ] Claude Code detects and loads hooks
 
 ## Next Steps
 
@@ -398,7 +390,6 @@ After successful installation:
 
 1. **Read the User Guide**: Comprehensive usage instructions at [Natural Memory Triggers v7.1.3 Guide](https://github.com/doobidoo/mcp-memory-service/wiki/Natural-Memory-Triggers-v7.1.0)
 
-2. **Try the System**: Ask Claude Code questions like:
    - "What approach did we use for authentication?"
    - "How did we handle error handling in this project?"
    - "What were the main architectural decisions we made?"
@@ -417,5 +408,3 @@ After successful installation:
 5. **Provide Feedback**: The adaptive profile learns from your usage patterns, so use the system regularly for best results.
 
 ---
-
-**Natural Memory Triggers v7.1.3** transforms Claude Code into an intelligent development assistant that automatically understands when you need context from your project history! 🚀

@@ -117,13 +117,11 @@ Restart Claude Desktop. Your AI now remembers everything across sessions.
 </details>
 
 <details>
-<summary><strong>Claude Code</strong></summary>
 
 ```bash
 claude mcp add memory -- memory server
 ```
 
-Restart Claude Code. Memory tools will appear automatically.
 
 </details>
 
@@ -211,7 +209,6 @@ For long-lived services, prefer Docker Milvus or Zilliz Cloud over Milvus Lite �
 ## ⚡ Works With Your Favorite AI Tools
 
 - **Agent frameworks (REST):** LangGraph · CrewAI · AutoGen · OpenClaw/Nanobot · any HTTP client
-- **CLI and terminal (MCP):** Claude Code · Gemini CLI · OpenCode · Codex CLI · Goose · Aider · Amp
 - **Desktop and IDE (MCP):** Claude Desktop · VS Code · Cursor · Windsurf · Raycast · JetBrains · Zed
 - **Chat (MCP):** ChatGPT (Developer Mode) · claude.ai (Remote MCP over HTTPS)
 
@@ -240,7 +237,6 @@ Full list, plus clients without OAuth such as Home Assistant:
 
 ### Capture and maintain knowledge
 
-- ⚡ **Automatic session capture** — Configurable Claude Code hooks retrieve context and
   save session learnings; the local `memory_harvest` tool extracts decisions, bugs,
   conventions, and lessons from transcripts.
   [Hooks setup](https://github.com/doobidoo/mcp-memory-service/blob/main/claude-hooks/README.md) ·

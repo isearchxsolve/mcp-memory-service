@@ -23,7 +23,6 @@ The MCP Memory Service uses several memory-intensive components:
 
 **Symptom:** Multiple MCP processes running, each consuming ~1 GB RAM.
 
-**Cause:** Claude Code may not properly terminate MCP server processes when sessions end.
 
 **Solutions:**
 
@@ -203,7 +202,6 @@ If you experience memory issues:
 2. **Report to mcp-memory-service:**
    - Open an issue at: https://github.com/doobidoo/mcp-memory-service/issues
 
-3. **Report to Claude Code (if processes not terminating):**
    - Open an issue at: https://github.com/anthropics/claude-code/issues
 
 ## Related Documentation

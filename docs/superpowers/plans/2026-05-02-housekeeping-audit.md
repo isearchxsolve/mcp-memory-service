@@ -908,7 +908,6 @@ See `docs/superpowers/specs/2026-05-02-housekeeping-audit-report.md` for full fi
 - [ ] Run `bats tests/ci/test_check_versions.bats` → 3/3 pass
 - [ ] CI green on docs-check.yml workflow
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
 EOF
 )"
 ```

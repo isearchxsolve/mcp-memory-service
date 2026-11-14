@@ -2,7 +2,6 @@
 
 ## Problem
 
-When Claude Desktop or Claude Code crashes unexpectedly, child MCP processes may become "orphaned" - they continue running without a parent process. These orphaned processes hold locks on the SQLite database, causing "database is locked" errors for new MCP sessions.
 
 ## Solution
 
@@ -77,7 +76,6 @@ These wrapper scripts clean up orphaned processes before starting the MCP Memory
 }
 ```
 
-### Claude Code (`~/.mcp.json` or project `.mcp.json`)
 
 Same format as Claude Desktop config.
 

@@ -1315,7 +1315,6 @@ Week 6+: Polish & Extensions
 
 1. **Anthropic Resources:**
    - "Code execution with MCP: Building more efficient agents" (Nov 2025)
-   - "Claude Code Best Practices" - Token efficiency guidelines
    - MCP Protocol Documentation - Tool use patterns
 
 2. **Academic Research:**

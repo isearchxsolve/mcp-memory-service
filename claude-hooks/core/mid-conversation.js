@@ -458,11 +458,8 @@ function resetHookInstance() {
 }
 
 /**
- * Hook function for Claude Code integration
  */
 async function onMidConversation(context) {
-    // This would be called by Claude Code during conversation flow
-    // Implementation depends on how Claude Code exposes mid-conversation hooks
 
     const hook = getHookInstance(context.config);
 
@@ -487,7 +484,6 @@ async function onMidConversation(context) {
 }
 
 /**
- * Read the UserPromptSubmit payload Claude Code writes to stdin.
  *
  * The payload carries the submitted prompt, which is the only way a `#skip` in
  * the user's message can be seen here. Falls back to null when nothing arrives

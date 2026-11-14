@@ -1,12 +1,10 @@
 # OAuth 2.1 Dynamic Client Registration Setup
 
-This guide explains how to configure and use OAuth 2.1 Dynamic Client Registration with MCP Memory Service to enable Claude Code HTTP transport integration.
 
 ## Overview
 
 The MCP Memory Service now supports OAuth 2.1 Dynamic Client Registration (DCR) as specified in RFC 7591. This enables:
 
-- **Claude Code HTTP Transport**: Direct integration with Claude Code's team collaboration features
 - **Automated Client Registration**: Clients can register themselves without manual configuration
 - **Secure Authentication**: JWT-based access tokens with proper scope validation
 - **Backward Compatibility**: Existing API key authentication continues to work
@@ -85,13 +83,10 @@ export MCP_OAUTH_ISSUER="http://localhost:8000"  # Match server port
 
 - `GET /oauth/clients/{client_id}` - Client information (debugging)
 
-## Claude Code Integration
 
 ### Automatic Setup
 
-Claude Code will automatically discover and register with the OAuth server:
 
-1. **Discovery**: Claude Code requests `/.well-known/oauth-authorization-server/mcp`
 2. **Registration**: Automatically registers as an OAuth client
 3. **Authorization**: Redirects user for authorization (auto-approved in MVP)
 4. **Token Exchange**: Exchanges authorization code for access token
@@ -99,7 +94,6 @@ Claude Code will automatically discover and register with the OAuth server:
 
 ### Manual Configuration
 
-If needed, you can manually configure Claude Code:
 
 ```json
 {
@@ -225,7 +219,6 @@ curl -H "Authorization: Bearer your-secret-key" \
 
 **When to use API Key vs OAuth:**
 - **API Key**: Single-user deployments, scripts, local development
-- **OAuth**: Team collaboration, Claude Code HTTP transport, multi-user access
 
 ## Security Considerations
 
@@ -254,7 +247,6 @@ The implementation follows OAuth 2.1 security requirements:
 - Ensure `MCP_OAUTH_ENABLED=true`
 - Restart the server after configuration changes
 
-**Claude Code connection fails**:
 - Check HTTPS configuration for production
 - Verify OAuth discovery endpoint responds correctly
 - Check server logs for OAuth errors

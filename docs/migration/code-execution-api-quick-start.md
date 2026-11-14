@@ -55,7 +55,6 @@ python scripts/installation/install.py
 # 3. Done! ✅
 ```
 
-The installer automatically enables code execution in Claude Code hooks. No additional configuration needed.
 
 ---
 
@@ -108,7 +107,6 @@ CompactHealthInfo(status='healthy', count=1247, backend='sqlite_vec')
 
 ### Check hook logs
 
-In your next Claude Code session, look for these indicators:
 
 ```
 ✅ Using code execution (75% token reduction)
@@ -136,11 +134,9 @@ If you see these messages, code execution is working correctly!
 **Architecture:**
 ```
 Before (MCP):
-Claude Code → MCP Protocol → Memory Server
 (2,625 tokens for 5 results)
 
 After (Code Execution):
-Claude Code → Python API → Memory Server
 (385 tokens for 5 results)
 ```
 
@@ -212,7 +208,6 @@ pip install -e .  # Install in editable mode
 
 **Solutions:**
 1. Verify config: `cat ~/.claude/hooks/config.json | grep "enabled"`
-2. Restart Claude Code to reload hooks
 3. Check logs for "Using code execution" message
 
 ---
@@ -330,7 +325,6 @@ If you encounter issues and need to rollback:
    }
    ```
 
-2. **Restart Claude Code** to reload configuration
 
 3. **Verify MCP fallback working:**
    - Check logs for "Using MCP tools"

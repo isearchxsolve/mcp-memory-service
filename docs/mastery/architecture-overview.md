@@ -44,7 +44,6 @@ This document summarizes the Memory Service architecture, components, data flow,
 
 - FastMCP (`mcp_server.py`):
   - Wraps storage via `lifespan` context; exposes core tools like `memory_store`, `memory_search`, `memory_list`, `memory_delete`, `memory_health` using `@mcp.tool()`.
-  - Designed for remote/HTTP access and Claude Code compatibility via `streamable-http` transport.
 
 ## Storage Layer Abstraction
 
@@ -80,4 +79,3 @@ This document summarizes the Memory Service architecture, components, data flow,
 - Custom pragmas via `MCP_MEMORY_SQLITE_PRAGMAS`.
 - Embedding model is cached and loaded once; ONNX path available when enabled.
 - Average query time tracking, async operations, and optional consolidation scheduler.
-

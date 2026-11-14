@@ -1,6 +1,4 @@
-# Claude Code Commands for MCP Memory Service
 
-This directory contains conversational Claude Code commands that integrate memory functionality into your Claude Code workflow. These commands follow the CCPlugins pattern of markdown-based conversational instructions.
 
 ## Available Commands
 
@@ -13,7 +11,6 @@ claude /session-start
 ```
 
 **Why this exists:**
-- Windows users cannot use automatic SessionStart hooks (causes Claude Code to hang)
 - Provides same functionality as automatic session-start hook
 - Safe manual alternative that works on all platforms (Windows, macOS, Linux)
 
@@ -74,7 +71,6 @@ claude /memory-health --detailed
 The commands can be installed automatically during the main MCP Memory Service installation:
 
 ```bash
-# Install with commands (will prompt if Claude Code CLI is detected)
 python scripts/installation/install.py
 
 # Force install commands
@@ -101,14 +97,12 @@ python scripts/claude_commands_utils.py --uninstall
 
 ## Requirements
 
-- **Claude Code CLI**: Must be installed and available in PATH
 - **MCP Memory Service**: Should be installed and configured
 - **File System Access**: Write access to `~/.claude/commands/` directory
 
 ## How It Works
 
 1. **Command Files**: Each command is a markdown file with conversational instructions
-2. **Claude Code Integration**: Commands are installed to `~/.claude/commands/`
 3. **Service Connection**: Commands connect via mDNS discovery or direct HTTPS endpoints
 4. **Context Awareness**: Commands understand your current project and session context
 5. **API Integration**: Uses standard MCP Memory Service API endpoints for all operations
@@ -150,7 +144,6 @@ claude /memory-health
 ## Troubleshooting
 
 ### Commands Not Available
-- Ensure Claude Code CLI is installed: `claude --version`
 - Check if commands are installed: `ls ~/.claude/commands/memory-*.md`
 - Reinstall commands: `python scripts/claude_commands_utils.py`
 

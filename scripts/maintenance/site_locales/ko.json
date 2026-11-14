@@ -27,7 +27,6 @@
   "case_3_title": "직접 호스팅하세요",
   "case_3_text": "SQLite와 벡터 검색으로 로컬에서 시작하세요. 이 구성에는 클라우드 저장소 서비스나 유료 임베딩 API 키가 필요하지 않습니다.",
   "install_heading": "Claude Code에서 설정하기",
-  "install_intro": "Python 3.11 이상과 설치된 Claude Code 클라이언트가 필요합니다. 다른 클라이언트도 MCP로 연결할 수 있으며, 설정 방법은 영어 가이드에서 확인할 수 있습니다.",
   "step_1_title": "Memory Service 설치",
   "step_1_text": "클라이언트에서 명령어를 실행할 수 있는 Python 환경에 패키지를 설치하세요.",
   "step_2_title": "MCP 서버로 추가",

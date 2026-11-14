@@ -41,7 +41,6 @@ class TestStoreMemory:
         memory_service.storage.semantic_dedup_enabled = True
 
         result1 = await memory_service.store_memory(
-            content="Claude Code is a powerful CLI tool for software engineering.",
             tags=["test"],
             conversation_id="conv-abc"
         )
@@ -49,7 +48,6 @@ class TestStoreMemory:
 
         # Similar content, same conversation — should succeed (dedup skipped)
         result2 = await memory_service.store_memory(
-            content="The Claude Code CLI is an excellent software development tool.",
             tags=["test"],
             conversation_id="conv-abc"
         )
@@ -57,7 +55,6 @@ class TestStoreMemory:
 
         # Similar content, NO conversation_id — should be rejected by semantic dedup
         result3 = await memory_service.store_memory(
-            content="Claude Code CLI is a top-tier software engineering tool.",
             tags=["test"]
         )
         assert not result3["success"]

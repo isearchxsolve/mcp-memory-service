@@ -344,7 +344,6 @@ Thank you!
 - `storage` - Storage backend (sqlite/cloudflare/hybrid)
 - `mcp` - MCP protocol, tools, server
 - `http-api` - HTTP server, REST API, dashboard
-- `hooks` - Claude Code hooks, integrations
 - `docs` - Documentation files
 - `testing` - Test infrastructure
 

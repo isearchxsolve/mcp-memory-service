@@ -1,4 +1,3 @@
-# Natural Memory Triggers for Claude Code
 
 🧠 **Intelligent mid-conversation memory awareness with performance optimization**
 
@@ -31,7 +30,6 @@ The Natural Memory Triggers system provides seamless, intelligent memory awarene
 
 ### Installation
 
-The system is integrated into the existing Claude Code hooks. No additional installation required.
 
 ### Basic Usage
 
@@ -326,7 +324,6 @@ node claude-hooks/memory-mode-controller.js status
 node claude-hooks/test-natural-triggers.js
 ```
 
-## Integration with Claude Code
 
 ### Session Start Integration
 
@@ -348,7 +345,6 @@ Uses the existing dual-protocol memory service:
 ### Planned Enhancements
 
 1. **Advanced Semantic Analysis**: Integration with more sophisticated NLP models
-2. **Cross-Session Learning**: Remember user preferences across Claude Code sessions
 3. **Project-Specific Patterns**: Learn patterns specific to different projects
 4. **Real-time Performance Tuning**: Dynamic adjustment based on system resources
 5. **Visual Performance Dashboard**: Web-based interface for monitoring and configuration
@@ -359,7 +355,6 @@ The natural triggers system is designed to be extensible:
 
 1. **Custom Pattern Categories**: Add new pattern types in `AdaptivePatternDetector`
 2. **Performance Profiles**: Define custom profiles in the configuration
-3. **Integration Points**: Hook into additional Claude Code events
 4. **Learning Algorithms**: Enhance the adaptive learning mechanisms
 
 ## License

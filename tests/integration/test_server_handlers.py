@@ -123,7 +123,6 @@ class TestHandleStoreMemory:
         await server._ensure_storage_initialized()
         monkeypatch.setattr(server.storage, "semantic_dedup_enabled", True)
 
-        content1 = unique_content("Claude Code is a powerful CLI tool for software engineering.")
         result1 = await server.handle_store_memory({
             "content": content1,
             "conversation_id": "test-conv-001",
@@ -131,7 +130,6 @@ class TestHandleStoreMemory:
         })
         assert "successfully" in result1[0].text.lower()
 
-        content2 = unique_content("The Claude Code CLI is an excellent software development tool.")
         result2 = await server.handle_store_memory({
             "content": content2,
             "conversation_id": "test-conv-001",

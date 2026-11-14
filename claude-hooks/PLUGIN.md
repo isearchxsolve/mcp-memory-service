@@ -1,6 +1,4 @@
-# Claude Code Plugin Installation
 
-This directory can be installed as a Claude Code plugin via the GitHub
 marketplace. Two setup paths exist: the plugin (recommended for new users)
 and the legacy Python installer (`install_hooks.py`). Both work; they should
 not be active simultaneously.
@@ -12,7 +10,6 @@ not be active simultaneously.
 /plugin install mcp-memory-service
 ```
 
-Claude Code registers the MCP server (`.mcp.json`) and the hook wiring
 (`.claude-plugin/hooks.json`) automatically. Updates come via `git pull`
 on the marketplace entry.
 

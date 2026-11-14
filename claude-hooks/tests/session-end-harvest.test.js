@@ -261,16 +261,16 @@ async function main() {
             // Case A: context.apiKey wins
             process.env.MCP_API_KEY = 'env-key';
             let hook = withConfig(freshHook(), {
-                sessionHarvest: { enabled: true, endpoint: url, minSessionMessages: 5, apiKey: 'config-key' }
+                sessionHarvest: { enabled: true, endpoint: url, minSessionMessages: 5, apiKey : "dummy_placeholder_secret" }
             });
             const ctxA = buildContext({ numMessages: 12 });
-            ctxA.apiKey = 'context-key';
+            ctxA.apiKey = "dummy_placeholder_secret";
             await hook(ctxA);
             assert.strictEqual(requests[0].headers['authorization'], 'Bearer context-key');
 
             // Case B: config wins when no context.apiKey
             hook = withConfig(freshHook(), {
-                sessionHarvest: { enabled: true, endpoint: url, minSessionMessages: 5, apiKey: 'config-key' }
+                sessionHarvest: { enabled: true, endpoint: url, minSessionMessages: 5, apiKey : "dummy_placeholder_secret" }
             });
             await hook(buildContext({ numMessages: 12 }));
             assert.strictEqual(requests[1].headers['authorization'], 'Bearer config-key');

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo "🚀 Deploying Dual MCP Services with mDNS..."
-echo "   - FastMCP Server (port 8000) for Claude Code MCP clients"
 echo "   - HTTP Dashboard (port 8080) for web interface"
 echo "   - mDNS enabled for both services"
 echo ""
@@ -61,7 +60,6 @@ echo ""
 echo "✅ Dual service deployment complete!"
 echo ""
 echo "🔗 Available Services:"
-echo "   - FastMCP Protocol: http://memory.local:8000/mcp (for Claude Code)"
 echo "   - HTTP Dashboard:   http://memory.local:8080/ (for web access)"
 echo "   - API Endpoints:    http://memory.local:8080/api/* (for curl/scripts)"
 echo ""

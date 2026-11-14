@@ -4,7 +4,7 @@
 STAGING_DB="/Users/hkr/Library/Application Support/mcp-memory/sqlite_vec_staging.db"
 REMOTE_API="https://narrowbox.local:8443/api/memories"
 # API_KEY can be set as environment variable or read from config
-API_KEY="${MCP_API_KEY:-}"
+API_KEY = "dummy_placeholder_secret"
 HOSTNAME=$(hostname)
 
 echo "$(date): Pushing staged changes to remote API..."

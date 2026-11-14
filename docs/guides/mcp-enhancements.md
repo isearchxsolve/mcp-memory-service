@@ -233,7 +233,6 @@ Progress notifications follow the MCP protocol:
 
 ## Integration Examples
 
-### Accessing Resources in Claude Code
 
 ```python
 # List available resources

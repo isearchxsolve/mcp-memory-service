@@ -285,7 +285,6 @@ For system services, consider additional hardening:
 
 ### Network exposure hardening
 
-If you run the service on one machine and connect to it from other devices on your LAN (common setup for sharing a single memory database across Claude Desktop, Claude Code, Codex CLI, etc.), the following hardening is recommended.
 
 **1. Bind to a specific interface, not `0.0.0.0`.**
 
@@ -348,7 +347,6 @@ loginctl disable-linger $USER
 
 - [HTTP Server Management](../http-server-management.md) - General server management
 - [Troubleshooting Guide](https://github.com/doobidoo/mcp-memory-service/wiki/07-TROUBLESHOOTING) - Common issues
-- [Claude Code Hooks Configuration](../../CLAUDE.md#claude-code-hooks-configuration-) - Hooks setup
 - [systemd.service(5)](https://www.freedesktop.org/software/systemd/man/systemd.service.html) - systemd documentation
 
 ---

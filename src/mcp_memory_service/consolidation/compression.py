@@ -27,7 +27,6 @@ from ..compat import _sanitize_log_value
 from ..models.memory import Memory
 
 # Tags on memories the service or its hooks write without the user: discovered
-# associations and auto-captured session summaries (Claude Code and opencode
 # hooks). Earlier compression output is matched by COMPRESSION_OUTPUT_TAGS.
 SELF_GENERATED_TAGS = frozenset({'association', 'session-consolidation', 'session-summary'})
 

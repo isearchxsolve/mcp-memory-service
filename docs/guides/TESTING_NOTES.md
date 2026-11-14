@@ -3,7 +3,6 @@
 ## Test Environment
 
 - **OS**: Linux (Proxmox LXC container)
-- **Claude Code CLI**: 2.1.3
 - **Python**: 3.11
 - **Node.js**: v24.3.0
 
@@ -33,8 +32,6 @@ $ python3 install_hooks.py --natural-triggers
  MCP Configuration Detection
 ============================================================
 
-[INFO] Detecting existing Claude Code MCP configuration...
-[INFO] No existing memory server found in Claude Code MCP configuration
 [INFO] No existing MCP configuration found - using independent setup
 
 ============================================================
@@ -57,7 +54,6 @@ $ python3 install_hooks.py --natural-triggers
  MCP Configuration Detection
 ============================================================
 
-[INFO] Detecting existing Claude Code MCP configuration...
 [SUCCESS] Found existing memory server 'memory-service': http://mcp-memory:8000/mcp
 [SUCCESS] Status: ✓ Connected
 [SUCCESS] Type: http
@@ -75,7 +71,6 @@ $ python3 install_hooks.py --natural-triggers
 [SUCCESS] Found existing memory server 'memory-service': http://mcp-memory:8000/mcp
 [SUCCESS] Status: ✓ Connected
 [SUCCESS] Type: http
-[SUCCESS] Claude Code environment detected (MCP server active)
 ```
 
 **Result**: ✅ PASSED - Correctly detected HTTP memory server with custom name

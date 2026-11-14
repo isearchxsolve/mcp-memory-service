@@ -863,7 +863,6 @@ Examples:
     ),
     ToolDef(
         name="memory_harvest",
-        description="""Extract learnings from Claude Code session transcripts.
 
 USE THIS WHEN:
 - End of session — auto-capture decisions, bugs, conventions, learnings
@@ -937,7 +936,6 @@ Examples:
                 },
                 "project_path": {
                     "type": "string",
-                    "description": "Override Claude Code project directory path",
                 },
                 "use_llm": {
                     "type": "boolean",

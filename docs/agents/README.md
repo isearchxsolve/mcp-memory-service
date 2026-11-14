@@ -72,7 +72,6 @@ messages = [hit["memory"] for hit in response.json()["results"]]
 
 Polling by hand is what everyone starts with, and it decays: nothing remembers
 what was already read, so either messages get read twice or the poll stops
-happening. `claude-hooks` (Claude Code) and the OpenCode plugin ship an opt-in
 **inbox** that does the poll for you — on session start, and on prompts at most
 every `checkIntervalMinutes` — and puts the new messages into the agent's
 context. It is off by default; the keys are identical in both clients:
@@ -97,7 +96,6 @@ context. It is off by default; the keys are identical in both clients:
   message that reached the server *after* a check while carrying an older
   `created_at`, which is the normal case when a node syncs to a hub. The check
   time itself only throttles; it never decides what to deliver.
-- The last-seen marker lives in `~/.claude/hooks/inbox-state.json` (Claude Code)
   and a sibling state file for OpenCode. It only advances after a query has
   succeeded, so a server outage never skips messages. The first run looks back
   24 hours.

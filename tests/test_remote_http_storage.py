@@ -219,7 +219,7 @@ def http_storage():
     from mcp_memory_service.storage.remote_http import RemoteHTTPStorage
     return RemoteHTTPStorage(
         base_url="https://api.example.com",
-        api_key="test-key-123",
+        api_key = "dummy_placeholder_secret",
         timeout=15.0
     )
 
@@ -239,7 +239,7 @@ class TestRemoteHTTPStorageConstruction:
         """Test constructor with API key."""
         storage = RemoteHTTPStorage(
             base_url="https://api.example.com", 
-            api_key="secret-key"
+            api_key = "dummy_placeholder_secret"
         )
         assert storage.base_url == "https://api.example.com"
         assert storage.api_key == "secret-key"
@@ -612,7 +612,7 @@ class TestRemoteHTTPStorageErrorHandling:
         storage = RemoteHTTPStorage(
             base_url="https://api.example.com",
             auth_style='x-api-key',
-            api_key='test-key',
+            api_key = "dummy_placeholder_secret",
             basic_user='testuser', 
             basic_pass='secret-password-123'
         )
@@ -865,7 +865,7 @@ class TestRemoteHTTPStorageR9bAuthentication:
         # This should fail with TypeError: unexpected keyword argument 'auth_style'
         storage = RemoteHTTPStorage(
             base_url="https://api.example.com",
-            api_key="test-key",
+            api_key = "dummy_placeholder_secret",
             auth_style='bearer'  # NEW parameter, should cause TypeError
         )
         
@@ -880,7 +880,7 @@ class TestRemoteHTTPStorageR9bAuthentication:
         """
         storage = RemoteHTTPStorage(
             base_url="https://api.example.com", 
-            api_key="test-key",
+            api_key = "dummy_placeholder_secret",
             auth_style='x-api-key'  # Should cause TypeError
         )
         
@@ -910,7 +910,7 @@ class TestRemoteHTTPStorageR9bAuthentication:
         with pytest.raises(ValueError, match="Bearer auth and Basic auth cannot be used together"):
             RemoteHTTPStorage(
                 base_url="https://api.example.com",
-                api_key="test-key",
+                api_key = "dummy_placeholder_secret",
                 auth_style='bearer',  # Conflicts with basic auth
                 basic_user="testuser",
                 basic_pass="testpass"
@@ -923,7 +923,7 @@ class TestRemoteHTTPStorageR9bAuthentication:
         """
         storage = RemoteHTTPStorage(
             base_url="https://api.example.com",
-            api_key="test-key",
+            api_key = "dummy_placeholder_secret",
             auth_style='x-api-key',  # Valid with basic auth
             basic_user="testuser",
             basic_pass="testpass"
@@ -940,7 +940,7 @@ class TestRemoteHTTPStorageR9bAuthentication:
         with pytest.raises(ValueError, match="auth_style must be 'bearer' or 'x-api-key'"):
             RemoteHTTPStorage(
                 base_url="https://api.example.com",
-                api_key="test-key",
+                api_key = "dummy_placeholder_secret",
                 auth_style='invalid-style'  # Should cause ValueError
             )
     
@@ -951,7 +951,7 @@ class TestRemoteHTTPStorageR9bAuthentication:
         """
         storage = RemoteHTTPStorage(
             base_url="https://api.example.com",
-            api_key="test-secret",
+            api_key = "dummy_placeholder_secret",
             auth_style='bearer'
         )
         
@@ -967,7 +967,7 @@ class TestRemoteHTTPStorageR9bAuthentication:
         """
         storage = RemoteHTTPStorage(
             base_url="https://api.example.com",
-            api_key="test-secret", 
+            api_key = "dummy_placeholder_secret", 
             auth_style='x-api-key'
         )
         
@@ -1001,7 +1001,7 @@ class TestRemoteHTTPStorageR9bAuthentication:
         """
         storage = RemoteHTTPStorage(
             base_url="https://api.example.com",
-            api_key="test-secret",
+            api_key = "dummy_placeholder_secret",
             auth_style='x-api-key',
             basic_user="testuser", 
             basic_pass="testpass"
@@ -1022,7 +1022,7 @@ class TestRemoteHTTPStorageR9bAuthentication:
         # This should work exactly like before (existing 34 tests depend on this)
         storage = RemoteHTTPStorage(
             base_url="https://api.example.com",
-            api_key="test-key"
+            api_key = "dummy_placeholder_secret"
             # No auth_style specified - should default to 'bearer'
         )
         
@@ -1185,7 +1185,7 @@ class TestRemoteHTTPStorageR9bConfigValidation:
         with pytest.raises((ValueError, TypeError)):
             RemoteHTTPStorage(
                 base_url="https://api.example.com",
-                api_key="test-key", 
+                api_key = "dummy_placeholder_secret", 
                 auth_style='BEARER'  # Wrong case - should fail
             )
         
@@ -1193,7 +1193,7 @@ class TestRemoteHTTPStorageR9bConfigValidation:
         with pytest.raises((ValueError, TypeError)):
             RemoteHTTPStorage(
                 base_url="https://api.example.com",
-                api_key="test-key",
+                api_key = "dummy_placeholder_secret",
                 auth_style='X-API-Key'  # Wrong case - should fail  
             )
 

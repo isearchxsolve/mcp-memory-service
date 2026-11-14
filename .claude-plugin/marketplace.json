@@ -5,7 +5,6 @@
     {
       "name": "mcp-memory-service",
       "source": "./claude-hooks",
-      "description": "Semantic memory for Claude Code sessions"
     }
   ]
 }

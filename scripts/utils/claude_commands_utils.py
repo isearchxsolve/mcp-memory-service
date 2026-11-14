@@ -14,7 +14,6 @@
 # limitations under the License.
 
 """
-Utilities for installing and managing Claude Code commands for MCP Memory Service.
 """
 
 import os
@@ -48,7 +47,6 @@ def print_warning(text: str) -> None:
 
 def check_claude_code_cli() -> Tuple[bool, Optional[str]]:
     """
-    Check if Claude Code CLI is installed and available.
     
     Returns:
         Tuple of (is_available, version_or_error)
@@ -78,7 +76,6 @@ def check_claude_code_cli() -> Tuple[bool, Optional[str]]:
 
 def get_claude_commands_directory() -> Path:
     """
-    Get the Claude Code commands directory path.
     
     Returns:
         Path to ~/.claude/commands/
@@ -88,7 +85,6 @@ def get_claude_commands_directory() -> Path:
 
 def get_claude_hooks_directory() -> Path:
     """
-    Get the Claude Code hooks directory path.
     
     Returns:
         Path to ~/.claude/hooks/
@@ -381,7 +377,6 @@ def install_command_files() -> Tuple[bool, List[str]]:
             print_info(f"Installed: {md_file.name}")
         
         if installed_files:
-            print_success(f"Successfully installed {len(installed_files)} Claude Code commands")
             return True, installed_files
         else:
             print_warning("No command files found to install")
@@ -418,7 +413,6 @@ def verify_mcp_service_connectivity() -> Tuple[bool, str]:
 
 def test_command_functionality() -> Tuple[bool, List[str]]:
     """
-    Test that installed commands are accessible via Claude Code CLI.
     
     Returns:
         Tuple of (all_tests_passed, list_of_test_results)
@@ -453,9 +447,7 @@ def test_command_functionality() -> Tuple[bool, List[str]]:
                 timeout=10
             )
             if result.returncode == 0:
-                test_results.append("✓ Claude Code CLI is responsive")
             else:
-                test_results.append("✗ Claude Code CLI returned error")
                 all_passed = False
         except Exception as e:
             test_results.append(f"✗ Error testing Claude CLI: {str(e)}")
@@ -466,7 +458,6 @@ def test_command_functionality() -> Tuple[bool, List[str]]:
 
 def uninstall_commands() -> Tuple[bool, List[str]]:
     """
-    Uninstall MCP Memory Service commands from Claude Code.
     
     Returns:
         Tuple of (success, list_of_removed_files)
@@ -498,7 +489,6 @@ def uninstall_commands() -> Tuple[bool, List[str]]:
 
 def install_claude_commands(verbose: bool = True) -> bool:
     """
-    Main function to install Claude Code commands for MCP Memory Service.
     
     Args:
         verbose: Whether to print detailed progress information
@@ -507,12 +497,10 @@ def install_claude_commands(verbose: bool = True) -> bool:
         True if installation was successful, False otherwise
     """
     if verbose:
-        print_info("Installing Claude Code commands for MCP Memory Service...")
     
     # Check for legacy paths and provide migration guidance
     legacy_found, legacy_issues = check_for_legacy_claude_paths()
     if legacy_found:
-        print_warning("Legacy Claude Code directory structure detected:")
         for issue in legacy_issues:
             print_info(issue)
         print_info("")
@@ -525,15 +513,11 @@ def install_claude_commands(verbose: bool = True) -> bool:
             print_info(issue)
         print_info("")
     
-    # Check Claude Code CLI availability
     claude_available, claude_status = check_claude_code_cli()
     if not claude_available:
-        print_error(f"Claude Code CLI not available: {claude_status}")
-        print_info("Please install Claude Code CLI first: https://claude.ai/code")
         return False
     
     if verbose:
-        print_success(f"Claude Code CLI detected: {claude_status}")
     
     # Check commands directory access
     can_access, access_status = check_commands_directory_access()
@@ -595,7 +579,6 @@ if __name__ == "__main__":
     # Allow running this script directly for testing
     import argparse
     
-    parser = argparse.ArgumentParser(description="Install Claude Code commands for MCP Memory Service")
     parser.add_argument('--test', action='store_true', help='Test installation without installing')
     parser.add_argument('--uninstall', action='store_true', help='Uninstall commands')
     parser.add_argument('--validate', action='store_true', help='Validate Claude configuration paths')
@@ -611,7 +594,6 @@ if __name__ == "__main__":
             sys.exit(1)
     elif args.validate:
         # Path validation mode
-        print("Claude Code Configuration Validation")
         print("=" * 40)
         
         # Check for legacy paths
@@ -641,13 +623,11 @@ if __name__ == "__main__":
         access_ok, access_msg = check_commands_directory_access()
         mcp_ok, mcp_msg = verify_mcp_service_connectivity()
         
-        print("Claude Code commands installation test:")
         print(f"  Claude CLI: {'✓' if claude_ok else '✗'} {claude_msg}")
         print(f"  Directory access: {'✓' if access_ok else '✗'} {access_msg}")
         print(f"  MCP service: {'✓' if mcp_ok else '⚠'} {mcp_msg}")
         
         if claude_ok and access_ok:
-            print("✓ Ready to install Claude Code commands")
             sys.exit(0)
         else:
             print("✗ Prerequisites not met")

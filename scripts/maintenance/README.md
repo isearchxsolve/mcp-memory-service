@@ -204,7 +204,6 @@ Edit `consolidation_mappings.json` to customize behavior:
 # 1. Stop HTTP server
 systemctl --user stop mcp-memory-http.service
 
-# 2. Disconnect MCP clients (Claude Code: /mcp command)
 
 # 3. Verify disk space (need 2x database size)
 df -h ~/.local/share/mcp-memory/
@@ -600,7 +599,6 @@ Space reclaimed:      ~2.5 MB
 # Stop HTTP server
 systemctl --user stop mcp-memory-http.service
 
-# Disconnect MCP server in Claude Code
 # Type: /mcp
 
 # Run maintenance script

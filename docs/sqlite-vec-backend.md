@@ -358,7 +358,6 @@ pkill -f "mcp-memory-service"
 # Restart Claude Desktop
 ```
 
-**For Multi-Client Setup (Claude Desktop + Claude Code + HTTP Server):**
 ```bash
 # v8.9.0+ Solution: Configure recommended pragma values
 export MCP_MEMORY_SQLITE_PRAGMAS="busy_timeout=15000,cache_size=20000"
@@ -459,7 +458,6 @@ See [guides/STORAGE_BACKENDS.md](guides/STORAGE_BACKENDS.md) for the full compar
 
 ✅ **Use SQLite-vec when:**
 - Single-user or development setup
-- Multi-client access on the same machine (Claude Desktop + Claude Code)
 - Offline / air-gapped environments
 - Portability and backup simplicity are important
 - Limited system resources

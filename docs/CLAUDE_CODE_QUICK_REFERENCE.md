@@ -1,6 +1,4 @@
-# Claude Code Quick Reference for MCP Memory Service
 
-**One-page cheat sheet for efficient development with Claude Code**
 
 ---
 
@@ -242,7 +240,6 @@ pytest tests/ -v
 pytest tests/ --cov=src/mcp_memory_service --cov-report=term
 ```
 
-### Git Workflow with Claude Code
 
 ```bash
 # Let Claude help with commits

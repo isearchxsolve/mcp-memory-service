@@ -1,10 +1,8 @@
-# Universal Permission Request Hook for Claude Code
 
 Automatically manages MCP tool permission requests, reducing repetitive dialogs by intelligently auto-approving safe, read-only operations while blocking potentially destructive actions.
 
 ## Overview
 
-This hook intercepts Claude Code permission requests and makes intelligent decisions based on tool naming patterns:
 
 - **Auto-approves** read-only operations (get, list, retrieve, search, etc.)
 - **Blocks** potentially destructive actions (delete, remove, update, execute, etc.)
@@ -55,16 +53,13 @@ python install_hooks.py  # Installs all hooks including permission-request
 ### Manual Installation
 
 ```bash
-# Copy hook to Claude Code directory
 cp claude-hooks/core/permission-request.js ~/.claude/hooks/core/
 
 # Make executable (Unix/macOS)
 chmod +x ~/.claude/hooks/core/permission-request.js
 
-# Update Claude Code settings (automatic if using installer)
 ```
 
-The hook will be automatically configured in your Claude Code settings by the installer.
 
 ## How It Works
 
@@ -266,7 +261,6 @@ Add new safe patterns as you identify trustworthy operations in your workflow.
 
 ## Related Documentation
 
-- [Main Hooks README](README.md) - Overview of all Claude Code hooks
 - [CONFIGURATION.md](CONFIGURATION.md) - Detailed configuration guide
 - [MCP Tool Annotations](https://modelcontextprotocol.io/specification/latest/schema#toolannotations) - Upstream MCP documentation
 

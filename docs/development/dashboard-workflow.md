@@ -22,7 +22,6 @@ systemctl --user restart mcp-memory-http.service
 # Ctrl+Shift+R (Linux/Windows) or Cmd+Shift+R (macOS)
 ```
 
-### 2. Automated Hooks (Claude Code) ✅
 
 To eliminate manual restarts, configure automation hooks in `.claude/settings.local.json`:
 

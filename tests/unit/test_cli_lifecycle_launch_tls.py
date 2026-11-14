@@ -92,7 +92,7 @@ def certpair(tmp_path):
     cert = tmp_path / "cert.pem"
     key = tmp_path / "key.pem"
     cert.write_text("-----BEGIN CERTIFICATE-----\n")
-    key.write_text("-----BEGIN PRIVATE KEY-----\n")
+    key.write_text("-----BEGIN DUMMY PRIVATE KEY-----\n")
     return cert, key
 
 

@@ -9,7 +9,6 @@ REPO_ROOT="$(cd "$PLUGIN_ROOT/.." && pwd)"
 fail() { echo "FAIL: $1" >&2; exit 1; }
 ok() { echo "OK: $1"; }
 
-# 1-4. All four manifests parse AND match Claude Code plugin schema.
 # Guards against spec-drift bugs like v10.39.0's string "author" field
 # (valid JSON, invalid spec) that JSON.parse alone won't catch.
 node "$PLUGIN_ROOT/scripts/validate-plugin-schema.js" || fail "plugin schema validation failed"

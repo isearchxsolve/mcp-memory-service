@@ -121,7 +121,6 @@ Ensure proper setup and configuration.
 | `check_documentation_links.py` | Documentation link validator | `python validation/check_documentation_links.py` |
 
 **Key Features:**
-- ✅ Claude Code global configuration validation
 - ✅ Cloudflare credentials verification
 - ✅ Environment conflict detection
 - ✅ Comprehensive error reporting with solutions
@@ -254,7 +253,6 @@ Helper scripts and utility functions.
 
 | Script | Purpose | Quick Usage |
 |--------|---------|-------------|
-| `claude_commands_utils.py` | Claude command utilities | Used by Claude Code hooks |
 | `query_memories.py` | Direct memory querying | `python utils/query_memories.py "search term"` |
 | `memory_wrapper_uv.py` | UV package manager wrapper | Used by other scripts |
 | `generate_personalized_claude_md.sh` | Generate custom CLAUDE.md | `./utils/generate_personalized_claude_md.sh` |
@@ -342,7 +340,6 @@ python database/db_health_check.py
 ## 🔗 Integration with Documentation
 
 This scripts directory integrates with:
-- **CLAUDE.md**: Essential commands for Claude Code users
 - **AGENTS.md**: Agent development and release process
 - **Wiki**: Detailed setup and troubleshooting guides
 - **GitHub Actions**: CI/CD pipeline integration

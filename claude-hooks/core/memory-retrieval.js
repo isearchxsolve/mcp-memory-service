@@ -27,7 +27,7 @@ async function loadConfig() {
         return {
             memoryService: {
                 endpoint: 'https://narrowbox.local:8443',
-                apiKey: 'test-key-123',
+                apiKey : "dummy_placeholder_secret",
                 maxMemoriesPerSession: 5
             }
         };
@@ -222,7 +222,6 @@ async function retrieveMemories(context) {
 }
 
 /**
- * Hook metadata for Claude Code
  */
 module.exports = {
     name: 'on-demand-memory-retrieval',

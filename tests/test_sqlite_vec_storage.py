@@ -1959,8 +1959,6 @@ class TestSemanticDeduplication:
         """Test that semantically similar memories are rejected within 24 hours."""
         # Store original memory
         original = Memory(
-            content="Claude Code is a powerful CLI tool for software engineering.",
-            content_hash=generate_content_hash("Claude Code is a powerful CLI tool for software engineering."),
             tags=["claude-code", "tool"],
             memory_type="note"
         )
@@ -1969,8 +1967,6 @@ class TestSemanticDeduplication:
 
         # Try to store semantically similar memory (reformulation)
         similar = Memory(
-            content="The Claude Code CLI is an excellent software development tool.",
-            content_hash=generate_content_hash("The Claude Code CLI is an excellent software development tool."),
             tags=["claude-code", "cli"],
             memory_type="note"
         )
@@ -1979,7 +1975,6 @@ class TestSemanticDeduplication:
         assert "semantically similar" in msg2.lower(), f"Expected semantic duplicate message, got: {msg2}"
 
         # Verify original is still retrievable
-        results = await storage.retrieve("Claude Code", n_results=5)
         assert len(results) == 1, "Should only have original memory"
         assert results[0].memory.content == original.content
 
@@ -2066,10 +2061,7 @@ class TestSemanticDeduplication:
     @pytest.mark.asyncio
     async def test_semantic_duplicate_different_content(self, storage):
         """Test that genuinely different content is not flagged as duplicate."""
-        # Store memory about Claude Code
         memory1 = Memory(
-            content="Claude Code is a powerful CLI tool for software engineering.",
-            content_hash=generate_content_hash("Claude Code is a powerful CLI tool for software engineering."),
             tags=["claude-code"],
             memory_type="note"
         )
@@ -2159,8 +2151,6 @@ class TestSemanticDeduplication:
     async def test_skip_semantic_dedup_allows_similar_content(self, storage):
         """When skip_semantic_dedup=True, semantically similar content is stored."""
         original = Memory(
-            content="Claude Code is a powerful CLI tool for software engineering.",
-            content_hash=generate_content_hash("Claude Code is a powerful CLI tool for software engineering."),
             tags=["claude-code"],
             memory_type="note"
         )
@@ -2168,8 +2158,6 @@ class TestSemanticDeduplication:
         assert success1
 
         similar = Memory(
-            content="The Claude Code CLI is an excellent software development tool.",
-            content_hash=generate_content_hash("The Claude Code CLI is an excellent software development tool."),
             tags=["claude-code"],
             memory_type="note"
         )

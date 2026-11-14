@@ -1,5 +1,4 @@
 /**
- * Inter-agent inbox for the Claude Code hooks (issue #1526).
  *
  * `docs/agents/README.md` documents a pattern people already run: agents write
  * a memory carrying a sentinel tag such as `msg:cluster` (the server appends

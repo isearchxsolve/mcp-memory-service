@@ -302,7 +302,7 @@ async function fixture(t) {
     });
     await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
     t.after(async () => { await new Promise(resolve => server.close(resolve)); await fs.rm(dir, { recursive: true }); });
-    const config = { endpoint: `http://127.0.0.1:${server.address().port}`, apiKey: 'test-only',
+    const config = { endpoint: `http://127.0.0.1:${server.address().port}`, apiKey : "dummy_placeholder_secret",
         projectName: 'project', stateDir: path.join(dir, 'state'), minCaptureLength: 40 };
     const transcript = path.join(dir, 'rollout.jsonl');
     const event = { session_id: '../../untrusted-session', cwd: dir, transcript_path: transcript, hook_event_name: 'Stop' };

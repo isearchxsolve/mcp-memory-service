@@ -39,7 +39,7 @@ const testConfigs = {
 const baseConfig = {
     http: {
         endpoint: 'https://localhost:8443',
-        apiKey: 'test-key-123',
+        apiKey : "dummy_placeholder_secret",
         healthCheckTimeout: 2000,
         useDetailedHealthCheck: true
     },

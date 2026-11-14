@@ -2,7 +2,6 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add a `memory_harvest` MCP tool that extracts decisions, bugs, conventions, and learnings from Claude Code JSONL session transcripts and stores them as tagged memories.
 
 **Architecture:** New `harvest/` module with JSONL parser, pattern-based extractor, and candidate scorer. Integrates as a new MCP tool in `server_impl.py`, stores via existing `MemoryService.store_memory()`. Phase 1 uses regex patterns only (no LLM calls).
 
@@ -29,7 +28,6 @@
 
 ## JSONL Format Reference
 
-Claude Code stores session transcripts at `~/.claude/projects/<project-path>/<session-id>.jsonl`.
 
 Each line is a JSON object with `type` field:
 - `user` — `message.content` is list of `{type: "text", text: "..."}` blocks
@@ -97,7 +95,6 @@ Expected: FAIL — ModuleNotFoundError
 
 ```python
 # src/mcp_memory_service/harvest/__init__.py
-"""Session Harvest — extract learnings from Claude Code transcripts."""
 
 from .models import HarvestCandidate, HarvestResult, HarvestConfig
 
@@ -257,7 +254,6 @@ Expected: FAIL — ImportError
 
 ```python
 # src/mcp_memory_service/harvest/parser.py
-"""JSONL transcript parser for Claude Code session files."""
 
 import json
 import logging
@@ -276,7 +272,6 @@ class ParsedMessage:
     uuid: Optional[str] = None
 
 class TranscriptParser:
-    """Parses Claude Code JSONL session transcripts."""
 
     RELEVANT_TYPES = {"user", "assistant"}
 
@@ -848,7 +843,6 @@ Add to `server_impl.py` after the `ingestion_tools` block (~line 1770), inside t
 # Add after ingestion_tools list, before the return
 types.Tool(
     name="memory_harvest",
-    description="""Extract learnings from Claude Code session transcripts.
 
 USE THIS WHEN:
 - End of session — auto-capture decisions, bugs, conventions, learnings
@@ -902,7 +896,6 @@ Examples:
             },
             "project_path": {
                 "type": "string",
-                "description": "Override Claude Code project directory path"
             }
         }
     }
@@ -1098,7 +1091,6 @@ Expected: ALL PASS
 
 ```python
 # src/mcp_memory_service/harvest/__init__.py
-"""Session Harvest — extract learnings from Claude Code transcripts."""
 
 from .models import HarvestCandidate, HarvestResult, HarvestConfig
 from .parser import TranscriptParser, ParsedMessage

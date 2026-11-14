@@ -182,7 +182,6 @@ async def test_oauth_endpoints(base_url: str = "http://localhost:8000") -> bool:
 
             print("\n" + "=" * 50)
             print("🎉 All OAuth 2.1 tests passed!")
-            print("✅ Ready for Claude Code HTTP transport integration")
             print("✅ API endpoints properly protected with OAuth authentication")
             return True
 

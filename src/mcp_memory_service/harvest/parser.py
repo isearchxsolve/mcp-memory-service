@@ -1,4 +1,3 @@
-"""JSONL transcript parser for Claude Code and Kiro CLI session files."""
 
 import copy
 import json
@@ -24,11 +23,9 @@ class ParsedMessage:
 
 
 class TranscriptParser:
-    """Parses JSONL session transcripts (Claude Code, Kiro CLI, and OpenClaw).
 
     Format is detected from the first message in the file:
     - If "traceSchema" is "openclaw-trajectory" → OpenClaw gateway format
-    - If "type" key exists → Claude Code format
     - If "kind" key exists → Kiro CLI format (legacy)
     - If "payload" with "type" exists → Kiro CLI v4 format (payload-wrapped)
     - Unknown → warning logged, returns empty
@@ -193,7 +190,6 @@ class TranscriptParser:
     def parse_file(self, filepath: Path) -> List[ParsedMessage]:
         """Parse a JSONL file and extract user/assistant text messages.
 
-        Auto-detects format (Claude Code vs Kiro CLI) from first message.
         """
         filepath = Path(filepath)
         messages: List[ParsedMessage] = []
@@ -360,7 +356,6 @@ class TranscriptParser:
         return results
 
     def _parse_claude_line(self, obj: dict) -> List[ParsedMessage]:
-        """Parse a single Claude Code JSONL line."""
         msg_type = obj.get("type")
         if msg_type not in self.RELEVANT_TYPES:
             return []

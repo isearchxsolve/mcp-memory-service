@@ -166,7 +166,6 @@ export MCP_SYNC_PEER_API_KEY="<the hub's MCP_API_KEY>"
 **`MCP_SYNC_PEER_API_KEY` is deliberately not `MCP_API_KEY`.** `MCP_API_KEY` on a process is
 the key *this* server demands from its own callers; setting it on a client would turn on
 authentication for that client's own `/mcp` endpoint and break its local Claude Desktop /
-Claude Code connection. The peer key names the hub's key without touching the client's own
 auth (`consolidation/scheduler.py`, `_resolve_sync_peers`).
 
 `MCP_SYNC_SCHEDULE` unset or `disabled` means no job; it is opt-in on purpose
@@ -176,7 +175,6 @@ is pulled from, never pulls.
 **The job only exists in a process that starts the scheduler — on a client, that is the HTTP
 server.** The HTTP server (`memory launch`, `run_http_server.py`) starts the scheduler as soon
 as `MCP_SYNC_SCHEDULE` is set, even with consolidation off (`web/app.py`, lifespan). The stdio
-`memory server` that Claude Desktop / Claude Code spawn starts it only when
 `MCP_CONSOLIDATION_ENABLED=true` and at least one consolidation cadence is not `disabled`
 (`server_impl.py`, `_initialize_consolidation`); with consolidation off, the stdio process
 never creates the job and the settings above do nothing. So a client that only runs the stdio

@@ -2,11 +2,8 @@
 
 ## ✅ RESOLVED (December 2024)
 
-> **This bug has been fixed in Claude Code 2.0.76+**
 >
 > SessionStart hooks now work correctly on Windows. The subprocess lifecycle management
-> bug was fixed in Claude Code core. No workaround is needed for users running
-> Claude Code 2.0.76 or later.
 >
 > **Verified**: 2025-12-30 - SessionStart hook executed successfully on Windows 11
 
@@ -14,11 +11,8 @@
 
 ## Historical Context (Pre-Fix)
 
-**Issue**: SessionStart hooks caused Claude Code to become completely unresponsive on Windows, requiring terminal closure to recover.
 
-**Root Cause**: Windows-specific subprocess lifecycle management bug in Claude Code's initialization phase. The parent process didn't properly detect subprocess completion during synchronous initialization.
 
-**Status**: ~~UNFIXABLE at hook level~~ → **FIXED in Claude Code 2.0.76+**
 
 **GitHub Issue**: [#160](https://github.com/doobidoo/mcp-memory-service/issues/160) - CLOSED
 
@@ -31,7 +25,6 @@
 ### The Deadlock Mechanism
 
 ```
-┌─ Claude Code Initialization (Windows Only) ─────┐
 │                                                  │
 │ 1. Start initialization (synchronous)            │
 │ 2. Spawn SessionStart hook subprocess           │
@@ -52,7 +45,6 @@
 └──────────────────────────────────────────────────┘
          ↓ exit signal sent
 
-┌─ Claude Code Parent Process ────────────────────┐
 │                                                  │
 │ ❌ Still in synchronous initialization           │
 │ ❌ NOT polling subprocess status                 │
@@ -64,7 +56,6 @@
 
 ### Why Other Hooks Work
 
-**UserPromptSubmit** and **SessionEnd** hooks execute AFTER Claude Code has completed initialization and entered its event loop. At that point:
 - Parent process is actively polling subprocess status
 - Exit signals are properly detected and processed
 - Subprocess completion unblocks parent immediately
@@ -80,7 +71,6 @@
 **Windows Specific Issue**:
 - Windows doesn't have Unix-style async subprocess signals
 - Requires active polling of subprocess handles
-- Claude Code's sync initialization doesn't poll
 - Exit signals queue up but aren't processed
 
 ---
@@ -158,13 +148,11 @@ exit 0
 ## Why No Solution Works at Hook Level
 
 **The Fundamental Problem**:
-1. Claude Code spawns hook subprocess during synchronous initialization
 2. On Windows, subprocess completion requires active polling
 3. Synchronous code path doesn't poll - it blocks waiting
 4. No amount of hook-side manipulation can make parent poll
 5. Even zero-duration hooks cause infinite wait
 
-**This requires a fix in Claude Code itself:**
 - Move SessionStart to async initialization phase
 - OR add timeout + polling during sync init
 - OR skip SessionStart on Windows platform
@@ -203,7 +191,6 @@ class MidConversationHook {
 ```
 
 **Benefits**:
-- ✅ Zero Claude Code changes required
 - ✅ Works on all platforms
 - ✅ Memory context injected on first user interaction
 - ✅ Only ~100ms delay (user types prompt anyway)
@@ -215,7 +202,6 @@ class MidConversationHook {
 
 ---
 
-## Reporting to Claude Code Team
 
 **GitHub Issue**: [#160](https://github.com/doobidoo/mcp-memory-service/issues/160)
 
@@ -242,8 +228,6 @@ process.exit(0);
 }
 ```
 
-**Expected**: Claude Code becomes responsive after hook exits
-**Actual**: Claude Code hangs indefinitely, requires terminal closure
 
 **Platform**: Windows 10/11, any Node.js version
 
@@ -256,4 +240,3 @@ process.exit(0);
 - **Memory Tags**: `windows-subprocess-bug`, `sessionstart-hook`, `claude-code-bug`
 
 **Date**: 2025-10-14
-**Status**: Documented, workaround implemented, awaiting Claude Code fix

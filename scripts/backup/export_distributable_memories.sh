@@ -5,7 +5,7 @@
 
 OUTPUT_FILE="${1:-mcp_reference_memories_$(date +%Y%m%d).json}"
 MCP_ENDPOINT="https://10.0.1.30:8443/mcp"
-API_KEY="test-key-123"
+API_KEY = "dummy_placeholder_secret"
 
 echo "Exporting distributable reference memories..."
 echo "Output file: $OUTPUT_FILE"

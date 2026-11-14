@@ -1,13 +1,10 @@
 # HTTP Server Management
 
-The MCP Memory Service HTTP server is **required** for Claude Code hooks (Natural Memory Triggers) to work. This guide explains how to check and manage the HTTP server.
 
 ## Why is the HTTP Server Required?
 
-When using **Natural Memory Triggers** in Claude Code:
 - The session-start hook needs the HTTP server to retrieve relevant memories
 - Without the HTTP server, hooks fail silently and no memories are injected
-- HTTP protocol avoids conflicts with Claude Code's MCP server
 
 ## Checking Server Status
 
@@ -86,7 +83,6 @@ scripts\server\start_http_server.bat
 
 ### Hook Not Injecting Memories
 
-**Symptom:** Claude Code starts but no memories are shown
 
 **Solution:**
 1. Check if HTTP server is running:
@@ -99,7 +95,6 @@ scripts\server\start_http_server.bat
    memory launch
    ```
 
-3. Restart Claude Code to trigger session-start hook
 
 ### Wrong Port or Endpoint
 
@@ -166,7 +161,6 @@ The session-start hook automatically:
 2. Falls back to MCP if HTTP unavailable
 3. Falls back to environment-only if both fail
 
-**Recommended setup for Claude Code** (`~/.claude/hooks/config.json`):
 ```json
 {
   "memoryService": {
@@ -231,11 +225,9 @@ launchctl unload ~/Library/LaunchAgents/com.mcp.memory.http.plist
 4. Action: Start a program
 5. Program: `C:\path\to\repository\scripts\server\start_http_server.bat` (replace `C:\path\to\repository` with the full path to this repository)
 
-### Pre-Claude Code Script
 
 Add to your shell profile (`.bashrc`, `.zshrc`, etc.):
 ```bash
-# Auto-start MCP Memory HTTP server before Claude Code
 # Replace /path/to/repository with the absolute path to this project
 alias claude-code='/path/to/repository/scripts/server/start_http_server.sh && claude'
 ```
@@ -272,6 +264,5 @@ curl http://127.0.0.1:8000/api/health
 
 ## See Also
 
-- [Claude Code Hooks Configuration](../CLAUDE.md#claude-code-hooks-configuration-)
 - [Natural Memory Triggers](../CLAUDE.md#natural-memory-triggers-v710-latest)
 - [Troubleshooting Guide](https://github.com/doobidoo/mcp-memory-service/wiki/07-TROUBLESHOOTING)

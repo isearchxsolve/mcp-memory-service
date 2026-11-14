@@ -21,7 +21,7 @@ describe('HTTP-MCP Bridge', () => {
     beforeEach(() => {
         bridge = new HTTPMCPBridge();
         bridge.endpoint = 'https://memory.local:8443/api';
-        bridge.apiKey = 'test-api-key';
+        bridge.apiKey = "dummy_placeholder_secret";
     });
     
     afterEach(() => {

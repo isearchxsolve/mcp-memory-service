@@ -42,7 +42,7 @@ const minutes = (value) => value * 60 * 1000;
 function configWith(inboxOverrides = {}) {
     return {
         memoryService: {
-            http: { endpoint: 'http://127.0.0.1:8000', apiKey: 'auto-detect' }
+            http: { endpoint: 'http://127.0.0.1:8000', apiKey : "dummy_placeholder_secret" }
         },
         contextFormatting: { maxContentLength: 280 },
         inbox: {

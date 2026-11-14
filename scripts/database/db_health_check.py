@@ -423,7 +423,6 @@ async def main():
     if passed == total:
         print("\n🎉 Database Health Check: PASSED")
         print("   SQLite-vec backend is fully functional and ready for production use!")
-        print("\n🚀 Ready for Claude Code integration:")
         print("   - Start server: python -m mcp_memory_service.server")
         print("   - Database: ~/.local/share/mcp-memory/sqlite_vec.db")
         print("   - 75% memory reduction vs ChromaDB")

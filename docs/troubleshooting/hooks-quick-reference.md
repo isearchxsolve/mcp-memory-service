@@ -7,7 +7,6 @@
 **Triggers on**:
 - `/exit` command
 - Terminal/window close
-- Normal Claude Code exit
 
 **Does NOT trigger on**:
 - Ctrl+C (once or twice) - This suspends the session
@@ -101,7 +100,6 @@ Update `~/.claude/hooks/config.json` to match your server protocol:
 }
 ```
 
-Then restart your Claude Code session to pick up the configuration change.
 
 **Why This Happens**:
 - The `.env` file has `MCP_HTTPS_ENABLED=true`, making the server use HTTPS
@@ -138,18 +136,14 @@ curl -sk "https://localhost:8000/api/search" \
 
 ## Windows SessionStart Hook Issue
 
-**✅ RESOLVED** (Claude Code 2.0.76+): This bug has been fixed. SessionStart hooks now work correctly on Windows.
 
 ### Historical Issue (Pre-2.0.76)
-SessionStart hooks caused Claude Code to hang indefinitely on Windows ([#160](https://github.com/doobidoo/mcp-memory-service/issues/160) - CLOSED)
 
 **Symptoms** (no longer occur):
-- Claude Code unresponsive on startup
 - Cannot enter prompts or cancel with Ctrl+C
 - Must force-close terminal
 
 ### Solution
-Update to Claude Code 2.0.76 or later. No workaround needed.
 
 **Note**: The `/session-start` slash command remains available as a manual fallback if needed.
 
@@ -185,7 +179,6 @@ grep endpoint ~/.claude/hooks/config.json
 ### Quick Fix
 
 ```bash
-# In Claude Code, reconnect MCP
 /mcp
 
 # For HTTP server (separate)

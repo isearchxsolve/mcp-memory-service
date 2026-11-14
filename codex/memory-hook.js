@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 
-// Keep pattern classification consistent with the Claude Code integration.
 const { detectPatterns, hasUserOverride, truncateContent } = require('../claude-hooks/utilities/auto-capture-patterns');
 const fs = require('node:fs/promises');
 const path = require('node:path');

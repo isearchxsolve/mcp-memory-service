@@ -452,7 +452,6 @@ blockquote{font-family:var(--serif);font-weight:400;font-size:1.2rem;line-height
     <p class="lede">Agents on your machine talk to it over stdio, frameworks over REST, and browser chat apps over Remote MCP with OAuth 2.1.</p>
     <div class="lanes">
       <div class="lane">
-        <div class="who"><span class="mono">Terminal and IDE agents</span><strong>Claude Code, Codex CLI, Cursor, OpenCode</strong></div>
         <div class="how"><span class="mono">Local MCP</span><strong>stdio, on your machine</strong></div>
       </div>
       <div class="lane">
@@ -504,7 +503,6 @@ blockquote{font-family:var(--serif);font-weight:400;font-size:1.2rem;line-height
       </div>
       <div class="quote">
         <blockquote>
-          "Claude Code, Claude Desktop, Codex CLI and OpenCode all talk to the same sqlite-vec DB over stdio on my Mac. ~5,900 memories and counting. It's the closest thing to persistent identity my agents have."
         </blockquote>
         <span class="by">Mingjian Shao, AI PM and consultant, September 2026</span>
         <p class="what">One local sqlite-vec database shared by four agents: no server, no cloud, offline embeddings, daily backups and scheduled consolidation.</p>
@@ -588,7 +586,6 @@ blockquote{font-family:var(--serif);font-weight:400;font-size:1.2rem;line-height
       <li>
         <span class="src">LinkedIn, Dr. Álvaro Cintas</span>
         <div><a href="https://www.linkedin.com/feed/update/urn:li:activity:7508652464548802560/" target="_blank" rel="noopener">Solving session amnesia</a>
-        <p>How mcp-memory-service gives Claude Code, Cursor and OpenCode a shared memory over MCP, with on-device ONNX embeddings and no external API calls.</p></div>
       </li>
     </ul>
     <p class="cmp-note">"Your project has inspired me in many ways. In my view, it's the best implementation of MCP memory I've found so far." &mdash; Micha&#322; Zubkowicz</p>
@@ -601,7 +598,6 @@ blockquote{font-family:var(--serif);font-weight:400;font-size:1.2rem;line-height
     <p class="lede">What it stores, where the data lives, and where the limits are.</p>
     <details>
       <summary>Does it save every conversation automatically?</summary>
-      <p>No. Connecting the service over MCP gives your client tools to store and recall memories; the client has to call them. Optional hooks for Claude Code and a session import have their own setup.</p>
     </details>
     <details>
       <summary>Where is my data stored?</summary>
@@ -609,11 +605,9 @@ blockquote{font-family:var(--serif);font-weight:400;font-size:1.2rem;line-height
     </details>
     <details>
       <summary>Which clients and frameworks work with it?</summary>
-      <p>Any MCP client over stdio, such as Claude Code, Claude Desktop, Codex CLI, Cursor, OpenCode, Gemini CLI, VS Code, Windsurf and Zed. Browser chat apps such as claude.ai and ChatGPT (Developer Mode) connect over Remote MCP with OAuth 2.1. Frameworks such as LangGraph, CrewAI and AutoGen use the REST API. The <a href="https://github.com/doobidoo/mcp-memory-service/blob/main/docs/integrations.md" target="_blank" rel="noopener">integrations list</a> has the details.</p>
     </details>
     <details>
       <summary>How do I install and run it?</summary>
-      <p>Install with <code>pip install "mcp-memory-service[sqlite]"</code> on Python 3.11 or newer, then add it to your client, for example <code>claude mcp add memory -- memory server</code> for Claude Code. The same package runs the HTTP server with the REST API, the dashboard and Remote MCP. The <a href="https://github.com/doobidoo/mcp-memory-service/blob/main/docs/setup-guide.md" target="_blank" rel="noopener">setup guide</a> walks through it.</p>
     </details>
     <details>
       <summary>Is it free?</summary>

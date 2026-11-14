@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """
-Unified Claude Code Memory Awareness Hooks Installer
 ====================================================
 
-Cross-platform installer for Claude Code memory awareness hooks with support for:
 - Basic memory awareness hooks (session-start, session-end)
 - Natural Memory Triggers v7.1.3 (intelligent automatic memory awareness)
 - Mid-conversation hooks for real-time memory injection
@@ -11,7 +9,6 @@ Cross-platform installer for Claude Code memory awareness hooks with support for
 - Smart MCP detection and DRY configuration
 
 Replaces multiple platform-specific installers with a single Python solution.
-Implements DRY principle by detecting and reusing existing Claude Code MCP configurations.
 
 Version: Dynamically synced with main project version
 """
@@ -91,7 +88,6 @@ class HookInstaller:
         self.backup_dir = None
 
     def _detect_claude_hooks_directory(self) -> Path:
-        """Detect the Claude Code hooks directory across platforms."""
         home = Path.home()
 
         # Primary paths by platform
@@ -117,7 +113,6 @@ class HookInstaller:
             if path.exists():
                 return path
 
-        # Check if Claude Code CLI can tell us the location
         try:
             result = subprocess.run(['claude', '--help'],
                                   capture_output=True, text=True, timeout=5)
@@ -157,16 +152,12 @@ class HookInstaller:
 
         all_good = True
 
-        # Check Claude Code CLI
         try:
             result = subprocess.run(['claude', '--version'],
                                   capture_output=True, text=True, timeout=5)
             if result.returncode == 0:
-                self.success(f"Claude Code CLI found: {result.stdout.strip()}")
             else:
-                self.warn("Claude Code CLI found but version check failed")
         except (subprocess.SubprocessError, FileNotFoundError, subprocess.TimeoutExpired):
-            self.warn("Claude Code CLI not found in PATH")
             self.info("You can still install hooks, but some features may not work")
 
         # Check Node.js
@@ -199,8 +190,6 @@ class HookInstaller:
         return all_good
 
     def detect_claude_mcp_configuration(self) -> Optional[Dict]:
-        """Detect existing Claude Code MCP memory server configuration."""
-        self.info("Detecting existing Claude Code MCP configuration...")
 
         try:
             # Try specific server names first
@@ -213,12 +202,10 @@ class HookInstaller:
             if config_info:
                 return config_info
 
-            self.info("No existing memory server found in Claude Code MCP configuration")
 
         except subprocess.TimeoutExpired:
             self.warn("Claude MCP command timed out")
         except FileNotFoundError:
-            self.warn("Claude Code CLI not found - cannot detect existing MCP configuration")
         except Exception as e:
             self.warn(f"Failed to detect MCP configuration: {e}")
 
@@ -299,14 +286,11 @@ class HookInstaller:
         return None
 
     def detect_environment_type(self) -> str:
-        """Detect if running in Claude Code vs standalone environment."""
         self.info("Detecting environment type...")
 
-        # Check for Claude Code MCP server (indicates Claude Code is active)
         mcp_config = self.detect_claude_mcp_configuration()
 
         if mcp_config and 'Connected' in mcp_config.get('status', ''):
-            self.success("Claude Code environment detected (MCP server active)")
             return self.CLAUDE_CODE_ENV
         else:
             self.success("Standalone environment detected (no active MCP server)")
@@ -350,9 +334,6 @@ class HookInstaller:
                 "protocol": "http",
                 "preferredProtocol": "http",
                 "fallbackEnabled": True,
-                "reason": "Claude Code environment - using HTTP to avoid MCP conflicts",
-                "log_title": "📋 Protocol Configuration: HTTP (recommended for Claude Code)",
-                "log_reason": "Avoids MCP server conflicts when Claude Code is active"
             },
             self.STANDALONE_ENV: {
                 "protocol": "auto",
@@ -436,7 +417,6 @@ class HookInstaller:
             detected_config = self.detect_claude_mcp_configuration()
 
         if not detected_config:
-            issues.append("No memory server found in Claude Code MCP configuration")
             return False, issues
 
         # Validate connection status
@@ -496,7 +476,6 @@ class HookInstaller:
         return "8000"
 
     def generate_hooks_config_from_mcp(self, detected_config: Dict, env_type: str = "standalone") -> Dict:
-        """Generate hooks configuration based on detected Claude Code MCP setup.
 
         Args:
             detected_config: Dictionary containing detected MCP configuration
@@ -1083,8 +1062,6 @@ class HookInstaller:
         print()
 
     def configure_claude_settings(self, install_mid_conversation: bool = False, install_auto_capture: bool = False, install_permission_hook: bool = False) -> bool:
-        """Configure Claude Code settings.json for hook integration."""
-        self.info("Configuring Claude Code settings...")
 
         try:
             # Determine settings path based on platform
@@ -1101,7 +1078,6 @@ class HookInstaller:
             skip_session_start = False
             if self.platform_name == 'windows':
                 self.warn("Windows Platform Detected - SessionStart Hook Limitation")
-                self.warn("SessionStart hooks cause Claude Code to hang on Windows (issue #160)")
                 self.warn("Workaround: Use '/session-start' slash command instead")
                 self.info("Skipping SessionStart hook configuration for Windows")
                 self.info("See: https://github.com/doobidoo/mcp-memory-service/issues/160")
@@ -1357,11 +1333,9 @@ class HookInstaller:
             with open(settings_file, 'w', encoding='utf-8') as f:
                 json.dump(final_config, f, indent=2, ensure_ascii=False)
 
-            self.success("Claude Code settings configured successfully")
             return True
 
         except Exception as e:
-            self.error(f"Failed to configure Claude Code settings: {e}")
             return False
 
     def run_tests(self, test_natural_triggers: bool = False) -> bool:
@@ -1498,7 +1472,6 @@ class HookInstaller:
 
     def uninstall(self) -> bool:
         """Remove installed hooks."""
-        self.info("Uninstalling Claude Code memory awareness hooks...")
 
         try:
             if not self.claude_hooks_dir.exists():
@@ -1555,7 +1528,6 @@ class HookInstaller:
 def main():
     """Main installer function."""
     parser = argparse.ArgumentParser(
-        description="Unified Claude Code Memory Awareness Hooks Installer",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -1605,7 +1577,6 @@ Features:
     # Create installer instance
     installer = HookInstaller()
 
-    installer.header(f"Claude Code Memory Awareness Hooks Installer v{get_project_version()}")
     installer.info(f"Script location: {installer.script_dir}")
     installer.info(f"Target hooks directory: {installer.claude_hooks_dir}")
     installer.info(f"Platform: {installer.platform_name}")
@@ -1763,7 +1734,6 @@ Features:
                                          env_type=env_type):
         overall_success = False
 
-    # Configure Claude Code settings
     if not installer.configure_claude_settings(install_mid_conversation=install_natural_triggers,
                                               install_auto_capture=install_auto_capture,
                                               install_permission_hook=install_permission_hook):
@@ -1776,7 +1746,6 @@ Features:
             installer.header("Installation Complete!")
 
             if install_basic and install_natural_triggers and install_auto_capture:
-                installer.success("Complete Claude Code memory awareness system installed")
                 installer.info("Features available:")
                 installer.info("  ✅ Session-start and session-end hooks")
                 installer.info("  ✅ Natural Memory Triggers with intelligent pattern detection")

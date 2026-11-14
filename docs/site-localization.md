@@ -13,7 +13,6 @@ working installation path. Each introduction covers:
 
 - Persistent project decisions, semantic retrieval and local hosting.
 - A small store/recall example, explicitly labeled as example client prompts.
-- Python installation, Claude Code configuration and a first verified memory.
 - Client support, local-storage boundaries, optional automation and costs.
 - Links to the English documentation, browser demo and GitHub project.
 
@@ -28,7 +27,6 @@ The SQLite extra supplies ONNX dependencies for local semantic search; the bare
 package does not guarantee a semantic embedding backend in a fresh environment.
 
 The initial German search phrases are hypotheses, not measured keywords:
-"dauerhaftes Gedächtnis für KI-Assistenten", "Claude Code Projektwissen speichern"
 and "MCP Memory Server selbst hosten". A fluent reviewer should check how developers
 actually describe the problem. Use these ideas naturally in useful prose, without
 keyword lists. Search Console query data should guide later revisions.

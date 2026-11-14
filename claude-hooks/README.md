@@ -1,10 +1,7 @@
-# Claude Code Memory Awareness Hooks
 
-Automatic memory awareness and intelligent context injection for Claude Code using the MCP Memory Service.
 
 ## Installation (quick start)
 
-**Recommended (experimental):** Install as a Claude Code plugin — see [PLUGIN.md](./PLUGIN.md).
 
 **Legacy:** The Python installer (`install_hooks.py`) continues to work and is documented in the sections below. Both setups are mutually exclusive.
 
@@ -25,7 +22,6 @@ python install_hooks.py --basic
 > **Note**: The unified Python installer replaces all previous installers and provides cross-platform compatibility with enhanced features. See [MIGRATION.md](MIGRATION.md) for details.
 
 This installs hooks that automatically:
-- Load relevant project memories when Claude Code starts
 - Inject meaningful contextual information (no more generic fluff!)
 - Store session insights and decisions for future reference
 - Provide on-demand memory retrieval when you need it
@@ -52,7 +48,6 @@ Three complementary ways to view session memory context:
 3. **Status Line Display** ⭐ - Always-visible status bar at bottom of terminal
    - Format: `🧠 8 (8 recent) memories | 📊 10 commits`
    - Displays static session memory context (set once at session start)
-   - **Requires**: `jq` (JSON parser) and Claude Code statusLine configuration
    - **Platform**: Linux/macOS (Windows SessionStart hook broken - issue #160)
    - **Windows Workaround**: Use `/session-start` slash command for manual session initialization
 
@@ -130,7 +125,6 @@ python install_hooks.py --natural-triggers  # Natural Memory Triggers only
 **Prerequisites:**
 - Python 3.11+
 - Node.js (for hooks execution)
-- **`jq`** (required for statusLine feature - displays memory context in Claude Code status bar)
   - macOS: `brew install jq`
   - Linux: `sudo apt install jq` (Ubuntu/Debian) or equivalent
   - Windows: `choco install jq` or download from https://jqlang.github.io/jq/

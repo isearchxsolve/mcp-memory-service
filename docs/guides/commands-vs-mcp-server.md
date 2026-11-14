@@ -1,4 +1,3 @@
-# Claude Code Integration: Commands vs MCP Server
 
 This guide helps you choose the best integration method for your workflow and needs.
 
@@ -11,7 +10,6 @@ This guide helps you choose the best integration method for your workflow and ne
 ✅ **Context awareness** (automatic project detection)  
 
 ### Choose **MCP Server** if you want:
-✅ **Deep integration** with Claude Code's MCP system  
 ✅ **Multi-server workflows** (alongside other MCP servers)  
 ✅ **Maximum flexibility** and configuration control  
 ✅ **Traditional MCP tool** interactions  
@@ -26,7 +24,6 @@ This guide helps you choose the best integration method for your workflow and ne
 |--------|-------------------|------------|
 | **Setup Time** | 2 minutes | 5-15 minutes |
 | **Configuration** | Zero config required | Manual MCP server registration |
-| **Prerequisites** | Claude Code CLI only | Claude Code CLI + MCP knowledge |
 | **Installation** | `python scripts/installation/install.py --install-hooks` | `claude mcp add memory-service spawn -- ...` |
 | **Updates** | Automatic with installer updates | Manual server path updates |
 
@@ -166,7 +163,6 @@ claude /memory-health
 
 ### MCP Server Workflow
 ```bash
-# Start Claude Code session
 claude
 
 # In conversation with Claude:

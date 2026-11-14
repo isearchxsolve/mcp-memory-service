@@ -463,9 +463,7 @@ The search found strong relationships between the architecture decisions and the
 }
 ```
 
-## Claude Code Integration Examples
 
-### Example 1: Claude Code Slash Command
 
 ```bash
 # Enhanced memory search with consolidation
@@ -478,7 +476,6 @@ claude /memory-project-overview "Project Beta" --timeline --issues
 claude /memory-smart-search "user feedback login problems" --auto-expand --suggest-actions
 ```
 
-### Example 2: Claude Code Hook Integration
 
 **Session Hook Usage:**
 ```javascript

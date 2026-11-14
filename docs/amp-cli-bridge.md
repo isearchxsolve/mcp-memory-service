@@ -1,10 +1,8 @@
 # Amp CLI Bridge (Semi-Automated Workflow)
 
-**Purpose**: Leverage Amp CLI capabilities (research, code analysis, web search) from Claude Code without consuming Claude Code credits, using a semi-automated file-based workflow.
 
 ## Quick Start
 
-**1. Claude Code creates prompt**:
 ```
 You: "Use @agent-amp-bridge to research TypeScript 5.0 features"
 Claude: [Creates prompt file and shows command]
@@ -17,18 +15,15 @@ amp @.claude/amp/prompts/pending/research-xyz.json
 
 **3. Amp processes and writes response automatically**
 
-**4. Claude Code continues automatically**
 
 ## Architecture
 
 ```
-Claude Code (@agent-amp-bridge) → .claude/amp/prompts/pending/{uuid}.json
                                             ↓
                           You run: amp @prompts/pending/{uuid}.json
                                             ↓
                           Amp writes: responses/ready/{uuid}.json
                                             ↓
-                   Claude Code reads response ← Workflow continues
 ```
 
 ## File Structure
@@ -133,7 +128,6 @@ touch .claude/amp/responses/ready/test.json && rm .claude/amp/responses/ready/te
 
 ## Benefits
 
-- Zero Claude Code Credits: Uses your separate Amp session
 - Uses Free Tier: Works with Amp's free tier (when credits available)
 - Simple Workflow: No background processes
 - Full Control: You decide when/what to process
@@ -145,5 +139,4 @@ touch .claude/amp/responses/ready/test.json && rm .claude/amp/responses/ready/te
 
 - Manual Step Required: You must run the `amp @` command
 - Amp Credits: Still consumes Amp API credits
-- Semi-Async: Claude Code waits for you to process
 - Best for Research: Optimized for async research tasks, not real-time chat

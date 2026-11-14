@@ -16,7 +16,6 @@
 Session Harvest API endpoint.
 
 Extracts learnings (decisions, bugs, conventions, learnings, context) from
-Claude Code session transcripts. Wraps :class:`SessionHarvester` to mirror
 the ``memory_harvest`` MCP tool over HTTP.
 """
 
@@ -87,7 +86,6 @@ def _resolve_project_path(override: Optional[str]) -> Path:
     """Resolve the Claude project directory.
 
     Unlike the MCP tool (which can infer the project from CWD because it
-    runs inside the Claude Code process), the HTTP endpoint runs in a
     long-lived web server whose CWD is typically the repo root or ``/``.
     CWD-based inference there would silently point at the wrong directory,
     so ``project_path`` is required.
@@ -118,7 +116,6 @@ async def harvest_sessions(
     user: AuthenticationResult = Depends(require_write_access),
 ) -> Dict[str, Any]:
     """
-    Extract learnings from Claude Code session transcripts.
 
     When ``dry_run`` is true (default), returns candidates without storing.
     When false, stores high-confidence candidates as memories (evolves existing

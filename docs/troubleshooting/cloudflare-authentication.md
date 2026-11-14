@@ -176,4 +176,3 @@ If you're still experiencing issues:
 1. Run the diagnostic script: `python scripts/validation/diagnose_backend_config.py`
 2. Check the [GitHub Issues](https://github.com/doobidoo/mcp-memory-service/issues)
 3. Review the main [README.md](../../README.md) for setup instructions
-4. Check the [CLAUDE.md](../../CLAUDE.md) for Claude Code specific guidance

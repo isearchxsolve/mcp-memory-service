@@ -2,7 +2,6 @@
 
 ## Overview
 
-SessionEnd hooks automatically consolidate conversation outcomes when you exit Claude Code. However, many users are confused about **when these hooks actually fire** and why memories might not be created as expected.
 
 This guide clarifies the session lifecycle and common troubleshooting scenarios.
 
@@ -10,7 +9,6 @@ This guide clarifies the session lifecycle and common troubleshooting scenarios.
 
 ## Critical Concept: Session Lifecycle
 
-Claude Code distinguishes between **session pause/suspend** and **session termination**:
 
 | User Action | Session State | Hook Triggered | Memory Created? |
 |-------------|---------------|----------------|-----------------|
@@ -31,7 +29,6 @@ Claude Code distinguishes between **session pause/suspend** and **session termin
 
 ### Symptom
 
-You exited Claude Code with Ctrl+C (twice), resumed later, and noticed no `session-consolidation` memory was created for your previous session.
 
 ### Root Cause
 
@@ -51,7 +48,6 @@ This confirms you **resumed** an existing session, not started a new one.
 **Always use `/exit` to properly terminate sessions** if you want SessionEnd memories created:
 
 ```bash
-# In Claude Code prompt:
 /exit
 ```
 

@@ -2,7 +2,6 @@
 
 ## Overview
 
-This guide documents all configuration properties for the Claude Code memory awareness hooks, with detailed explanations of their behavior and impact on memory retrieval.
 
 ## Configuration Structure
 
@@ -756,7 +755,6 @@ Enable or disable the permission request hook entirely.
 
 **Impact**:
 - `true`: Hook intercepts permission requests and applies pattern matching
-- `false`: Hook is bypassed, Claude Code shows normal permission dialogs
 
 **Use Case**: Disable if you want manual control over all MCP tool permissions.
 

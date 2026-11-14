@@ -1,4 +1,3 @@
-# Claude Code Plugin Packaging — Design Spec
 
 **Date:** 2026-04-19
 **Status:** Approved, pending implementation plan
@@ -13,13 +12,11 @@ silently when the HTTP server is not running (issue #530: 218+ sessions, zero
 stored consolidations).
 
 Option C (auto-start fix) shipped in PR #532. Options A (embedded HTTP) and B
-(hooks via MCP protocol) remain unaddressed. Claude Code's plugin system is
 now mature enough to be a viable distribution channel and replaces most of
 the manual setup with `/plugin install`.
 
 ## Goals
 
-1. Ship the hooks as an installable Claude Code plugin via GitHub marketplace
 2. Remove the raw-HTTP write path from hooks (protocol-native writes)
 3. Preserve the existing installer flow during rollout (no breaking change)
 4. Minimize scope: core hooks only, no feature additions
@@ -88,7 +85,6 @@ Repo root:
 {
   "name": "mcp-memory-service",
   "version": "1.0.0",
-  "description": "Automatic memory capture and injection for Claude Code via MCP Memory Service",
   "author": "doobidoo",
   "homepage": "https://github.com/doobidoo/mcp-memory-service",
   "mcpServers": "./.mcp.json",
@@ -150,7 +146,6 @@ hook scripts. No matcher changes at the plugin level.
   "plugins": [{
     "name": "mcp-memory-service",
     "source": "./claude-hooks",
-    "description": "Semantic memory for Claude Code sessions"
   }]
 }
 ```
@@ -218,7 +213,6 @@ Plugin installable via:
 
 ### Manual E2E (PR description checklist)
 
-1. Fresh Claude Code install, no prior MCP Memory Service
 2. `/plugin marketplace add doobidoo/mcp-memory-service`
 3. `/plugin install mcp-memory-service`
 4. Start new session, verify HTTP server autostarts
@@ -246,14 +240,11 @@ before installing plugin.
 ## Changelog entries
 
 - PR 1: `feat(hooks): add storeMemory() to MemoryClient for protocol-native writes (closes #530 Option B)`
-- PR 2: `feat: Claude Code plugin packaging for mcp-memory-service hooks`
 
 ## Open questions (for implementation)
 
 - Plugin `name` collision with MCP server `name: "memory"` in `.mcp.json` —
-  verify Claude Code namespaces these separately
 - Whether `matcher: "startup|resume"` regex is supported or requires two
-  separate entries (spec-check against current Claude Code hooks schema)
 - Whether `PostToolUse` fires per-tool or once per turn (affects
   auto-capture-hook scheduling cost)
 

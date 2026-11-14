@@ -9,7 +9,6 @@ Run with --dry-run to preview deletions before executing.
 - Only deletes memories verified in graph table
 - Creates automatic backup before execution
 - Stop HTTP server before running: systemctl --user stop mcp-memory-http.service
-- Disconnect MCP clients (use /mcp in Claude Code)
 - Database must not be locked or in use
 - Runs VACUUM to reclaim space after deletion
 
@@ -119,7 +118,6 @@ def perform_safety_checks(db_path: Path, dry_run: bool = False) -> bool:
     if check_database_locked(db_path):
         print("❌ Database is currently locked (in use by another process)")
         print("   Stop HTTP server: systemctl --user stop mcp-memory-http.service")
-        print("   Disconnect MCP: Use /mcp command in Claude Code")
         all_passed = False
     else:
         print("✓ Database is not locked")

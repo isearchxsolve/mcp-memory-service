@@ -62,7 +62,6 @@ Stdio MCP server (integrates with Claude Desktop):
 memory server
 ```
 
-HTTP server (background, recommended for Claude Code / remote / dashboard):
 
 ```
 memory launch
@@ -102,4 +101,3 @@ uv run pytest -q
 ```
 
 See also: `docs/mastery/testing-guide.md` and `docs/sqlite-vec-backend.md`.
-

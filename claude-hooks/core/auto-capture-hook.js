@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 /**
- * Claude Code Auto-Capture Hook
  *
  * Automatically captures valuable conversation content after tool operations.
  * Uses pattern detection to identify decisions, errors, learnings, and implementations.
@@ -104,7 +103,6 @@ async function parseTranscript(transcriptPath) {
     try {
         const content = await fs.readFile(transcriptPath, 'utf8');
 
-        // Claude Code writes transcripts as JSONL (newline-delimited JSON),
         // one message envelope per line. Tolerate trailing whitespace and skip
         // malformed lines instead of failing the whole hook.
         const transcript = [];
@@ -134,7 +132,6 @@ async function parseTranscript(transcriptPath) {
 
         for (let i = transcript.length - 1; i >= 0; i--) {
             const msg = transcript[i];
-            // Claude Code envelope nests the actual message under `message`;
             // fall back to flat shape for compatibility with older formats.
             const role = msg.message?.role || msg.role || msg.type;
             const content = msg.message?.content ?? msg.content;
@@ -157,7 +154,6 @@ async function parseTranscript(transcriptPath) {
                 const content = msg.message?.content ?? msg.content;
 
                 if (role !== 'user') continue;
-                // Claude Code stores tool results under the user role; skip those.
                 if (isToolResultOnly(content)) continue;
 
                 lastUser = extractTextContent(content);

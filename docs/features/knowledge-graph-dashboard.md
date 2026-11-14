@@ -326,7 +326,6 @@ curl -H "X-API-Key: your-api-key" \
 **Solutions:**
 1. **Check for relationships**: Use MCP tool `get_memory_subgraph` to verify relationships exist
    ```bash
-   # Via Claude Code/Desktop
    "Show me the subgraph for memory abc123..."
    ```
 2. **Verify backend**: Graph is SQLite-only in v9.2.0, ensure you're using `sqlite_vec` or `hybrid` backend

@@ -242,8 +242,6 @@ ul.mem-list{list-style:none}
     </div>
     <div class="agent-prompt" id="agent-trial">
       <h3>Or hand the trial to your coding agent</h3>
-      <p>Paste this into Claude Code in any directory. It installs the service into one new folder, proves that storing and searching work, and registers it for that folder only. Read it first: it is everything your agent will be told.</p>
-      <pre id="agent-prompt" tabindex="0" aria-label="Prompt for a coding agent">Set up a trial of MCP Memory Service (https://github.com/doobidoo/mcp-memory-service) for Claude Code.
 
 Keep everything inside a new folder named mcp-memory-trial in the current directory. Tell me what you are about to do and wait for my OK before you install or register anything. Do not change any other configuration, and leave an existing MCP server named "memory" alone.
 
@@ -255,12 +253,10 @@ Keep everything inside a new folder named mcp-memory-trial in the current direct
    The first run downloads the embedding model, about 170 MB, to ~/.cache/mcp_memory. Show me the output. It has to contain "Backend class: ONNXEmbeddingModel" and "Service is healthy". If it does not, stop and show me what it says.
 4. From inside mcp-memory-trial, register the server for this folder only:
    claude mcp add --scope project memory-trial -e MCP_MEMORY_STORAGE_BACKEND=sqlite_vec -e MCP_MEMORY_BASE_DIR=TRIAL/data -e MCP_MEMORY_SQLITE_PATH=TRIAL/data/sqlite_vec.db -- TRIAL/.venv/bin/memory server
-5. List what you created. Then tell me to start a new Claude Code session inside mcp-memory-trial, approve the memory-trial server, and try these two messages:
    Use memory-trial to remember that our staging database is Postgres 16 behind PgBouncer.
    Use memory-trial: what do you know about our staging setup?
 6. Tell me how to undo it: delete the mcp-memory-trial folder. Say whether ~/.cache/mcp_memory existed before this trial; only if it did not, I can delete it as well.</pre>
       <button class="btn btn-secondary" type="button" onclick="copyPrompt(this)">Copy prompt</button>
-      <p class="note">Tested with Claude Code on macOS. The folder takes about 250 MB. A first install also downloads the 170 MB embedding model to <code>~/.cache/mcp_memory</code>, which is outside the folder.</p>
     </div>
   </div>
 </section>

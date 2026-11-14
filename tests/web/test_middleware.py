@@ -51,7 +51,7 @@ def client(temp_storage):
     original_allow_anonymous = config.ALLOW_ANONYMOUS_ACCESS
 
     # Set test configuration directly on the module
-    config.API_KEY = "test-secret-key-12345"
+    config.API_KEY = "dummy_placeholder_secret"
     config.OAUTH_ENABLED = False
     config.ALLOW_ANONYMOUS_ACCESS = False
 

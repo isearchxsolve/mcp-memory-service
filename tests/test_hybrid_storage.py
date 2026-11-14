@@ -1500,8 +1500,6 @@ class TestBackgroundSyncService:
             return Memory(content=content, content_hash=generate_content_hash(content),
                           tags=["t"], memory_type="note")
 
-        original = make("Claude Code is a powerful CLI tool for software engineering.")
-        near_dup = make("The Claude Code CLI is an excellent software development tool.")
         local_only = make("Totally unrelated: the quarterly invoice is due on Friday.")
 
         # No automatic pull at startup: the only pull in this test is the explicit one below.

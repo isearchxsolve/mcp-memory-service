@@ -1,6 +1,4 @@
-# Advanced Claude Code Commands - Real-World Examples
 
-This guide showcases advanced usage patterns and real-world workflows using MCP Memory Service Claude Code commands.
 
 ## Table of Contents
 - [Development Workflows](#development-workflows)

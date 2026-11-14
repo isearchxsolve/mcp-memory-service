@@ -42,7 +42,6 @@ Conflicts are flagged with metadata rather than silently resolved — because so
 
 P4 is where the system becomes genuinely intelligent about memory management.
 
-**Harvest** is the process of extracting learnings from Claude Code session transcripts — patterns noticed, decisions made, errors caught. It's automated, running at session end and surfacing insights that would otherwise vanish when the context window closes.
 
 The problem: run enough sessions and you accumulate thousands of near-duplicate harvest entries. "Always use type hints in Python" stored 47 times is not 47 times more useful than storing it once.
 
@@ -80,7 +79,6 @@ The analogy isn't just poetic — it reflects a genuinely better information arc
 
 In the first real end-to-end harvest run with P4 active:
 
-- **9 candidates** were extracted from a Claude Code session
 - **8** were novel — stored normally
 - **1** was detected as semantically similar to an existing memory and evolved in place rather than duplicated
 

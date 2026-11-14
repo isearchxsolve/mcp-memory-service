@@ -44,12 +44,9 @@
 - [x] Documentation and deployment scripts completed
 
 #### 🚧 Known Limitations
-- **Claude Code SSE Compatibility**: Claude Code's SSE client has specific requirements incompatible with FastMCP implementation
-- **Workaround**: Claude Code users can use HTTP dashboard or alternative MCP clients
 - **Impact**: Core migration objectives achieved; this is a client-specific limitation
 
 #### 📋 Future Development
-1. **Claude Code Compatibility**: Investigate custom SSE client implementation
 2. **Tool Expansion**: Add remaining 17 memory operations as needed
 3. **Performance Optimization**: Monitor and optimize dual-service performance
 4. **Client Library**: Develop Python/JavaScript MCP client libraries
@@ -61,8 +58,6 @@
 
 **Rationale**: 
 - HTTP dashboard at https://github.com/doobidoo/mcp-memory-dashboard provides superior web interface
-- MCP server should focus on Claude Code integration, not duplicate dashboard functionality
-- Clear separation of concerns: MCP for Claude Code, HTTP for administration
 
 **Excluded Tools**:
 - dashboard_check_health, dashboard_recall_memory, dashboard_retrieve_memory
@@ -82,7 +77,6 @@
 
 ### Success Metrics
 
-- [x] ~~All MCP tools function correctly with Claude Code~~ **Standard MCP clients work; Claude Code has SSE compatibility issue**
 - [x] SSL/HTTPS connectivity works without workarounds
 - [x] Performance equals or exceeds Node.js bridge  
 - [x] Remote access works from multiple clients
@@ -101,5 +95,3 @@ The FastAPI MCP migration has successfully achieved its primary objectives:
 2. **Architecture Simplified**: Removed complex bridging layers
 3. **Standard Compliance**: Full MCP protocol compatibility with standard clients
 4. **Production Ready**: Deployed and tested dual-service architecture
-
-**Note**: Claude Code SSE client compatibility remains a separate issue to be addressed in future development.

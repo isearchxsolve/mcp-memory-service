@@ -1,7 +1,6 @@
 # Codex Memory Hooks
 
 Automatic project memory retrieval, capture, and session write-back for Codex,
-using the MCP Memory Service HTTP API. The adapter reuses the Claude Code
 integration's pattern classifier and understands Codex rollout messages.
 
 ## Requirements

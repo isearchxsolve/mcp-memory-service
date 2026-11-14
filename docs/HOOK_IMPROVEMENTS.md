@@ -1,7 +1,5 @@
-# Claude Code Session Hook Improvements
 
 ## Overview
-Enhanced the session start hook to prioritize recent memories and provide better context awareness for Claude Code sessions.
 
 ## Key Improvements Made
 

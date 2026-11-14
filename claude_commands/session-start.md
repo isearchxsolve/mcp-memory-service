@@ -23,7 +23,6 @@ claude /session-start
 
 This command is specifically designed as a **Windows workaround** for the SessionStart hook bug (#160).
 
-On Windows, SessionStart hooks cause Claude Code to hang indefinitely. This slash command provides the same functionality but can be triggered manually when you start a new session.
 
 **Works on all platforms**: Windows, macOS, Linux
 
@@ -91,5 +90,3 @@ Your UserPromptSubmit hook already runs automatically and retrieves memories whe
 - **Hook Documentation**: `claude-hooks/README.md`
 
 ---
-
-**For Windows Users**: This is the **recommended workaround** for session initialization until the SessionStart hook bug is fixed in Claude Code core.

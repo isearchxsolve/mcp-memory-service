@@ -23,7 +23,6 @@ KIRO_STRING_CONTENT = [
     {"version": "v1", "kind": "Response", "data": {"content": "Done, the null check was missing."}, "timestamp": "2026-05-15T11:00:05Z"},
 ]
 
-# Claude Code format for comparison
 CLAUDE_SESSION_LINES = [
     {"type": "user", "message": {"content": [{"type": "text", "text": "Hello"}]}, "timestamp": "2026-05-15T09:00:00Z", "uuid": "c1"},
     {"type": "assistant", "message": {"content": [{"type": "text", "text": "Hi there!"}]}, "timestamp": "2026-05-15T09:00:01Z", "uuid": "c2"},

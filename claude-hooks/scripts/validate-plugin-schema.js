@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 /**
- * validate-plugin-schema.js — Shape validator for Claude Code plugin manifests.
  *
- * Goes beyond JSON.parse: enforces the Claude Code plugin spec shape so
  * smoke-test failures surface before release. Added after v10.39.0 shipped
  * with `"author": "doobidoo"` (string) instead of `{"name": "doobidoo"}`
  * (object), which broke every `/plugin install`.
@@ -24,7 +22,6 @@ const path = require('path');
 const PLUGIN_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(PLUGIN_ROOT, '..');
 
-// Known Claude Code v1 hook event names. Unknown names do NOT fail — we
 // only fail on clearly invalid values (empty / non-CamelCase). This keeps
 // the validator conservative and forward-compatible with new events.
 const KNOWN_HOOK_EVENTS = new Set([
@@ -161,7 +158,6 @@ function validateHooksJson(obj, fileLabel = 'hooks.json') {
 
     for (const [eventName, entries] of Object.entries(obj.hooks)) {
         // Warn on unrecognized/invalid event names — don't hard-fail because
-        // Claude Code may add new events before we update this list.
         if (!KNOWN_HOOK_EVENTS.has(eventName)) {
             if (!isCamelCase(eventName)) {
                 errors.push(

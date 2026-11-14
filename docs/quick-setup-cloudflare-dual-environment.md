@@ -1,14 +1,10 @@
-# Quick Setup: Cloudflare Backend for Claude Desktop + Claude Code
 
-This guide provides streamlined instructions to configure Cloudflare backend for both Claude Desktop and Claude Code simultaneously.
 
 ## 🎯 Overview
 
-This setup ensures both environments use the same Cloudflare backend for consistent memory storage across Claude Desktop and Claude Code.
 
 **Expected Result:**
 - Claude Desktop: ✅ Cloudflare backend with 1000+ memories
-- Claude Code: ✅ Cloudflare backend with same memories
 - Health checks show: `"backend": "cloudflare"` and `"storage_type": "CloudflareStorage"`
 
 ## ⚡ Quick Setup (5 minutes)
@@ -78,7 +74,6 @@ Update `~/.claude.json` (or `%APPDATA%\Claude\claude_desktop_config.json` on Win
 }
 ```
 
-### Step 4: Configure Claude Code
 
 ```bash
 # Navigate to project directory
@@ -104,7 +99,6 @@ claude mcp add memory python \
 3. Ask: "Check memory health"
 4. Should show: `"backend": "cloudflare"` and `"storage_type": "CloudflareStorage"`
 
-**Test Claude Code:**
 ```bash
 # Check MCP server status
 claude mcp list
@@ -233,7 +227,6 @@ python scripts/validation/diagnose_backend_config.py
    - Use explicit `env` variables in MCP configuration
    - Restart Claude Desktop after config changes
 
-2. **Claude Code:**
    - Use explicit `-e` environment variables in `claude mcp add`
    - Ensure command runs from project directory
    - Remove and re-add memory server to pick up changes
@@ -315,7 +308,6 @@ python scripts/import_to_cloudflare.py --input cloudflare_export.json
 
 ## 🎯 Success Criteria
 
-Both Claude Desktop and Claude Code should show:
 
 ✅ **Health Check:** `"backend": "cloudflare"`
 ✅ **Storage Type:** `"CloudflareStorage"`

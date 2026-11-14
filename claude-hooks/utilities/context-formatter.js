@@ -1,13 +1,10 @@
 /**
  * Context Formatting Utility
- * Formats memories for injection into Claude Code sessions
  */
 
 /**
- * Detect if running in Claude Code CLI environment
  */
 function isCLIEnvironment() {
-    // Check for Claude Code specific environment indicators
     return process.env.CLAUDE_CODE_CLI === 'true' || 
            process.env.TERM_PROGRAM === 'claude-code' ||
            process.argv.some(arg => arg.includes('claude')) ||
@@ -1035,7 +1032,6 @@ function createProjectSummary(projectContext) {
 }
 
 /**
- * Format memories for Claude Code context injection
  */
 function formatMemoriesForContext(memories, projectContext, options = {}) {
     try {
@@ -1231,7 +1227,6 @@ function formatSessionConsolidation(sessionData, projectContext) {
             consolidation += '\n';
         }
         
-        consolidation += `---\n*Session captured by Claude Code Memory Awareness at ${timestamp}*`;
         
         return consolidation;
         
@@ -1265,7 +1260,6 @@ if (require.main === module) {
             relevanceScore: 0.95
         },
         {
-            content: 'Implemented Claude Code hooks system for automatic memory awareness. Created session-start, session-end, and topic-change hooks.',
             tags: ['claude-code', 'hooks', 'architecture', 'memory-awareness'],
             memory_type: 'architecture',
             created_at_iso: '2025-08-19T09:30:00Z',
@@ -1279,7 +1273,6 @@ if (require.main === module) {
             relevanceScore: 0.72
         },
         {
-            content: 'Added new feature: Claude Code hooks with session lifecycle management',
             tags: ['feature', 'claude-code', 'hooks'],
             memory_type: 'feature',
             created_at_iso: '2025-08-17T12:00:00Z',

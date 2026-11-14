@@ -86,7 +86,6 @@ async def test_sqlite_vec_basic():
 async def show_next_steps():
     """Show next steps for integration."""
     print("\n" + "=" * 60)
-    print("🎯 Next Steps for Claude Code + VS Code Integration")
     print("=" * 60)
     
     print("\n1. 📦 Complete MCP Memory Service Setup:")
@@ -99,7 +98,6 @@ async def show_next_steps():
     print("   # Install remaining MCP dependencies")
     print("   pip install mcp")
     
-    print("\n2. 🔧 Configure Claude Code Integration:")
     print("   The sqlite-vec backend is now ready!")
     print("   Your memory database will be stored at:")
     home = os.path.expanduser("~")
@@ -107,7 +105,6 @@ async def show_next_steps():
     
     print("\n3. 💻 For VS Code Integration:")
     print("   # Install VS Code MCP extension (if available)")
-    print("   # Or use Claude Code directly in VS Code terminal")
     
     print("\n4. 🧪 Test the Setup:")
     print("   # Test that MCP Memory Service works with sqlite-vec")

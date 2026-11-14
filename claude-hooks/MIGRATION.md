@@ -2,7 +2,6 @@
 
 ## 🎯 Overview
 
-The Claude Code Memory Awareness Hooks have been **consolidated into a single, unified Python installer** that replaces all previous platform-specific installers.
 
 ## 📋 **What Changed**
 
@@ -43,7 +42,6 @@ python install_hooks.py --natural-triggers
 ## ✨ **Benefits of Unified Installer**
 
 ### 🔧 **Technical Improvements**
-- **Intelligent JSON merging** - Preserves existing Claude Code hook configurations
 - **Cross-platform compatibility** - Works on Windows, macOS, and Linux
 - **Dynamic path resolution** - No hardcoded paths, works in any location
 - **Atomic installations** - Automatic rollback on failure
@@ -126,7 +124,6 @@ A: Yes, the unified Python installer provides full Windows support with proper p
 
 If you encounter issues:
 
-1. **Check prerequisites**: Ensure Claude Code CLI, Node.js, and Python are installed
 2. **Test with dry-run**: Use `--dry-run` flag to identify issues
 3. **Check logs**: The installer provides detailed error messages
 4. **File an issue**: [GitHub Issues](https://github.com/doobidoo/mcp-memory-service/issues)

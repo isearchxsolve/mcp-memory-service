@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Claude Code Status Line Script
 # Displays live memory count from mcp-memory-service HTTP API
 # with per-CWD injection tracking via injections.log
 #
@@ -11,7 +10,6 @@
 #
 # Fixes: https://github.com/doobidoo/mcp-memory-service/issues/408
 
-# Read JSON input from Claude Code
 input=$(cat)
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // empty')
 

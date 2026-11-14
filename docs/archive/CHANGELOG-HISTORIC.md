@@ -189,7 +189,6 @@ For current versions (v10.36.4+), see [CHANGELOG.md](../../CHANGELOG.md).
 
 ### Fixed
 
-- **[#619] Accept 'content' as alias for 'query' in HTTP MCP endpoint**: Claude Code sends `{content: "search terms"}` via HTTP transport, but the handler only read `arguments.get("query")`, causing `retrieve_memory` and `recall_memory` to always return empty results when invoked over HTTP. The endpoint now accepts both `content` and `query` as parameter names, with `query` taking precedence.
 
 ## [10.28.2] - 2026-03-26
 
@@ -208,7 +207,6 @@ For current versions (v10.36.4+), see [CHANGELOG.md](../../CHANGELOG.md).
 
 ### Added
 
-- **[#615] Session harvest — extract learnings from Claude Code transcripts (closes #596)**: New `memory_harvest` MCP tool that parses Claude Code JSONL transcript files and extracts structured learnings using pattern-based extraction with confidence scoring. Dry-run mode is enabled by default for safe preview before committing any memories. 27 new tests cover the JSONL parser, extractor patterns, and dry-run behaviour.
 
 ### Dependencies
 
@@ -321,7 +319,6 @@ For current versions (v10.36.4+), see [CHANGELOG.md](../../CHANGELOG.md).
 
 ### CI
 
-- Claude Code Review GitHub Actions workflow disabled due to OAuth token expiry issues (will be migrated to API key auth).
 
 ### Tests
 
@@ -726,7 +723,6 @@ For current versions (v10.36.4+), see [CHANGELOG.md](../../CHANGELOG.md).
 ### Fixed
 - **`session-end.js`: SyntaxError on Node.js v24 from duplicate `uniqueTags` declaration** (#477): Two `const uniqueTags` declarations existed in the same scope — the first performing plain deduplication, the second lowercasing. Node.js v24 treats this as a strict SyntaxError, preventing the session-end hook from running at all. Removed the redundant first declaration; the case-insensitive version is now the sole declaration.
 - **`scripts/install_hooks.py`: `MCP_HTTP_PORT` from MCP server config was ignored** (#478): The hook installer correctly detected the existing MCP server entry in `~/.claude.json` but did not read `MCP_HTTP_PORT` from its `env` block. Generated `~/.claude/hooks/config.json` therefore always used the default port 8000 regardless of user configuration. Added `_read_mcp_http_port_from_claude_json()` helper that reads the detected server's `env` block and passes the discovered port to the config generator. Default remains 8000 when no override is found.
-- **`claude-hooks/core/session-start.js`: Race condition when MCP server starts lazily** (#479): Claude Code starts MCP servers lazily (on the first tool call), so `SessionStart` hooks fire before the HTTP API is available. The hook was therefore always falling back to MCP-tool mode, defeating the purpose of pre-fetching memories at session start. Added `withRetry()` async helper implementing exponential back-off (2 s, 4 s, 8 s; up to 4 attempts, ~14 s total) around both `MemoryClient.connect()` call sites. Log output during retries: `Retrying in 2s... (attempt 1/4)`.
 - **`install.py`: Missing root-level installer redirector for wiki users** (#476): The installation wiki guide instructs users to run `python install.py` from the repository root, but no such file existed there. Users received a `No such file or directory` error. Added a root-level `install.py` dispatcher that presents an interactive menu (no args), or delegates directly via `--package` (to `scripts/installation/install.py`) or `--hooks` (to `claude-hooks/install_hooks.py`). Also detects Python 3.13 and prints a warning about the known `safetensors` compatibility issue.
 
 ### Added
@@ -2183,7 +2179,6 @@ Special thanks to the community for feedback on API design and testing the depre
     - Security: 0 vulnerabilities
   - **Benefits**:
     - 30x performance improvement over tag-based connected memory search
-    - Enables Claude Code to traverse memory associations directly via MCP
     - Supports exploration of knowledge relationships and context chains
 
 ## [8.71.0] - 2026-01-06
@@ -2569,7 +2564,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Reduced Docker layers and improved build performance
 
 - **CI Workflow Configuration** (Commits e7e41d9, 18060de, 68b6995, 3295481, 2bab616, 89e28e9, 9159271, 1491a42, f5f6622)
-  - Enabled sticky comments for Claude Code integration
   - Configured Claude to post comments via gh CLI
   - Skipped 2 temporarily failing tests (timeout, missing fixture)
   - Adjusted coverage threshold to 57% (matches actual coverage)
@@ -2701,17 +2695,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [8.62.7] - 2025-12-30
 
 ### Fixed
-- **Windows SessionStart Hook Bug Fixed in Claude Code 2.0.76+** (#160)
-  - **Problem**: SessionStart hooks caused Claude Code to hang indefinitely on Windows (issue #160)
-  - **Resolution**: Anthropic fixed the underlying bug in Claude Code version 2.0.76+
   - **Impact**: Windows users can now use SessionStart hooks without workarounds or manual invocation
   - **Documentation Updated**:
     - `.claude/directives/hooks-configuration.md` - Removed Windows SessionStart bug warning, updated status to FIXED
     - `CLAUDE.md` - Updated SessionStart hook references to reflect fix
     - `claude-hooks/WINDOWS-SESSIONSTART-BUG.md` - Added fix notice and version requirements
     - `docs/troubleshooting/hooks-quick-reference.md` - Updated Windows troubleshooting section
-  - **User Action Required**: Upgrade to Claude Code 2.0.76+ to use SessionStart hooks on Windows
-  - **Commit**: 5b0bb52 - "docs: update Windows SessionStart hook bug status - FIXED in Claude Code 2.0.76+"
 
 ## [8.62.6] - 2025-12-30
 
@@ -2853,7 +2842,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - **SessionEnd Hook: Read actual conversation from transcript** (claude-hooks) - PR #301 by @channingwalton
   - Fixed hook using hardcoded mock conversation data instead of real session transcript
-  - Root cause: Main execution block always used mock data, never read stdin from Claude Code
   - Solution: Added `readStdinContext()` and `parseTranscript()` to read actual conversation
   - Hook now reads `{transcript_path, reason, cwd}` from stdin and parses JSONL transcript
   - Handles both string and array content formats (robust parsing)
@@ -3690,7 +3678,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
   - **Performance Impact**: 10-100x faster queries, eliminates D1 timeout/400 Bad Request errors on large datasets
   - **Affected Function**: `CloudflareStorage.get_memories_updated_since()` (lines 1638-1667)
   - **Location**: `src/mcp_memory_service/storage/cloudflare.py`
-  - **Credit**: Root cause analysis by Claude Code workflow (GitHub Actions)
 
 ## [8.48.3] - 2025-12-08
 
@@ -3732,7 +3719,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
   - Displays clear error message when HTTP server is unreachable
   - Provides actionable fix instructions (how to start server, how to enable auto-start)
   - Detects connection errors: ECONNREFUSED, fetch failed, network errors, timeout
-  - Non-blocking check (warns but doesn't block Claude Code session initialization)
   - Location: `~/.claude/hooks/core/session-start.js:657-674`
 
 ### Fixed
@@ -4421,7 +4407,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
 ### Fixed
 - **HTTP MCP Transport: JSON-RPC 2.0 Compliance** - Fixed critical bug where HTTP MCP responses violated JSON-RPC 2.0 specification (PR #249, fixes #236)
   - **Problem**: FastAPI ignored Pydantic's `ConfigDict(exclude_none=True)` when directly returning models, causing responses to include null fields (`"error": null` in success, `"result": null` in errors)
-  - **Impact**: Claude Code/Desktop rejected all HTTP MCP communications due to spec violation
   - **Solution**: Wrapped all `MCPResponse` returns in `JSONResponse` with explicit `.model_dump(exclude_none=True)` serialization
   - **Verification**:
     - Success responses now contain ONLY: `jsonrpc`, `id`, `result`
@@ -4737,9 +4722,7 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
 ## [8.28.1] - 2025-11-22
 
 ### Fixed
-- **CRITICAL: HTTP MCP Transport JSON-RPC 2.0 Compliance** - Fixed protocol violation causing Claude Code rejection (#236)
   - **Problem**: HTTP MCP server returned `"error": null` in successful responses, violating JSON-RPC 2.0 spec which requires successful responses to OMIT the error field entirely (not include it as null)
-  - **Impact**: Claude Code's strict schema validation rejected all HTTP MCP responses with "Unrecognized key(s) in object: 'error'" errors, making HTTP transport completely unusable
   - **Root Cause**: MCPResponse Pydantic model included both `result` and `error` fields in all responses, serializing null values
   - **Solution**:
     - Added `ConfigDict(exclude_none=True)` to MCPResponse model to exclude null fields from serialization
@@ -4748,7 +4731,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
     - Moved json import to top of file per PEP 8 style guidelines
   - **Files Modified**:
     - `src/mcp_memory_service/web/api/mcp.py` - Added ConfigDict, updated serialization
-  - **Affected Users**: All users attempting to use HTTP MCP transport with Claude Code or other strict JSON-RPC 2.0 clients
   - **Testing**: Verified successful responses exclude `error` field and error responses exclude `result` field
   - **Credits**: Thanks to @timkjr for identifying the issue and providing the fix
 
@@ -4906,7 +4888,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
     - `src/mcp_memory_service/utils/cache_manager.py` - New cache management utilities
     - `scripts/benchmarks/benchmark_server_caching.py` - Cache effectiveness validation
   - **Backward Compatibility**: Zero breaking changes, transparent caching for all MCP clients
-  - **Use Case**: MCP tools in Claude Desktop and Claude Code are now the fastest method for memory operations
 
 ### Changed
 - **Code Quality Improvements** - Gemini Code Assist review implementation (PR #227)
@@ -4927,7 +4908,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
   - Cached Calls Average: ~0.01ms
   - Speedup Factor: 534,628x
   - Cache Hit Rate: 90%
-- **Impact**: MCP tools are now the recommended method for Claude Desktop and Claude Code users
 - **Technical Details**:
   - Caches persist across stateless HTTP calls
   - Storage instances keyed by "{backend}:{path}"
@@ -5253,7 +5233,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
     - `ingest_directory` (line 2015)
   - Added `normalize_tags()` calls in all affected handlers to properly parse comma-separated strings
   - Validation now happens gracefully: client accepts both formats, server normalizes to array
-  - **Breaking**: Users must reconnect MCP client (`/mcp` in Claude Code) to fetch updated schemas
   - Resolves recurring "Input validation error: 'X' is not of type 'array'" errors
 
 ### Technical Details
@@ -5669,7 +5648,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
 ### Technical Details
 - **Platform Detection**: Uses `platform.system()` for "Darwin" (macOS), "Windows", and Linux
 - **Backward Compatibility**: Existing scripts continue to work with new platform-aware paths
-- **Agent Workflow**: Claude Code creates prompts → User runs `amp @prompt-file` → Amp writes response → Agent presents results
 - **Chart Rendering**: Dashboard now properly visualizes memory distribution with accurate proportions
 
 ## [8.16.2] - 2025-11-03
@@ -5808,7 +5786,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
     - ✅ Safe manual alternative to automatic hooks
     - ✅ No configuration changes needed
     - ✅ Full memory awareness functionality
-    - ✅ Prevents Claude Code hangs on Windows
 
 ### Changed
 - **Windows-Aware Installer** - Platform detection and automatic configuration
@@ -5818,7 +5795,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
   - Suggests `/session-start` slash command as alternative
   - Also skips statusLine configuration on Windows (requires bash)
   - **Files Modified**: `claude-hooks/install_hooks.py` (lines 749-817)
-  - **User Impact**: Prevents Windows users from accidentally breaking Claude Code
 
 ### Documentation
 - **Enhanced Windows Support Documentation**
@@ -5830,10 +5806,8 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
 
 ### Fixed
 - **Windows Installation Experience** - Prevents SessionStart hook deadlock (Issue #160)
-  - **Previous Behavior**: Windows users install hooks → Claude Code hangs → frustration
   - **New Behavior**: Windows users see warning → skip SessionStart → use `/session-start` → works
   - **Breaking Change**: None - fully backward compatible
-  - **Upstream Issue**: Awaiting fix from Anthropic Claude Code team (claude-code#9542)
 
 ### Technical Details
 - **Files Created**: 1 new slash command
@@ -6007,9 +5981,7 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
   - **User Impact**: Professional CLI output, easier to scan, maintains continuous blue tree lines properly
 
 ### Technical Details
-- **Affected Component**: Claude Code memory awareness hooks (SessionStart display)
 - **Deployment**: Hooks loaded from repository automatically, no server restart needed
-- **Testing**: Verified with mock execution and real Claude Code session
 
 ## [8.13.4] - 2025-10-30
 
@@ -6037,7 +6009,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
   - **Note**: Affects all users using HTTP protocol for memory hooks
 
 ### Technical Details
-- **Affected Component**: Claude Code memory awareness hooks (HTTP protocol path)
 - **File Changed**: `claude-hooks/utilities/memory-client.js` (lines 273-294)
 - **Deployment**: Hooks loaded from repository automatically, no server restart needed
 - **Issue**: https://github.com/doobidoo/mcp-memory-service/issues/195
@@ -6059,7 +6030,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
     - Add descriptive "message" field
     - Handle 3 cases: failure (error message), chunked (multiple memories), single memory
   - **Result**: MCP tools now work correctly with proper error messages
-  - **Note**: Requires MCP server restart (`/mcp` command in Claude Code) to load fix
 
 ### Technical Details
 - **Introduced**: v8.12.0 MemoryService architecture refactoring (#176)
@@ -6611,7 +6581,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
 ## [8.5.13] - 2025-10-23
 
 ### Fixed
-- **Memory Hooks: Unix Timestamp Parsing in Date Sorting** - Fixed critical bug where memories were not sorting chronologically in Claude Code session start
   - **Root Cause**: JavaScript `Date()` constructor expects milliseconds but API returns Unix timestamps in seconds
   - **Impact**: Memory hooks showed old memories (Oct 11-21) before recent ones (Oct 23) despite `sortByCreationDate: true` configuration
   - **Technical Details**:
@@ -6780,7 +6749,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
 - **SessionStart Hook Visibility Features** - Three complementary methods to view session memory context
   - **Visible Summary Output**: Clean bordered console display showing project, storage, memory count with recent indicator, and git context
   - **Detailed Log File**: Complete session context written to `~/.claude/last-session-context.txt` including project details, storage backend, memory statistics, git analysis, and top loaded memories
-  - **Status Line Display**: Always-visible status bar at bottom of Claude Code terminal showing `🧠 8 (5 recent) | 📊 10 commits`
   - **Files Modified**:
     - `~/.claude/hooks/core/session-start.js` - Added summary output, log file generation, and cache file write logic
     - `~/.claude/settings.json` - Added statusLine configuration
@@ -6823,11 +6791,9 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
 ## [8.5.5] - 2025-10-14
 
 ### Fixed
-- **Critical: Claude Code Hooks Configuration** - Fixed session-start hook hanging/unresponsiveness on Windows
   - **Root Cause**: Missing forced process exit in session-start.js caused Node.js event loop to remain active with unclosed connections
   - **Fix 1**: Added `.finally()` block with 100ms delayed `process.exit(0)` to ensure clean termination
   - **Fix 2**: Corrected port mismatch in `~/.claude/hooks/config.json` (8889 → 8000) to match HTTP server
-  - **Impact**: Hooks now complete in <15 seconds without hanging, Claude Code remains responsive
   - **Files Modified**:
     - `~/.claude/hooks/core/session-start.js` (lines 1010-1013)
     - `~/.claude/hooks/config.json` (line 7)
@@ -6835,7 +6801,6 @@ The fallback implementation remains available for experimentation, but MS-MARCO'
 
 ### Changed
 - **Documentation**: Added critical warning section to CLAUDE.md about hook configuration synchronization
-  - Documents port mismatch symptoms (hanging hooks, unresponsive Claude Code, connection timeouts)
   - Lists all configuration files to check (`config.json`, HTTP server port, dashboard port)
   - Provides verification commands for Windows/Linux/macOS
   - Explains common mistakes (using dashboard port 8888/8443 instead of API port 8000)
@@ -6914,8 +6879,6 @@ loginctl enable-linger $USER
 
 ### 🎨 **Improved**
 
-#### **Claude Code Hooks UI Enhancements**
-Significantly improved visual formatting and readability of memory context injection in Claude Code hooks.
 
 **Enhanced Features:**
 - ✅ **Intelligent Text Wrapping** - New `wrapText()` function preserves word boundaries and indentation
@@ -6940,8 +6903,6 @@ Significantly improved visual formatting and readability of memory context injec
 
 ### 🐛 **Fixed**
 
-#### **Critical Memory Hooks Bug Fixes (Claude Code Integration)**
-Fixed critical bugs preventing memory retrieval in Claude Code session-start hooks. Memory awareness now works correctly with both semantic and time-based searches.
 
 **Problem**: Memory hooks showed "No relevant memories found" despite 1,419 memories in database. Retrieved memories were unrelated (from wrong projects) and sorted incorrectly (oldest first).
 
@@ -7035,7 +6996,6 @@ Complete implementation of Hybrid Backend Sync Dashboard feature that was docume
 
 ### 🎯 **New Features**
 
-#### **Dynamic Memory Weight Adjustment (Claude Code Hooks)**
 Intelligent auto-calibration prevents stale memories from dominating session context when recent development exists.
 
 **Problem Solved:**
@@ -7145,7 +7105,6 @@ Manual sync management UI with real-time status monitoring for hybrid storage ba
   - **Impact**: Button now correctly enabled when 0 pending operations
   - **File**: `src/mcp_memory_service/web/api/sync.py:106-118`
 
-- **Database Path Mismatch** - HTTP server using different SQLite database than Claude Code MCP
   - **Root Cause**: Missing `MCP_MEMORY_SQLITE_PATH` environment variable in HTTP server startup
   - **Fix**: Added explicit database path to match Claude Desktop config
   - **File**: `start_http_server.sh:4` (added `MCP_MEMORY_SQLITE_PATH` export)
@@ -7154,7 +7113,6 @@ Manual sync management UI with real-time status monitoring for hybrid storage ba
   - **Root Cause**: Mismatched storage backend configurations preventing data synchronization
   - **Fix**: Unified both to use `hybrid` backend with same SQLite database
   - **File**: `claude_desktop_config.json:70` (changed `"cloudflare"` → `"hybrid"`)
-  - **Impact**: Dashboard now shows same 1413 memories as Claude Code
 
 ### 🔧 **Improvements**
 
@@ -7167,12 +7125,10 @@ Manual sync management UI with real-time status monitoring for hybrid storage ba
 
 - **Updated Startup Script** - `start_http_server.sh` now includes all required environment variables
   - Added: `MCP_MEMORY_SQLITE_PATH`, `MCP_HTTP_ENABLED`
-  - Ensures HTTP server uses same database as Claude Code
 
 ### 📊 **Impact**
 
 - **User Experience**: Dashboard now provides complete visibility and control over hybrid backend synchronization
-- **Data Consistency**: Unified backend configuration ensures Claude Code and HTTP dashboard always show same data
 - **Performance**: Manual sync trigger allows immediate synchronization instead of waiting 5 minutes
 - **Reliability**: Fixed grid layout bug ensures sync status bar always visible when in hybrid mode
 
@@ -7219,7 +7175,6 @@ Manual sync management UI with real-time status monitoring for hybrid storage ba
 
 #### **MCP Context Optimization: Dashboard Tools Removal**
 - **Problem**: MCP tools consuming 31.4k tokens (15.7% of context budget) with redundant dashboard variants that duplicated web UI functionality
-- **Solution**: Removed 8 dashboard-specific MCP tools that were unnecessary for Claude Code integration
 
 **Tools Removed:**
 - `dashboard_check_health`, `dashboard_recall_memory`, `dashboard_retrieve_memory`
@@ -7231,7 +7186,6 @@ Manual sync management UI with real-time status monitoring for hybrid storage ba
 **Impact:**
 - ✅ **MCP tools**: 31.4k → 26.8k tokens (15% reduction, -4.6k tokens saved)
 - ✅ **Zero functional impact**: Core memory tools preserved (`check_database_health`, `recall_memory`, etc.)
-- ✅ **Cleaner separation**: MCP protocol for Claude Code integration, HTTP REST API for web dashboard
 
 **Files Modified:**
 - `src/mcp_memory_service/server.py`: Removed 8 tool definitions, call_tool handlers, and method implementations (~506 lines)
@@ -7246,7 +7200,6 @@ Manual sync management UI with real-time status monitoring for hybrid storage ba
 
 ### ✨ **Features & Improvements**
 
-#### **Claude Code Memory Hooks Recency Optimization**
 - **Problem Solved**: Memory hooks were surfacing 60+ day old memories instead of recent development work (Oct v8.0-v8.3), causing critical development context to be missing despite being stored in the database
 - **Core Enhancement**: Comprehensive recency optimization with rebalanced scoring algorithm to prioritize recent memories over well-tagged old content
 
@@ -7291,7 +7244,6 @@ Manual sync management UI with real-time status monitoring for hybrid storage ba
 - **After**: All top 3 memories < 7 days old ✅
 - **Validation**: 80% higher likelihood of surfacing recent work
 
-**Impact**: ✅ Memory hooks now reliably surface recent development context, significantly improving Claude Code session awareness for active projects
 
 ##### **Technical Details**
 - **PR**: [#155](https://github.com/doobidoo/mcp-memory-service/pull/155) - Memory hooks recency optimization
@@ -7312,7 +7264,6 @@ Manual sync management UI with real-time status monitoring for hybrid storage ba
 ### ✨ **Features & Improvements**
 
 #### **HTTP Server Management Tools**
-- **Added**: Cross-platform HTTP server management utilities for Claude Code Natural Memory Triggers
 - **New Scripts**:
   - `scripts/server/check_http_server.py`: Health check utility for HTTP server status verification
     - Supports both HTTP and HTTPS endpoints via environment variables
@@ -7331,9 +7282,7 @@ Manual sync management UI with real-time status monitoring for hybrid storage ba
   - Quick health check commands
   - Manual and auto-start procedures
   - Troubleshooting guide with common issues
-  - Integration with Claude Code hooks
   - Automation examples (launchd, Task Scheduler, shell aliases)
-- **Use Case**: Essential for Claude Code hooks to inject relevant memories at session start without MCP conflicts
 - **Wiki**: User-specific setup examples moved to wiki as reference guides
   - Windows-Hybrid-Backend-Setup-Example.md
   - Windows-Setup-Summary-Example.md
@@ -8035,7 +7984,6 @@ If using Litestream sync scripts:
   - Previously hardcoded `https.request()` failed for `http://` endpoints
 
 ### 🎯 **Impact**
-- ✅ Session-start hooks now properly inject memory context on Claude Code startup
 - ✅ HTTP memory server (port 8888) connectivity fully restored
 - ✅ Relevant memories (score 0.2-0.5) no longer filtered out by overly restrictive threshold
 - ✅ JSON parsing errors resolved for all memory retrieval operations
@@ -8456,7 +8404,6 @@ docker build -f tools/docker/Dockerfile -t mcp-memory-service:latest .
 - **NEW: Single Python installer replaces 4+ platform-specific scripts**
   - Consolidated `install.sh`, `install-natural-triggers.sh`, `install_claude_hooks_windows.bat` into unified `install_hooks.py`
   - Full cross-platform compatibility (Windows, macOS, Linux)
-  - Intelligent JSON configuration merging preserves existing Claude Code hooks
   - Dynamic path resolution eliminates hardcoded developer paths
   - Atomic installations with automatic rollback on failure
 
@@ -8544,7 +8491,6 @@ python scripts/installation/install.py --install-natural-triggers
 
 ## [7.1.0] - 2025-09-27
 
-### 🧠 **Natural Memory Triggers for Claude Code**
 
 This release introduces **Natural Memory Triggers v7.1.0** - an intelligent memory awareness system that automatically detects when Claude should retrieve relevant memories from your development history.
 
@@ -8614,7 +8560,6 @@ This release introduces **Natural Memory Triggers v7.1.0** - an intelligent memo
 #### 🔄 **Installation & Compatibility**
 
 ##### **Seamless Integration**
-- **✅ Zero-Restart Installation** - Dynamic hook loading during Claude Code sessions
 - **✅ Backward Compatibility** - Works alongside existing memory service functionality
 - **✅ Configuration Preservation** - Maintains existing settings while adding new features
 - **✅ Platform Support** - macOS, Windows, and Linux compatibility
@@ -8650,7 +8595,6 @@ Natural Memory Triggers automatically activate for phrases like:
 
 ### 🎉 **Major Release - OAuth 2.1 Dynamic Client Registration**
 
-This major release introduces comprehensive **OAuth 2.1 Dynamic Client Registration**, enabling **Claude Code HTTP transport** and **enterprise-grade authentication** while maintaining full backward compatibility with existing API key workflows.
 
 #### ✨ **New Features**
 
@@ -8667,10 +8611,6 @@ This major release introduces comprehensive **OAuth 2.1 Dynamic Client Registrat
   - **Token Validation**: Comprehensive JWT verification with proper error handling
   - **Configurable Expiration**: Customizable token and authorization code lifetimes
 
-##### 🚀 **Claude Code Integration**
-- **✅ HTTP Transport Support** - Direct integration with Claude Code
-  - **Automatic Setup**: Claude Code discovers and registers OAuth client automatically
-  - **Team Collaboration**: Enables Claude Code team features via HTTP transport
   - **Seamless Authentication**: JWT tokens handled transparently by client
 
 ##### 🛡️ **Enhanced Security Architecture**
@@ -8729,8 +8669,6 @@ This major release introduces comprehensive **OAuth 2.1 Dynamic Client Registrat
 - **Enhanced Security**: Option to upgrade to industry-standard OAuth when ready
 - **Future-Proof**: Foundation for additional enterprise features
 
-##### **For Claude Code Users**
-- **Team Collaboration**: HTTP transport enables Claude Code team features
 - **Automatic Setup**: Zero-configuration OAuth setup and token management
 - **Enterprise Ready**: Standards-compliant authentication for organizational use
 
@@ -9023,10 +8961,8 @@ Thanks to @ergut for identifying and fixing this critical regression!
 
 ## [6.20.0] - 2024-09-24
 
-### 🚀 **Claude Code Dual Protocol Memory Hooks**
 
 #### Major New Features
-- **Dual Protocol Memory Hook Support** - Revolutionary enhancement to Claude Code memory hooks
   - ✅ **HTTP Protocol Support**: Full compatibility with web-based memory services at `https://localhost:8443`
   - ✅ **MCP Protocol Support**: Direct integration with MCP server processes via `uv run memory server`
   - ✅ **Smart Auto-Detection**: Automatically selects best available protocol (MCP preferred, HTTP fallback)
@@ -9079,7 +9015,6 @@ Thanks to @ergut for identifying and fixing this critical regression!
 #### Improvements
 - **Consolidated validation scripts** - Merged `validate_config.py` and `validate_configuration.py` into comprehensive `validate_configuration_complete.py`
   - ✅ Multi-platform support (Windows/macOS/Linux)
-  - ✅ All configuration sources validation (.env, Claude Desktop, Claude Code)
   - ✅ Cross-configuration consistency checking
   - ✅ Enhanced API token validation with known invalid token detection
   - ✅ Improved error reporting and recommendations
@@ -9114,7 +9049,6 @@ Thanks to @ergut for identifying and fixing this critical regression!
 
 #### Documentation Improvements
 - **Created streamlined 5-minute setup guide** (`docs/quick-setup-cloudflare-dual-environment.md`)
-  - Comprehensive dual-environment configuration for Claude Desktop + Claude Code
   - Configuration templates with explicit environment variable examples
   - Validation commands with expected health check results
   - Troubleshooting section for common configuration issues
@@ -9125,7 +9059,6 @@ Thanks to @ergut for identifying and fixing this critical regression!
 
 #### Configuration Enhancements
 - **Improved environment variable loading reliability** with explicit MCP server configuration
-- **Added execution context guidance** for different environments (Claude Desktop vs Claude Code)
 - **Enhanced working directory awareness** for proper .env file loading
 - **Better configuration validation** with clear error messages for missing required variables
 
@@ -9138,7 +9071,6 @@ Thanks to @ergut for identifying and fixing this critical regression!
 #### Benefits for Users
 - **Eliminates configuration confusion** between different execution environments
 - **Provides clear validation tools** to quickly identify and resolve setup issues
-- **Ensures consistent backend usage** across Claude Desktop and Claude Code
 - **Streamlines Cloudflare backend adoption** with comprehensive setup guidance
 - **Reduces setup time** from complex debugging to 5-minute guided process
 
@@ -9394,7 +9326,6 @@ This release transforms the scripts directory from a disorganized collection int
   - ✅ Integrated sync operations and health monitoring
 - **Configuration Validation**:
   - ✅ `validate_config.py` - Comprehensive configuration validator
-  - ✅ Validates Claude Code global configuration (~/.claude.json)
   - ✅ Checks Cloudflare credentials and environment setup
   - ✅ Detects configuration conflicts and provides solutions
 - **Documentation & Guides**:
@@ -9674,7 +9605,6 @@ This release transforms the scripts directory from a disorganized collection int
 ### ⚡ **Major Features**
 
 #### Enhanced Storage Backend Visibility & Health Integration
-- **Health Check Integration**: Claude Code hooks now use `/api/health/detailed` endpoint for **authoritative storage information**
   - **Real-time Backend Detection**: Queries live health data instead of environment variables
   - **Rich Storage Information**: Displays memory count, database size, connection status, and embedding model
   - **Comprehensive Database Stats**: Shows unique tags, file paths, platform info, and uptime
@@ -9824,7 +9754,6 @@ This release transforms the scripts directory from a disorganized collection int
 ### 🐛 **Bug Fixes**
 
 #### Windows Path Configuration Issues
-- **Claude Code Hooks Installation**: Fixed Windows-specific path configuration issues
   - **Legacy Path Cleanup**: Removed outdated `.claude-code` references from installation scripts
   - **Windows Batch File**: Updated help text to use correct `.claude\hooks` directory structure
   - **PowerShell Script**: Cleaned up legacy path alternatives for better reliability
@@ -9849,8 +9778,6 @@ This release transforms the scripts directory from a disorganized collection int
 
 ### 🐛 **Bug Fixes**
 
-#### Fixed Claude Code Memory Commands
-- **API Key Update**: Updated all Claude Code memory commands with current production API key
   - Fixed `/memory-context`, `/memory-store`, `/memory-recall`, `/memory-search`, `/memory-health` commands
   - Replaced outdated `test-key-123` with current production API key
   - **Impact**: All memory commands now work correctly with remote memory service
@@ -9886,13 +9813,11 @@ This release transforms the scripts directory from a disorganized collection int
 
 ### ✨ **New Features**
 
-#### Enhanced Claude Code Hook Visual Output
 - **Professional CLI Formatting**: Completely redesigned hook output with ANSI color coding and clean typography
   - **ANSI Color Support**: Full color coding with cyan, green, blue, yellow, gray, and red for different components
   - **Clean Typography**: Removed all markdown syntax (`**`, `#`, `##`) and HTML-like tags from CLI output
   - **Consistent Visual Pattern**: Standardized `icon component → description` format throughout all hook messages
   - **Unicode Box Drawing**: Enhanced use of `┌─`, `├─`, `└─`, and `│` characters for better visual structure
-  - **Impact**: Hook output now looks professional and readable in Claude Code terminal sessions
 
 #### Color-Coded Memory Content
 - **Type-Based Coloring**: Different colors for memory types (decisions=yellow, insights=magenta, bugs=green, features=blue)
@@ -9915,13 +9840,10 @@ This release transforms the scripts directory from a disorganized collection int
 
 ### ✨ **New Features**
 
-#### Enhanced Claude Code CLI Formatting
-- **Beautiful CLI Output**: Claude Code hooks now feature enhanced visual formatting with Unicode box-drawing characters
   - **Visual Hierarchy**: Clean tree structure using `├─`, `└─`, and `│` characters for better readability
   - **Contextual Icons**: Memory context (🧠), project info (📂, 📝), and category-specific icons (🏗️, 🐛, ✨)
   - **Smart Environment Detection**: Automatically switches between Markdown (web) and enhanced CLI formatting
   - **Improved Categorization**: Visual grouping of memories by type with proper indentation and spacing
-  - **Impact**: Dramatically improved readability of hook output in Claude Code terminal sessions
 
 #### CLI Environment Detection
 - **Automatic Detection**: Uses multiple detection methods including `CLAUDE_CODE_CLI` environment variable
@@ -9939,7 +9861,6 @@ This release transforms the scripts directory from a disorganized collection int
 ### 🔧 **Enhancement**
 
 #### Deduplication Script Configuration-Aware Refactoring
-- **Enhanced API Integration**: Deduplication script now reads Claude Code hooks configuration for seamless integration
   - **Configuration Auto-Detection**: Automatically reads `~/.claude/hooks/config.json` for memory service endpoint and API key
   - **API-Based Analysis**: Supports remote memory service analysis via HTTPS API with self-signed certificate support
   - **Intelligent Pagination**: Handles large memory collections (972+ memories) with automatic page-by-page retrieval
@@ -9959,7 +9880,6 @@ This release transforms the scripts directory from a disorganized collection int
 #### Validation Results
 - **✅ 972 Memories Analyzed**: Successfully processed complete memory collection via API
 - **✅ No Duplicates Detected**: Confirms v6.7.0 content quality filters are preventing duplicate creation
-- **✅ Configuration Integration**: Seamless integration with existing Claude Code hooks setup
 - **✅ Performance Maintained**: Efficient pagination and processing of large memory collections
 
 > **Usage**: Run `python scripts/find_duplicates.py --use-api` to analyze memories using your configured remote memory service
@@ -9968,7 +9888,6 @@ This release transforms the scripts directory from a disorganized collection int
 
 ### 🔧 **Critical Bug Fix**
 
-#### Claude Code Hooks Installation Script Fix
 - **Fixed Missing v6.7.0 Files in Installation**: Resolved critical installation script bug that prevented complete v6.7.0 setup
   - **Added Missing Core Hook**: `memory-retrieval.js` now properly copied during installation
   - **Added Missing Utility**: `context-shift-detector.js` now properly copied during installation
@@ -9991,7 +9910,6 @@ This release transforms the scripts directory from a disorganized collection int
 
 ## [6.7.0] - 2025-08-25
 
-### 🧠 **Claude Code Memory Awareness - Major Enhancement**
 
 #### Smart Memory Context Presentation ([#Memory-Presentation-Fix](https://github.com/doobidoo/mcp-memory-service/issues/memory-presentation))
 - **Eliminated Generic Content Fluff**: Complete overhaul of session-start hook memory presentation
@@ -10067,7 +9985,6 @@ This release transforms the scripts directory from a disorganized collection int
 #### New Non-Interactive Installation Mode
 - **Added `--non-interactive` Flag**: Enables fully automated installations using sensible defaults
   - Automatically selects SQLite-vec backend (recommended)
-  - Skips optional components (Claude Code commands, multi-client setup)
   - Perfect for CI/CD, Docker builds, and scripted deployments
   - **Usage**: `python install.py --non-interactive`
 
@@ -10218,12 +10135,10 @@ This release completes the HTTP-MCP bridge repair, making it fully functional wh
 
 #### Major Improvements
 - **Installation Scripts Fixed** - Memory Awareness Hooks now install and work end-to-end without manual intervention
-- **Claude Code Integration** - Automatic `~/.claude/settings.json` configuration for seamless hook detection
 - **JSON Parsing Fixed** - Resolved Python dict conversion errors that caused runtime failures
 - **Enhanced Testing** - Added 4 new integration tests (total: 14 tests, 100% pass rate)
 
 #### Added
-- **Automated Claude Code Settings Integration** - Installation script now configures `~/.claude/settings.json` automatically
 - **Comprehensive Troubleshooting Guide** - Complete wiki documentation with diagnosis commands and solutions
 - **Installation Verification** - Post-install connectivity tests and hook detection validation
 - **GitHub Wiki Documentation** - Detailed 500+ line guide for advanced users and developers
@@ -10231,14 +10146,11 @@ This release completes the HTTP-MCP bridge repair, making it fully functional wh
 #### Fixed  
 - **Installation Directory** - Changed from `~/.claude-code/hooks/` to correct `~/.claude/hooks/` location
 - **JSON Parsing Errors** - Added Python dict to JSON conversion (single quotes, True/False/None handling)
-- **Hook Detection** - Claude Code now properly detects installed hooks via settings configuration
 - **Memory Service Connectivity** - Enhanced error handling and connection testing
 
 #### Enhanced
 - **Integration Tests** - Expanded test suite from 10 to 14 tests (40% increase):
-  - Claude Code settings validation
   - Hook files location verification  
-  - Claude Code CLI availability check
   - Memory service connectivity testing
 - **Documentation Structure** - README streamlined (47% size reduction), detailed content moved to wiki
 - **Error Messages** - Improved debugging output and user-friendly error reporting
@@ -10249,7 +10161,6 @@ This release completes the HTTP-MCP bridge repair, making it fully functional wh
 - **Troubleshooting** - Comprehensive guide covers all common issues
 - **Custom Development** - Examples for extending hooks and memory integration
 
-**Impact**: Memory Awareness Hooks are now publicly usable without the manual debugging sessions that were previously required. Users can run `./install.sh` and get fully functional automatic memory awareness in Claude Code.
 
 ## [6.5.0] - 2025-08-23
 
@@ -10264,7 +10175,6 @@ This release completes the HTTP-MCP bridge repair, making it fully functional wh
 - **Root Directory Cleanup** - Reduced clutter from 80+ files to ~65 files (19% reduction)
 - **File Organization** - Moved deployment configs and sync scripts to logical subdirectories
 - **Path References Updated** - All scripts and configurations point to new file locations
-- **Claude Code Settings** - Updated paths in `.claude/settings.local.json` for moved scripts
 
 #### Moved Files
 **To `deployment/`:**
@@ -10282,7 +10192,6 @@ This release completes the HTTP-MCP bridge repair, making it fully functional wh
 
 #### Fixed
 - **Broken References** - Updated all hardcoded paths in scripts and configurations
-- **Claude Code Integration** - Fixed manual_sync.sh path reference
 - **Installation Scripts** - Updated service file and SQL schema paths
 - **Litestream Setup** - Fixed LaunchDaemon plist file reference
 
@@ -10296,7 +10205,6 @@ This release significantly improves repository navigation and organization while
 #### Added
 - **Comprehensive Installation Guide** in wiki consolidating 6+ previous scattered guides
 - **Platform-Specific Setup Guide** with optimizations for Windows, macOS, and Linux
-- **Complete Integration Guide** covering Claude Desktop, Claude Code, VS Code, and 13+ tools
 - **Streamlined README.md** with clear quick start and wiki navigation (56KB → 8KB)
 - **Safe Documentation Archive** preserving all removed files for reference
 
@@ -10405,7 +10313,6 @@ This release transforms MCP Memory Service from having overwhelming documentatio
 - **Clear command interface**: `uv run memory server` works reliably every time
 - **Better error messages** when something goes wrong
 - **Smooth migration path** from legacy patterns
-- **Full Claude Code compatibility** confirmed and tested
 
 ## [6.3.0] - 2025-08-22
 
@@ -10495,12 +10402,9 @@ This release fixes a critical AttributeError in debug utilities when using the S
 
 ## [6.2.4] - 2025-08-21
 
-### 🐛 **CRITICAL BUG FIXES: Claude Code Hooks Compatibility**
 
-This release fixes critical compatibility issues with Claude Code hooks that prevented automatic memory injection at session start.
 
 #### Fixed
-- **Claude Code Hooks API Parameters**: Fixed incorrect API parameters in `claude-hooks/core/session-start.js`
   - Replaced invalid `tags`, `limit`, `time_filter` parameters with correct `n_results` for `retrieve_memory` API
   - Hooks now work correctly with MCP Memory Service API without parameter errors
   
@@ -10524,16 +10428,13 @@ This release fixes critical compatibility issues with Claude Code hooks that pre
 - **API Compatibility**: Updated to use correct MCP protocol parameters for memory retrieval
 
 #### Impact
-- Claude Code hooks will now work out-of-the-box without manual fixes
 - Memory context injection at session start now functions correctly
 - Users can install hooks directly from repository without encountering parsing errors
 - Enhanced security prevents accidental exposure of sensitive data in exports
 
 ## [6.2.3] - 2025-08-20
 
-### 🛠️ **Cross-Platform Path Detection & Claude Code Integration**
 
-This release provides comprehensive cross-platform fixes for path detection issues and complete Claude Code hooks integration across Linux, macOS, and Windows.
 
 #### Fixed
 - **Linux Path Detection**: Enhanced `scripts/remote_ingest.sh` to auto-detect mcp-memory-service repository location anywhere in user's home directory
@@ -10545,20 +10446,16 @@ This release provides comprehensive cross-platform fixes for path detection issu
   - New: `claude-hooks/install_claude_hooks_windows.ps1` - Full-featured PowerShell installation
   - New: `claude-hooks/install_claude_hooks_windows.bat` - Batch wrapper for easy execution
   - Dynamic repository location detection using PSScriptRoot resolution
-  - Comprehensive Claude Code hooks directory detection with fallbacks
   - Improved error handling and validation for source/target directories
   - Resolves hardcoded Unix path issues (`\home\hkr\...`) on Windows systems
   - Tested with 100% success rate across Windows environments
 
-- **Claude Code Commands Documentation**: Fixed and enhanced memory commands documentation
   - Updated command usage from `/memory-store` to `claude /memory-store`
   - Added comprehensive troubleshooting section for command installation issues
-  - Documented both Claude Code commands and direct API alternatives
   - Added installation instructions and quick fixes for common problems
 
 #### Technical Improvements
 - Repository detection now works on any platform and directory structure
-- Claude Code hooks installation handles Windows-specific path formats
 - Improved error messages and debug output across all platforms
 - Consistent behavior across Windows, Linux, and macOS platforms
 
@@ -10711,7 +10608,6 @@ python scripts/migrate_to_cloudflare.py --source chroma
 ### 🚀 **MAJOR FEATURE: Intelligent Context Updates (Phase 2)**
 
 #### Conversation-Aware Dynamic Memory Loading
-This release introduces **Phase 2 of Claude Code Memory Awareness** - transforming the system from static memory injection to intelligent, real-time conversation analysis with dynamic context updates during active coding sessions.
 
 #### Added
 
@@ -10777,15 +10673,12 @@ This release introduces **Phase 2 of Claude Code Memory Awareness** - transformi
 
 ## [6.0.0] - 2025-08-19
 
-### 🧠 **MAJOR FEATURE: Claude Code Memory Awareness (Phase 1)**
 
 #### Revolutionary Memory-Aware Development Experience
-This major release introduces **automatic memory awareness for Claude Code** - a sophisticated hook system that transforms how developers interact with their project knowledge and conversation history.
 
 #### Added
 
 ##### 🔄 **Session Lifecycle Hooks**
-- **Session-Start Hook**: Automatically injects relevant memories when starting Claude Code sessions
   - Intelligent project detection supporting JavaScript, Python, Rust, Go, Java, C++, and more
   - Multi-factor memory relevance scoring with time decay, tag matching, and content analysis
   - Context-aware memory selection (up to 8 most relevant memories per session)
@@ -10820,7 +10713,6 @@ This major release introduces **automatic memory awareness for Claude Code** - a
 - **Source Attribution**: Clear memory source tracking with content hashes
 
 ##### 💻 **Complete Installation & Testing System**
-- **One-Command Installation**: `./install.sh` deploys entire system to Claude Code hooks
 - **Comprehensive Test Suite**: 10 integration tests with 100% pass rate
   - Project detection testing across multiple languages
   - Memory scoring algorithm validation
@@ -10832,7 +10724,6 @@ This major release introduces **automatic memory awareness for Claude Code** - a
 
 #### Technical Architecture
 
-##### 🏗️ **Claude Code Hooks System**
 ```javascript
 claude-hooks/
 ├── core/
@@ -10917,13 +10808,11 @@ Content hash: abc123...def456
 #### Migration & Compatibility
 
 ##### 🔄 **Seamless Integration**
-- **Non-Intrusive**: Works alongside existing Claude Code workflows
 - **Backward Compatible**: No changes required to existing development processes
 - **Optional Feature**: Can be enabled/disabled per project or globally
 - **Multi-Environment**: Works with local, remote, and distributed memory services
 
 ##### 📋 **Installation Requirements**
-- Claude Code CLI installed and configured
 - MCP Memory Service running (local or remote)
 - Node.js environment for hook execution
 - Git repository for optimal project detection
@@ -10940,7 +10829,6 @@ This release completes **Phase 1** of the Memory Awareness Enhancement Roadmap (
 **Next Phase**: Dynamic memory loading, cross-session intelligence, and advanced consolidation features.
 
 #### Breaking Changes
-None - This is a purely additive feature that enhances existing Claude Code functionality.
 
 ---
 
@@ -11110,7 +10998,6 @@ memory status
   - Include memory retrieval commands for each environment
 - **Memory Context Templates**: Added `prompts/load_memory_context.md`
   - Ready-to-use prompts for loading project context
-  - Quick retrieval commands for Claude Code sessions
   - Network distribution instructions
 
 ### 📝 **Documentation**
@@ -11595,7 +11482,6 @@ This release enables seamless database synchronization across multiple machines 
 
 ## [4.3.3] - 2025-08-12
 
-### 🎯 **Claude Code Command Templates Enhancement**
 
 #### Added
 - **Machine Source Tracking**: All memory storage commands now automatically include machine hostname as a tag
@@ -11643,7 +11529,6 @@ This release enables seamless database synchronization across multiple machines 
   - Moved service management scripts to `/scripts` directory
 
 - **Documentation Organization**: Improved logical hierarchy
-  - Claude Code compatibility → `docs/guides/claude-code-compatibility.md`
   - Setup guides → `docs/installation/` and `docs/guides/`
   - Technical documentation → `docs/technical/`
   - Integration guides → `docs/integrations/`
@@ -11889,7 +11774,6 @@ This release brings the MCP Memory Service to full compliance with the Model Con
   - Includes `DNS:memory.local`, `DNS:localhost`, `DNS:*.local` 
   - Includes `IP:127.0.0.1`, `IP:::1` (IPv6), and auto-detected local IP
   - Environment variable support: `MCP_SSL_ADDITIONAL_IPS`, `MCP_SSL_ADDITIONAL_HOSTNAMES`
-- **Node.js MCP Bridge Compatibility**: Resolved SSL handshake failures when connecting from Claude Code
   - Added missing MCP protocol methods: `initialize`, `tools/list`, `tools/call`, `notifications/initialized`
   - Enhanced error handling with exponential backoff retry logic (3 attempts, max 5s delay)
   - Comprehensive request/response logging with unique request IDs
@@ -11906,7 +11790,6 @@ This release brings the MCP Memory Service to full compliance with the Model Con
 - `MCP_SSL_ADDITIONAL_IPS`: Comma-separated list of additional IP addresses to include in certificate
 - `MCP_SSL_ADDITIONAL_HOSTNAMES`: Comma-separated list of additional hostnames to include in certificate
 
-This release resolves SSL connectivity issues that prevented Claude Code from connecting to remote MCP Memory Service instances across different networks and deployment environments.
 
 ## [3.3.2] - 2025-08-02
 
@@ -12100,7 +11983,6 @@ This is a **major architectural evolution** transforming MCP Memory Service from
 ## [2.2.0] - 2025-07-29
 
 ### Added
-- **Claude Code Commands Integration**: 5 conversational memory commands following CCPlugins pattern
   - `/memory-store`: Store information with context and smart tagging
   - `/memory-recall`: Time-based memory retrieval with natural language
   - `/memory-search`: Tag and content-based semantic search
@@ -12108,7 +11990,6 @@ This is a **major architectural evolution** transforming MCP Memory Service from
   - `/memory-health`: Service health diagnostics and statistics
 - **Optional Installation System**: Integrated command installation into main installer
   - New CLI arguments: `--install-claude-commands`, `--skip-claude-commands-prompt`
-  - Intelligent prompting during installation when Claude Code CLI is detected
   - Automatic backup of existing commands with timestamps
 - **Command Management Utilities**: Standalone installation and management script
   - `scripts/claude_commands_utils.py` for manual command installation
@@ -12124,7 +12005,6 @@ This is a **major architectural evolution** transforming MCP Memory Service from
   - Backend-agnostic operation (works with both ChromaDB and SQLite-vec)
 
 ### Changed
-- Updated main README.md with Claude Code commands feature documentation
 - Enhanced `docs/guides/claude-code-integration.md` with comprehensive command usage guide
 - Updated installation documentation to include new command options
 - Version bump from 2.1.0 to 2.2.0 for significant feature addition

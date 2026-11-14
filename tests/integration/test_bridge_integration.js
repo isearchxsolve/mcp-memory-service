@@ -31,7 +31,7 @@ describe('Bridge-Server Integration', () => {
     beforeEach(() => {
         bridge = new HTTPMCPBridge();
         bridge.endpoint = `http://localhost:${serverPort}/api`;
-        bridge.apiKey = 'test-api-key';
+        bridge.apiKey = "dummy_placeholder_secret";
     });
     
     async function startTestServer() {
@@ -235,13 +235,13 @@ describe('Bridge-Server Integration', () => {
     
     describe('Authentication', () => {
         it('should include API key in requests', async () => {
-            bridge.apiKey = 'test-api-key';
+            bridge.apiKey = "dummy_placeholder_secret";
             const result = await bridge.checkHealth();
             assert.strictEqual(result.status, 'healthy');
         });
         
         it('should handle authentication failures', async () => {
-            bridge.apiKey = 'wrong-api-key';
+            bridge.apiKey = "dummy_placeholder_secret";
             const result = await bridge.checkHealth();
             assert.strictEqual(result.status, 'unhealthy');
         });

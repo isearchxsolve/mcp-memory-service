@@ -89,13 +89,10 @@ When multiple servers conflict or fail:
 
 4. **Verify functionality** through MCP tools before re-enabling servers
 
-### Collaborative Debugging with Claude Code
 
-When troubleshooting complex MCP issues, consider this collaborative approach between developer and Claude Code:
 
 #### Systematic Problem-Solving Partnership
 1. **Developer identifies the symptom** (e.g., "memory server shows as failed")
-2. **Claude Code conducts comprehensive diagnosis:**
    - Tests current functionality with MCP tools
    - Examines server logs and error messages  
    - Checks configuration files and git history
@@ -103,7 +100,6 @@ When troubleshooting complex MCP issues, consider this collaborative approach be
 
 3. **Collaborative investigation approach:**
    - **Developer requests:** "Check both ways - verify current service works AND fix the failing alternative"
-   - **Claude Code responds:** Creates todo lists, tests each component independently, provides detailed analysis
    - **Developer provides context:** Domain knowledge, constraints, preferences
 
 4. **Methodical fix implementation:**
@@ -114,7 +110,6 @@ When troubleshooting complex MCP issues, consider this collaborative approach be
 
 #### Benefits of This Approach
 - **Comprehensive coverage:** Nothing gets missed when both perspectives combine
-- **Knowledge transfer:** Claude Code documents the process, developer retains understanding
 - **Systematic methodology:** Todo lists and step-by-step verification prevent overlooked issues
 - **Persistent knowledge:** Using the memory service itself to store troubleshooting solutions
 
@@ -122,20 +117,16 @@ When troubleshooting complex MCP issues, consider this collaborative approach be
 ```
 Developer: "MCP memory server is failing"
 ↓
-Claude Code: Creates todo list, tests current state, identifies missing module
 ↓  
 Developer: "Let's fix it but keep the working parts"
 ↓
-Claude Code: Backs up configs, fixes incrementally, tests each component
 ↓
 Developer: "This should be documented"
 ↓
-Claude Code: Updates documentation, memorizes the solution
 ↓
 Both: Commit, push, and ensure knowledge is preserved
 ```
 
-This collaborative model leverages Claude Code's systematic analysis capabilities with the developer's domain expertise and decision-making authority.
 
 ## Debugging with MCP-Inspector
 

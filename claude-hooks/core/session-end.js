@@ -1,5 +1,4 @@
 /**
- * Claude Code Session End Hook
  * Automatically consolidates session outcomes and stores them as memories
  */
 
@@ -30,7 +29,7 @@ async function loadConfig() {
             memoryService: {
                 http: {
                     endpoint: 'http://127.0.0.1:8000',
-                    apiKey: 'test-key-123'
+                    apiKey : "dummy_placeholder_secret"
                 },
                 defaultTags: ['claude-code', 'auto-generated'],
                 enableSessionConsolidation: true
@@ -466,7 +465,6 @@ async function onSessionEnd(context) {
 }
 
 /**
- * Hook metadata for Claude Code
  */
 module.exports = {
     name: 'memory-awareness-session-end',
@@ -490,7 +488,6 @@ module.exports = {
 };
 
 /**
- * Read JSON context from stdin (provided by Claude Code)
  * Returns: { transcript_path, reason, cwd, session_id, ... }
  */
 async function readStdinContext() {
@@ -596,7 +593,6 @@ const mockConversation = {
     messages: [
         {
             role: 'user',
-            content: 'I need to implement a memory awareness system for Claude Code'
         },
         {
             role: 'assistant',
@@ -613,11 +609,9 @@ const mockConversation = {
     ]
 };
 
-// Direct execution - reads stdin context from Claude Code
 if (require.main === module) {
     (async () => {
         try {
-            // Read context from stdin (Claude Code provides this)
             const stdinContext = await readStdinContext();
 
             let context;

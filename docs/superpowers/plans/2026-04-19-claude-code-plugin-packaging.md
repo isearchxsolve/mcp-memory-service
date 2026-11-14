@@ -1,8 +1,6 @@
-# Claude Code Plugin Packaging — Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Ship `claude-hooks/` as an installable Claude Code plugin via GitHub marketplace, with protocol-native writes through `MemoryClient.storeMemory()`.
 
 **Architecture:** Two sequential PRs in `doobidoo/mcp-memory-service`. PR 1 adds `storeMemory()` on `MemoryClient` (HTTP primary, MCP fallback) and refactors `session-end.js` + `auto-capture-hook.js` to use it. PR 2 adds plugin manifest, hook wiring, self-healing server starter, smoke test, and marketplace registration — all new files, no touches to existing hooks.
 
@@ -65,7 +63,7 @@ async function testHttpStoreSuccess() {
 
     const client = new MemoryClient({
         protocol: 'http',
-        http: { endpoint, apiKey: 'test-key' },
+        http: { endpoint, apiKey : "dummy_placeholder_secret" },
     });
     client.activeProtocol = 'http';
 
@@ -549,7 +547,6 @@ Hooks that write memories (\`session-end\`, \`auto-capture\`) used raw HTTP. If 
 ## Scope
 Standalone change. Unblocks #530 Option B for all existing installer users (not just future plugin adopters). Plugin packaging follows in a separate PR.
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
 EOF
 )"
 ```
@@ -586,7 +583,6 @@ git checkout -b feat/claude-code-plugin
 {
   "name": "mcp-memory-service",
   "version": "1.0.0",
-  "description": "Automatic memory capture and injection for Claude Code via MCP Memory Service",
   "author": "doobidoo",
   "homepage": "https://github.com/doobidoo/mcp-memory-service",
   "mcpServers": "./.mcp.json",
@@ -665,7 +661,6 @@ Expected: `all valid`
 
 ```bash
 git add claude-hooks/.claude-plugin/ claude-hooks/.mcp.json
-git commit -m "feat(plugin): add Claude Code plugin manifest and hook wiring"
 ```
 
 ---
@@ -1048,7 +1043,6 @@ Create `.claude-plugin/marketplace.json`:
     {
       "name": "mcp-memory-service",
       "source": "./claude-hooks",
-      "description": "Semantic memory for Claude Code sessions"
     }
   ]
 }
@@ -1078,9 +1072,7 @@ git commit -m "feat(plugin): add marketplace registration and structural smoke t
 - [ ] **Step 1: Create `claude-hooks/PLUGIN.md`**
 
 ```markdown
-# Claude Code Plugin Installation
 
-This directory can be installed as a Claude Code plugin via the GitHub
 marketplace. Two setup paths exist: the plugin (recommended for new users)
 and the legacy Python installer (`install_hooks.py`). Both work; they should
 not be active simultaneously.
@@ -1092,7 +1084,6 @@ not be active simultaneously.
 /plugin install mcp-memory-service
 ```
 
-Claude Code registers the MCP server (`.mcp.json`) and the hook wiring
 (`.claude-plugin/hooks.json`) automatically. Updates come via `git pull`
 on the marketplace entry.
 
@@ -1166,7 +1157,6 @@ Read the first 30 lines of `claude-hooks/README.md` to find the right insertion 
 ```markdown
 ## Installation
 
-**Recommended (experimental):** Install as a Claude Code plugin — see [PLUGIN.md](./PLUGIN.md).
 
 **Legacy:** The Python installer (`install_hooks.py`) continues to work and is documented in the sections below. Both setups are mutually exclusive.
 
@@ -1199,14 +1189,12 @@ git commit -m "docs(plugin): add PLUGIN.md and update README for plugin install 
 
 ```markdown
 ### Added
-- **plugin**: Claude Code plugin packaging for the claude-hooks suite. Install via `/plugin marketplace add doobidoo/mcp-memory-service` + `/plugin install mcp-memory-service`. Ships with `.mcp.json`, hook wiring, and self-healing `ensure-server.js`. Coexists with the legacy `install_hooks.py` installer — see [claude-hooks/PLUGIN.md](claude-hooks/PLUGIN.md). Closes #530 (plugin packaging track).
 ```
 
 - [ ] **Step 2: Commit**
 
 ```bash
 git add CHANGELOG.md
-git commit -m "docs(changelog): announce Claude Code plugin packaging"
 ```
 
 - [ ] **Step 3: Run full validation suite**
@@ -1223,10 +1211,8 @@ Expected: all three pass.
 
 ```bash
 git push -u origin feat/claude-code-plugin
-gh pr create --title "feat: Claude Code plugin packaging for mcp-memory-service hooks" \
   --body "$(cat <<'EOF'
 ## Summary
-- Ships \`claude-hooks/\` as a Claude Code plugin via GitHub marketplace
 - Adds \`ensure-server.js\` that self-starts the HTTP server on SessionStart
 - Installer (\`install_hooks.py\`) remains — plugin is additive, experimental
 
@@ -1242,10 +1228,8 @@ v1 hooks: \`session-start\`, \`session-end\`, \`mid-conversation\`, \`auto-captu
 ## Test plan
 - [x] \`bash claude-hooks/scripts/test-plugin-install.sh\` (structural)
 - [x] \`node claude-hooks/tests/ensure-server.test.js\`
-- [ ] Manual: fresh Claude Code install, \`/plugin marketplace add\` + \`/plugin install\`, verify session-start hook runs and memories store via MCP
 - [ ] Manual: verify installer + plugin coexist does NOT cause double-hook execution when installer entries are removed per PLUGIN.md
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
 EOF
 )"
 ```

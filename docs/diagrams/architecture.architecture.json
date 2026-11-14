@@ -69,7 +69,6 @@
       "id": "agents-local",
       "type": "external",
       "label": "Terminal and IDE agents",
-      "sublabel": "Claude Code, Codex, Cursor",
       "pos": [
         30,
         240

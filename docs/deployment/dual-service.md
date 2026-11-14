@@ -7,7 +7,6 @@ This deployment provides both **FastMCP Protocol** and **HTTP Dashboard** servic
 ## Architecture
 
 ### Service 1: FastMCP Server (Port 8000)
-- **Purpose**: Native MCP protocol for Claude Code clients
 - **Protocol**: JSON-RPC 2.0 over Server-Sent Events
 - **Access**: `http://[IP]:8000/mcp`
 - **Service**: `mcp-memory.service`
@@ -44,7 +43,6 @@ sudo systemctl start mcp-memory mcp-http-dashboard
 
 Replace `[IP]` with your actual server IP address (e.g., `10.0.1.30`):
 
-- **FastMCP Protocol**: `http://[IP]:8000/mcp` (for Claude Code)
 - **Web Dashboard**: `http://[IP]:8080/` (for monitoring)
 - **Health API**: `http://[IP]:8080/api/health`
 - **Memory API**: `http://[IP]:8080/api/memories`
@@ -142,7 +140,6 @@ Both services share the same SQLite-vec database:
 
 ## Client Configuration
 
-### Claude Code
 Configure MCP client to use:
 ```
 http://[SERVER_IP]:8000/mcp
@@ -171,4 +168,3 @@ curl -X POST http://[SERVER_IP]:8080/api/search \
 ✅ **Network Discovery** - mDNS advertising for easy access  
 ✅ **Production Ready** - systemd managed services  
 ✅ **Backward Compatible** - HTTP API preserved for existing tools  
-✅ **Claude Code Ready** - Native MCP protocol support

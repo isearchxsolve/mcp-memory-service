@@ -6,7 +6,6 @@ I'll help you check the health and status of your MCP Memory Service, providing 
 
 1. **Service Discovery**: I'll locate your MCP Memory Service using mDNS auto-discovery or configured endpoints.
 
-2. **Connectivity Test**: I'll verify that the service is running and accessible from Claude Code.
 
 3. **Health Assessment**: I'll check the database health, memory statistics, and service performance.
 

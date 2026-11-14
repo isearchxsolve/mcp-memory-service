@@ -29,7 +29,6 @@ Not sure where to start? Use the decision tree below to find your path.
 ```
 What do you need?
 │
-├─ Connect Claude Desktop or Claude Code via MCP only?
 │   └─ → Path 1: MCP Only (5 min)
 │
 ├─ Also want the web dashboard + REST API?
@@ -48,7 +47,6 @@ Each path builds on the previous one. If you want Path 3, follow 1 → 2 → 3 i
 
 ## Path 1: MCP Only
 
-**For whom:** Individual users who want Claude Desktop or Claude Code to remember things across sessions.
 
 **Prerequisites:** Python 3.10–3.13, pip
 
@@ -78,7 +76,6 @@ pip install mcp-memory-service
 }
 ```
 
-**Claude Code** — run once:
 
 ```bash
 claude mcp add memory -- memory server

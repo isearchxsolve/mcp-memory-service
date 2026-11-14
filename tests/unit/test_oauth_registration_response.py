@@ -5,7 +5,6 @@ RFC 7591 section 3.2.1 lists every member of the client information response
 except client_id as optional, and an optional member that has no value is
 omitted rather than sent as JSON null. A public client (token_endpoint_auth_method
 "none") is issued no secret, so its response must not carry client_secret at
-all. Strict clients reject a null there. Claude Code refuses the response and
 never opens the authorization page.
 
 These tests go through FastAPI on purpose. The null only appears when the
@@ -36,7 +35,6 @@ def client():
 
 def _register(client, **overrides):
     body = {
-        "client_name": "Claude Code",
         "redirect_uris": ["http://localhost:53123/callback"],
         "grant_types": ["authorization_code", "refresh_token"],
         "response_types": ["code"],

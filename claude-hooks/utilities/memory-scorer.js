@@ -782,7 +782,6 @@ if (require.main === module) {
             created_at: '2025-08-19T10:00:00Z'
         },
         {
-            content: 'Fixed bug in JavaScript hook implementation for Claude Code integration',
             tags: ['javascript', 'bug-fix', 'claude-code'],
             memory_type: 'bug-fix', 
             created_at: '2025-08-18T15:30:00Z'

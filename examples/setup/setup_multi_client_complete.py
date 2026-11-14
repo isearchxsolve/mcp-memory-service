@@ -25,7 +25,6 @@ def print_header():
     print("=" * 60)
     print("MCP MEMORY SERVICE - MULTI-CLIENT SETUP")
     print("=" * 60)
-    print("Setting up Claude Desktop + Claude Code coordination...")
     print()
 
 async def test_wal_mode_storage():
@@ -203,13 +202,10 @@ def print_final_instructions():
     
     print("\n1. RESTART APPLICATIONS:")
     print("   - Close Claude Desktop completely (check system tray)")
-    print("   - Close any Claude Code sessions")
     print("   - Restart both applications")
     
     print("\n2. VERIFY MULTI-CLIENT ACCESS:")
-    print("   - Start both Claude Desktop and Claude Code")
     print("   - Store a memory in Claude Desktop: 'Remember: Test from Desktop'")
-    print("   - In Claude Code, ask: 'What did I ask you to remember?'")
     print("   - Both should access the same memory database")
     
     print("\n3. TROUBLESHOOTING:")
@@ -250,7 +246,6 @@ async def main():
         print("\n" + "=" * 60)
         print("MULTI-CLIENT SETUP SUCCESSFUL!")
         print("=" * 60)
-        print("Claude Desktop + Claude Code can now run simultaneously")
         print("using the WAL mode coordination system.")
         
     else:

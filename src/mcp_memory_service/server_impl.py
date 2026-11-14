@@ -32,7 +32,6 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 
 
-# CLI clients (Claude Code, opencode, Codex CLI) sometimes invoke MCP prompts
 # via slash-command preview / tab-completion with literal positional
 # placeholders like "$1", "$2" when the user has not bound argument values.
 # Prompt handlers must NOT persist memories with these placeholders as
@@ -211,7 +210,6 @@ def _get_onboarding_guide(client_type: str = "generic") -> str:
 
 {_SERVER_DOES}""",
 
-        "claude-code": f"""## Integration Guide: mcp-memory-service → Claude Code
 
 ### On session start (REQUIRED):
 1. `get_bootstrap_profile(agent_ids=["claude-code"])` — incorporate returned rules.
@@ -2022,7 +2020,6 @@ class MemoryServer:
             if env_override:
                 project_path = _Path(env_override).expanduser()
             else:
-                # Default: Claude Code project dir from cwd
                 cwd = _Path.cwd()
                 claude_projects = _Path.home() / ".claude" / "projects"
                 project_dir_name = str(cwd).replace(os.sep, "-")

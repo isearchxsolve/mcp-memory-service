@@ -221,7 +221,6 @@ def main():
     else:
         print(f"  Total sync issues: {total_issues}")
         print()
-        print("  To fix: Restart Claude Code/Desktop to trigger automatic sync.")
         print("  The hybrid backend should sync on startup (MCP_HYBRID_SYNC_ON_STARTUP=true)")
 
     print()

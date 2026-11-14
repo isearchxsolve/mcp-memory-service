@@ -513,7 +513,6 @@ test("a message seen twice is shown once", async () => {
   assert.deepStrictEqual(second.visible.map((memory) => memory.id), ["same"])
 })
 
-test("formats the shared Claude Code and OpenCode inbox block", () => {
   const block = formatInboxBlock(
     [
       {

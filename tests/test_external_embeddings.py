@@ -176,7 +176,7 @@ class TestExternalEmbeddingModel:
         model = ExternalEmbeddingModel(
             api_url='http://test:8890/v1/embeddings',
             model_name='test-model',
-            api_key='test-api-key'
+            api_key = "dummy_placeholder_secret"
         )
 
         # Check that the API key was included in headers

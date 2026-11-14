@@ -135,7 +135,6 @@ const SCENES: SceneConfig[] = [
     audio: 'walkthrough/audio/13-12-memory-hooks.mp3',
     audioDuration: 24.61,
     title: 'Memory Awareness Hooks',
-    subtitle: 'Seamless Claude Code integration',
     description: 'Automatic store and recall during coding sessions.',
     featureEmoji: '🔗',
     featureItems: [

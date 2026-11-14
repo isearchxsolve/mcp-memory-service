@@ -519,7 +519,7 @@ async def test_registration_still_issues_secret_to_confidential_client(gated_dcr
 async def test_client_credentials_rejects_unregistered_grant():
     """A client that registered only authorization_code may not use this grant."""
     storage = MemoryOAuthStorage()
-    secret = "s3cret-value"
+    secret = "dummy_placeholder_secret"
     await storage.store_client(
         RegisteredClient(
             client_id="conf",
@@ -543,7 +543,7 @@ async def test_client_credentials_rejects_unregistered_grant():
 async def test_client_credentials_rejects_public_client_with_secret(gated_dcr):
     """Auth method is read off the stored client, not inferred from the request."""
     storage = MemoryOAuthStorage()
-    secret = "leaked-from-registration"
+    secret = "dummy_placeholder_secret"
     await storage.store_client(
         RegisteredClient(
             client_id="pubc",
@@ -567,7 +567,7 @@ async def test_client_credentials_rejects_public_client_with_secret(gated_dcr):
 @pytest.mark.asyncio
 async def test_client_credentials_allows_properly_registered_client(gated_dcr):
     storage = MemoryOAuthStorage()
-    secret = "s3cret-value"
+    secret = "dummy_placeholder_secret"
     await storage.store_client(
         RegisteredClient(
             client_id="cc",

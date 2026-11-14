@@ -41,7 +41,6 @@ Welcome to the comprehensive documentation for MCP Memory Service - a Model Cont
 
 ### 🎯 Natural Memory Triggers
 
-- **[Installation Guide](natural-memory-triggers/installation-guide.md)** - Set up automatic memory triggers in Claude Code
 - **[CLI Reference](natural-memory-triggers/cli-reference.md)** - Trigger CLI command reference
 - **[Performance Optimization](natural-memory-triggers/performance-optimization.md)** - Tune trigger sensitivity and latency
 
